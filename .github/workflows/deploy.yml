@@ -17,8 +17,8 @@ jobs:
       contents: read
 
     env:
-      DEPLOY_PATH: /var/www/navydev.top
-      STAGING_PATH: /tmp/navydev.top-${{ github.sha }}
+      DEPLOY_PATH: /var/www/navydev.top/me
+      STAGING_PATH: /tmp/navydev.top-me-${{ github.sha }}
 
     steps:
       - name: Checkout
@@ -43,7 +43,6 @@ jobs:
         run: |
           mkdir -p release
           tar -C dist -czf release/site.tgz .
-          cp config/nginx/conf.d/navydev.top.conf release/navydev.top.conf
           cp random.html release/random.html
 
       - name: Setup SSH agent
@@ -63,7 +62,7 @@ jobs:
 
       - name: Upload release
         run: |
-          scp release/site.tgz release/navydev.top.conf release/random.html \
+          scp release/site.tgz release/random.html \
             "${{ secrets.SSH_USER }}@${{ secrets.REMOTE_IP }}:${STAGING_PATH}/"
 
       - name: Activate release
@@ -80,14 +79,10 @@ jobs:
             release_dir="$(mktemp -d)"
             tar -xzf "${STAGING_PATH}/site.tgz" -C "${release_dir}"
 
-            ${SUDO} mkdir -p "${DEPLOY_PATH}" "${DEPLOY_PATH}/nghh" /etc/nginx/conf.d
-            ${SUDO} find "${DEPLOY_PATH}" -mindepth 1 -maxdepth 1 ! -name nghh ! -name .well-known -exec rm -rf {} +
+            ${SUDO} mkdir -p "${DEPLOY_PATH}" "${DEPLOY_PATH}/nghh"
+            ${SUDO} find "${DEPLOY_PATH}" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
             ${SUDO} cp -a "${release_dir}/." "${DEPLOY_PATH}/"
             ${SUDO} cp "${STAGING_PATH}/random.html" "${DEPLOY_PATH}/nghh/random.html"
-            ${SUDO} cp "${STAGING_PATH}/navydev.top.conf" /etc/nginx/conf.d/navydev.top.conf
-
-            ${SUDO} nginx -t
-            ${SUDO} systemctl reload nginx
 
             rm -rf "${release_dir}" "${STAGING_PATH}"
           EOF

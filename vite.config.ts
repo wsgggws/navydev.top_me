@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  // 这个站点现在挂在 https://navydev.top/me/，不能让产物继续引用根路径 /assets。
+  base: "/me/",
   plugins: [react()],
   resolve: {
     alias: {
