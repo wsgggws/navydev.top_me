@@ -11,14 +11,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     concurrency:
-      group: deploy-navydev-top
+      group: deploy-navydev-top-me
       cancel-in-progress: true
     permissions:
       contents: read
 
     env:
       DEPLOY_PATH: /var/www/navydev.top/me
-      STAGING_PATH: /tmp/navydev.top-me-${{ github.sha }}
+      STAGING_PATH: /tmp/navydev.top_me-${{ github.sha }}
 
     steps:
       - name: Checkout
