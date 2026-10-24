@@ -22,10 +22,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: npm
@@ -46,7 +46,7 @@ jobs:
           cp random.html release/random.html
 
       - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -79,9 +79,10 @@ jobs:
             release_dir="$(mktemp -d)"
             tar -xzf "${STAGING_PATH}/site.tgz" -C "${release_dir}"
 
-            ${SUDO} mkdir -p "${DEPLOY_PATH}" "${DEPLOY_PATH}/nghh"
+            ${SUDO} mkdir -p "${DEPLOY_PATH}"
             ${SUDO} find "${DEPLOY_PATH}" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
             ${SUDO} cp -a "${release_dir}/." "${DEPLOY_PATH}/"
+            ${SUDO} mkdir -p "${DEPLOY_PATH}/nghh"
             ${SUDO} cp "${STAGING_PATH}/random.html" "${DEPLOY_PATH}/nghh/random.html"
 
             rm -rf "${release_dir}" "${STAGING_PATH}"
