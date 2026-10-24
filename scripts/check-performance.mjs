@@ -19,7 +19,15 @@ if (!entryMatch) {
   process.exit();
 }
 
-const entryPath = path.join(DIST_DIR, entryMatch[1].replace(/^\//, ""));
+// Vite's `base` changes the public URL (for example /me/assets/foo.js),
+// but assets still live in dist/assets. Resolve from the assets segment.
+const assetParts = entryMatch[1].split("/").filter(Boolean);
+const assetsIndex = assetParts.indexOf("assets");
+if (assetsIndex < 0) {
+  fail("could not map the JavaScript entry to dist/assets");
+  process.exit();
+}
+const entryPath = path.join(DIST_DIR, ...assetParts.slice(assetsIndex));
 const entrySize = (await stat(entryPath)).size;
 if (entrySize > ENTRY_BUDGET_BYTES) {
   fail(
