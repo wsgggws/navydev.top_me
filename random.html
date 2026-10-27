@@ -104,11 +104,11 @@
         animation: chargeFlow 18s linear infinite;
       }
 
-      .scope-wave {
+      .characteristic-line {
         stroke: #71b9eb;
         stroke-width: 2;
         stroke-dasharray: 750;
-        animation: waveformReveal 7s ease-in-out infinite;
+        animation: lineReveal 7s ease-in-out infinite;
         filter: drop-shadow(0 0 5px #52a9e560);
       }
 
@@ -155,43 +155,44 @@
         letter-spacing: 1px;
       }
 
-      .electrical-law {
+      .physics-symbols {
         position: absolute;
-        bottom: 7%;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 26px;
-        color: #547889;
-        font: 10px "SFMono-Regular", Consolas, monospace;
-        letter-spacing: 3px;
+        inset: 0;
       }
 
-      .electrical-law::before,
-      .electrical-law::after {
-        content: "";
-        width: clamp(30px, 8vw, 140px);
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #7bb7c036);
+      .physics-symbol {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        color: var(--color, #91d3d0);
+        font: italic 400 var(--size, 56px) Georgia, "Times New Roman", serif;
+        line-height: 1;
+        opacity: var(--opacity, 0.3);
+        text-shadow: 0 0 28px #61d5cc22;
+        animation: symbolDrift var(--duration, 8s) ease-in-out infinite;
+        animation-delay: var(--delay, 0s);
       }
 
-      .electrical-law::after {
-        transform: rotate(180deg);
-      }
-
-      .electrical-law strong {
-        color: #8cb6c3;
-        font: italic 28px Georgia, serif;
-        letter-spacing: 3px;
+      @keyframes symbolDrift {
+        0%, 100% {
+          transform: translate3d(0, 0, 0) rotate(-6deg);
+          opacity: var(--opacity, 0.3);
+        }
+        50% {
+          transform: translate3d(
+            calc(var(--sway, 18px) * var(--motion-scale, 1)),
+            calc(var(--lift, -30px) * var(--motion-scale, 1)),
+            0
+          ) rotate(6deg);
+          opacity: calc(var(--opacity, 0.3) + 0.1);
+        }
       }
 
       @keyframes chargeFlow {
         to { stroke-dashoffset: -776; }
       }
 
-      @keyframes waveformReveal {
+      @keyframes lineReveal {
         0%, 100% { stroke-dashoffset: 750; opacity: 0; }
         15% { opacity: 0.65; }
         65%, 85% { stroke-dashoffset: 0; opacity: 0.65; }
@@ -223,14 +224,18 @@
         }
         .mobile-circuit .current-trace { opacity: 0.6; }
         .btn { padding: 16px 44px; font-size: 1rem; }
-        .electrical-law { bottom: 5%; }
-        .electrical-law { gap: 12px; font-size: 8px; letter-spacing: 1px; }
-        .electrical-law strong { font-size: 23px; }
+        .physics-symbol {
+          left: var(--mobile-x, var(--x));
+          top: var(--mobile-y, var(--y));
+          font-size: clamp(20px, calc(var(--size, 56px) * 0.65), 48px);
+          --motion-scale: 0.6;
+        }
+        .physics-symbol:nth-child(n + 9) { display: none; }
       }
 
       @media (prefers-reduced-motion: reduce) {
         .electrical-background * { animation: none; }
-        .scope-wave { stroke-dashoffset: 0; opacity: 0.5; }
+        .characteristic-line { stroke-dashoffset: 0; opacity: 0.5; }
       }
 
       .container {
@@ -532,7 +537,7 @@
         .electrical-quantities { top: 5%; }
         .quantity-label { margin-bottom: 6px; }
         .quantity-value { font-size: 24px; }
-        .electrical-law { bottom: 4%; }
+        .physics-symbol { font-size: clamp(16px, calc(var(--size, 56px) * 0.45), 32px); }
       }
 
       /* Confetti particles */
@@ -560,7 +565,7 @@
       <svg class="circuit-blueprint" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
         <defs>
           <path id="circuit-path" d="M100 422V330H192 M268 330H380V590H100V438" />
-          <pattern id="scope-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <pattern id="graph-grid" width="40" height="40" patternUnits="userSpaceOnUse">
             <path d="M40 0H0V40" stroke="#7ebed1" stroke-opacity="0.12" stroke-width="1" />
           </pattern>
         </defs>
@@ -581,21 +586,21 @@
           <text x="64" y="458" class="circuit-symbol">−</text>
           <text x="126" y="467" class="circuit-label">U = 12 V</text>
           <text x="100" y="639" class="circuit-label">01 / DIRECT CURRENT</text>
-          <text x="100" y="666" class="circuit-symbol">I = U / R</text>
+          <text x="100" y="666" class="circuit-symbol">I</text>
         </g>
         <use href="#circuit-path" class="current-trace" />
 
-        <!-- Oscilloscope graticule and alternating voltage. -->
+        <!-- Junior-school Ohm law graph: voltage is proportional to current. -->
         <g transform="translate(1210 290)">
-          <rect y="20" width="300" height="240" fill="url(#scope-grid)" stroke="#71b9eb" stroke-opacity="0.12" />
+          <rect y="20" width="300" height="240" fill="url(#graph-grid)" stroke="#71b9eb" stroke-opacity="0.12" />
           <g class="circuit-wire" stroke="#71b9eb">
-            <path d="M0 140H310L303 136 M310 140L303 144 M0 270V6L-4 13 M0 6L4 13" />
+            <path d="M0 260H310L303 256 M310 260L303 264 M0 270V6L-4 13 M0 6L4 13" />
             <text x="-5" y="-12" class="circuit-symbol">U</text>
-            <text x="316" y="146" class="circuit-symbol">t</text>
-            <text x="0" y="310" class="circuit-label">02 / POTENTIAL &amp; TIME</text>
-            <text x="0" y="340" class="circuit-symbol">U(t) = Uₘ sin(ωt)</text>
+            <text x="316" y="266" class="circuit-symbol">I</text>
+            <text x="0" y="310" class="circuit-label">02 / VOLTAGE &amp; CURRENT</text>
+            <text x="0" y="340" class="circuit-symbol">U</text>
           </g>
-          <path class="scope-wave" d="M0 140C25 140 25 60 50 60S75 140 100 140S125 220 150 220S175 140 200 140S225 60 250 60S275 140 300 140" />
+          <path class="characteristic-line" d="M0 260L270 44" />
         </g>
 
         <!-- Faint traces and component symbols frame the central stage. -->
@@ -605,15 +610,16 @@
           <circle cx="520" cy="810" r="5" />
           <circle cx="1140" cy="120" r="5" />
           <circle cx="1090" cy="840" r="5" />
-          <path d="M140 825H205 M205 810V840 M217 810V840 M217 825H285 M1320 745H1370 M1370 733H1420V757H1370Z M1420 745H1490" />
-          <text x="140" y="878" class="circuit-symbol">Q = It</text>
-          <text x="1320" y="799" class="circuit-symbol">P = UI = I²R</text>
+          <path d="M140 825H195 M231 825H285 M200 812L226 838 M200 838L226 812 M1320 745H1370 M1370 733H1420V757H1370Z M1420 745H1490" />
+          <circle cx="213" cy="825" r="18" />
+          <text x="140" y="878" class="circuit-symbol">W</text>
+          <text x="1320" y="799" class="circuit-symbol">P</text>
         </g>
       </svg>
 
       <svg class="mobile-circuit" viewBox="0 0 390 844" preserveAspectRatio="none">
         <path d="M0 174H56L80 150H122 M168 150H258L282 174H390 M122 143H168V157H122Z" />
-        <path d="M0 690H48L72 714H130 M144 714H230L254 690H390 M130 704V724 M144 704V724" />
+        <path d="M0 690H48L72 714H122 M160 714H230L254 690H390 M122 706H160V722H122Z" />
         <path d="M20 225V285 M20 530V625L44 649H80 M370 225V285 M370 530V625L346 649H310" />
         <circle cx="20" cy="225" r="3" />
         <circle cx="370" cy="225" r="3" />
@@ -636,8 +642,21 @@
           <span class="quantity-value"><em>R</em>24<small>Ω</small></span>
         </div>
       </div>
-      <div class="electrical-law">
-        <span>OHM’S LAW</span><strong>U = IR</strong><span>电学 · 欧姆定律</span>
+      <div class="physics-symbols">
+        <span class="physics-symbol" style="--x: 7%; --y: 21%; --mobile-x: 10%; --mobile-y: 24%; --size: 76px; --duration: 5.5s; --sway: 22px; --lift: -34px; --delay: -8s">U</span>
+        <span class="physics-symbol" style="--x: 88%; --y: 23%; --mobile-x: 82%; --mobile-y: 27%; --size: 40px; --duration: 8s; --sway: -18px; --lift: -26px; --delay: -12s; --color: #9bbfe2">I</span>
+        <span class="physics-symbol" style="--x: 6%; --y: 70%; --mobile-x: 8%; --mobile-y: 61%; --size: 62px; --duration: 6.5s; --sway: 28px; --lift: -42px; --delay: -4s">R</span>
+        <span class="physics-symbol" style="--x: 90%; --y: 61%; --mobile-x: 84%; --mobile-y: 62%; --size: 52px; --duration: 9s; --sway: -24px; --lift: -30px; --delay: -16s; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 17%; --y: 86%; --mobile-x: 17%; --mobile-y: 84%; --size: 32px; --duration: 5s; --sway: 16px; --lift: -24px; --delay: -6s">I</span>
+        <span class="physics-symbol" style="--x: 79%; --y: 86%; --mobile-x: 75%; --mobile-y: 86%; --size: 70px; --duration: 10.5s; --sway: -20px; --lift: -38px; --delay: -18s">R</span>
+        <span class="physics-symbol" style="--x: 33%; --y: 22%; --mobile-x: 46%; --mobile-y: 20%; --size: 34px; --duration: 7s; --sway: 14px; --lift: -28px; --delay: -11s; --opacity: 0.2">t</span>
+        <span class="physics-symbol" style="--x: 62%; --y: 91%; --mobile-x: 45%; --mobile-y: 91%; --size: 48px; --duration: 6s; --sway: -17px; --lift: -32px; --delay: -3s; --opacity: 0.22">P</span>
+        <span class="physics-symbol" style="--x: 20%; --y: 47%; --size: 30px; --duration: 11s; --sway: -26px; --lift: -26px; --delay: -14s; --opacity: 0.18">I</span>
+        <span class="physics-symbol" style="--x: 76%; --y: 45%; --size: 58px; --duration: 7.5s; --sway: 20px; --lift: -36px; --delay: -5s; --opacity: 0.2">R</span>
+        <span class="physics-symbol" style="--x: 62%; --y: 21%; --size: 44px; --duration: 9.5s; --sway: -18px; --lift: -30px; --delay: -19s; --opacity: 0.22; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 35%; --y: 86%; --size: 64px; --duration: 6.8s; --sway: 24px; --lift: -40px; --delay: -9s; --opacity: 0.25">R</span>
+        <span class="physics-symbol" style="--x: 48%; --y: 91%; --size: 38px; --duration: 8.5s; --sway: -14px; --lift: -24px; --delay: -20s; --opacity: 0.22; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 92%; --y: 78%; --size: 46px; --duration: 5.8s; --sway: 18px; --lift: -34px; --delay: -7s; --opacity: 0.18">W</span>
       </div>
     </div>
 
