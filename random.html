@@ -12,12 +12,9 @@
 
       body {
         min-height: 100vh;
-        background: linear-gradient(
-          135deg,
-          #1a1a2e 0%,
-          #16213e 50%,
-          #0f3460 100%
-        );
+        min-height: 100svh;
+        padding: 155px 16px 125px;
+        background: #060f1b;
         font-family:
           "Inter",
           "SF Pro Display",
@@ -31,249 +28,209 @@
         position: relative;
       }
 
-      /* Physics background - flowing grid */
-      .bg-grid {
+      /* A quiet electrical laboratory, with the activity in the foreground. */
+      .electrical-background {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
         background:
-          linear-gradient(
-            90deg,
-            rgba(100, 200, 255, 0.08) 1px,
-            transparent 1px
-          ),
-          linear-gradient(rgba(100, 200, 255, 0.08) 1px, transparent 1px);
-        background-size: 50px 50px;
-        animation: gridFlow 8s linear infinite;
+          radial-gradient(ellipse at 8% 30%, #0c393e80, transparent 48%),
+          radial-gradient(ellipse at 92% 72%, #15386470, transparent 48%),
+          radial-gradient(ellipse at 50% 42%, #10253880, transparent 55%);
       }
 
-      /* Flow streamlines */
-      .streamline {
-        position: fixed;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(100, 200, 255, 0.4),
-          transparent
-        );
-        border-radius: 2px;
-        animation: streamPulse 3s ease-in-out infinite;
-      }
-
-      @keyframes streamPulse {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: scaleX(0.8);
-        }
-        50% {
-          opacity: 0.7;
-          transform: scaleX(1.2);
-        }
-      }
-
-      /* Particle flow */
-      .flow-particle {
-        position: fixed;
-        width: 4px;
-        height: 4px;
-        background: rgba(100, 200, 255, 0.6);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 2;
-      }
-
-      @keyframes particleFlow {
-        0%,
-        100% {
-          opacity: 0.4;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.8;
-          transform: scale(1.5);
-        }
-      }
-
-      /* Pressure visualization */
-      .pressure-zone {
-        position: fixed;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        pointer-events: none;
-        animation: pressurePulse 3s ease-in-out infinite;
-      }
-
-      .pressure-high {
-        background: radial-gradient(
-          circle,
-          rgba(255, 100, 100, 0.15) 0%,
-          transparent 70%
-        );
-      }
-
-      .pressure-low {
-        background: radial-gradient(
-          circle,
-          rgba(100, 180, 255, 0.15) 0%,
-          transparent 70%
-        );
-      }
-
-      @keyframes pressurePulse {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 0.5;
-        }
-        50% {
-          transform: scale(1.3);
-          opacity: 0.8;
-        }
-      }
-
-      @keyframes gridMove {
-        0% {
-          transform: perspective(500px) rotateX(60deg) translateY(0);
-        }
-        100% {
-          transform: perspective(500px) rotateX(60deg) translateY(60px);
-        }
-      }
-
-      /* Floating physics formulas - fluid dynamics themed */
-      .physics-element {
-        position: fixed;
-        color: rgba(100, 200, 255, 0.25);
-        font-weight: 900;
-        font-size: 1.6rem;
-        pointer-events: none;
-        z-index: 1;
-        animation: floatPhysics 15s linear infinite;
-        text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
-      }
-
-      .physics-element.formula {
-        font-size: 2rem;
-        font-family: "Times New Roman", serif;
-        font-style: italic;
-        color: rgba(255, 200, 100, 0.3);
-        text-shadow: 0 0 30px rgba(255, 180, 100, 0.6);
-      }
-
-      .physics-element.name {
-        font-size: 1.2rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: rgba(100, 255, 180, 0.25);
-      }
-
-      @keyframes floatPhysics {
-        0%,
-        100% {
-          transform: translateY(0) rotate(0deg);
-          opacity: 0.7;
-        }
-        25% {
-          transform: translateY(-20px) rotate(90deg);
-        }
-        50% {
-          transform: translateY(-10px) rotate(180deg);
-          opacity: 1;
-        }
-        75% {
-          transform: translateY(-30px) rotate(270deg);
-        }
-      }
-
-      /* Molecule animation */
-      .molecule {
-        position: fixed;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: rgba(100, 200, 255, 0.5);
-        pointer-events: none;
-        z-index: 2;
-        box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
-      }
-
-      .molecule::before,
-      .molecule::after {
+      .electrical-background::before {
         content: "";
         position: absolute;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: rgba(100, 255, 200, 0.4);
+        inset: 0;
+        background-image:
+          linear-gradient(#7ccbd406 1px, transparent 1px),
+          linear-gradient(90deg, #7ccbd406 1px, transparent 1px),
+          linear-gradient(#7ccbd409 1px, transparent 1px),
+          linear-gradient(90deg, #7ccbd409 1px, transparent 1px);
+        background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+        mask-image: radial-gradient(ellipse, transparent 15%, #000 85%);
       }
 
-      .molecule::before {
-        top: -8px;
-        left: 2px;
-      }
-      .molecule::after {
-        top: -4px;
-        left: -6px;
+      .electrical-background::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 35%, #03091280);
       }
 
-      @keyframes moleculeFloat {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-          opacity: 0.5;
+      .circuit-blueprint {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke: #65d8cc;
+        stroke-width: 1.4;
+      }
+
+      .mobile-circuit { display: none; }
+
+      .circuit-wire {
+        opacity: 0.32;
+      }
+
+      .circuit-detail {
+        opacity: 0.14;
+      }
+
+      .circuit-label {
+        fill: #9bb9c8;
+        stroke: none;
+        font: 12px "SFMono-Regular", Consolas, monospace;
+        letter-spacing: 2px;
+      }
+
+      .circuit-symbol {
+        fill: #8ddbd5;
+        stroke: none;
+        font: italic 20px Georgia, serif;
+      }
+
+      .current-trace {
+        stroke: #9cfff0;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-dasharray: 3 42 3 340;
+        filter: drop-shadow(0 0 5px #56e8d0);
+        opacity: 0.75;
+        animation: chargeFlow 18s linear infinite;
+      }
+
+      .scope-wave {
+        stroke: #71b9eb;
+        stroke-width: 2;
+        stroke-dasharray: 750;
+        animation: waveformReveal 7s ease-in-out infinite;
+        filter: drop-shadow(0 0 5px #52a9e560);
+      }
+
+      .electrical-quantities {
+        position: absolute;
+        top: 8%;
+        left: 7%;
+        right: 7%;
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .quantity {
+        min-width: 150px;
+        padding-left: 18px;
+        border-left: 1px solid #7fd6d438;
+        color: #82a0b1;
+      }
+
+      .quantity-label {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+      }
+
+      .quantity-value {
+        color: #b1d3dd;
+        font: 300 clamp(26px, 2.8vw, 42px) "SFMono-Regular", Consolas, monospace;
+        letter-spacing: -1px;
+      }
+
+      .quantity-value em {
+        color: #74d7cb;
+        font-family: Georgia, serif;
+        margin-right: 10px;
+      }
+
+      .quantity-value small {
+        color: #698b9f;
+        font-size: 0.45em;
+        margin-left: 8px;
+        letter-spacing: 1px;
+      }
+
+      .electrical-law {
+        position: absolute;
+        bottom: 7%;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        color: #547889;
+        font: 10px "SFMono-Regular", Consolas, monospace;
+        letter-spacing: 3px;
+      }
+
+      .electrical-law::before,
+      .electrical-law::after {
+        content: "";
+        width: clamp(30px, 8vw, 140px);
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #7bb7c036);
+      }
+
+      .electrical-law::after {
+        transform: rotate(180deg);
+      }
+
+      .electrical-law strong {
+        color: #8cb6c3;
+        font: italic 28px Georgia, serif;
+        letter-spacing: 3px;
+      }
+
+      @keyframes chargeFlow {
+        to { stroke-dashoffset: -776; }
+      }
+
+      @keyframes waveformReveal {
+        0%, 100% { stroke-dashoffset: 750; opacity: 0; }
+        15% { opacity: 0.65; }
+        65%, 85% { stroke-dashoffset: 0; opacity: 0.65; }
+      }
+
+      @media (max-width: 700px) {
+        .electrical-quantities {
+          top: 6%;
+          left: 5%;
+          right: 5%;
+          gap: 12px;
         }
-        50% {
-          transform: translate(10px, -15px) scale(1.3);
-          opacity: 0.8;
+        .quantity { min-width: 0; padding-left: 10px; }
+        .quantity-label { font-size: 9px; letter-spacing: 1px; }
+        .quantity-value { font-size: 22px; }
+        .quantity-value em { margin-right: 4px; }
+        .quantity-value small { margin-left: 3px; }
+        .circuit-blueprint { display: none; }
+        .mobile-circuit {
+          display: block;
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          fill: none;
+          stroke: #65d8cc;
+          stroke-width: 1;
+          opacity: 0.22;
         }
+        .mobile-circuit .current-trace { opacity: 0.6; }
+        .btn { padding: 16px 44px; font-size: 1rem; }
+        .electrical-law { bottom: 5%; }
+        .electrical-law { gap: 12px; font-size: 8px; letter-spacing: 1px; }
+        .electrical-law strong { font-size: 23px; }
       }
 
-      .bg-glow {
-        position: fixed;
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        filter: blur(150px);
-        opacity: 0.5;
-        animation: glowPulse 4s ease-in-out infinite;
-      }
-
-      .bg-glow-1 {
-        top: -200px;
-        left: -200px;
-        background: #4fc3f7;
-      }
-
-      .bg-glow-2 {
-        bottom: -200px;
-        right: -200px;
-        background: #29b6f6;
-        animation-delay: 2s;
-      }
-
-      .bg-glow-3 {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #81d4fa;
-        animation-delay: 1s;
-      }
-
-      @keyframes glowPulse {
-        0%,
-        100% {
-          opacity: 0.3;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.5;
-          transform: scale(1.1);
-        }
+      @media (prefers-reduced-motion: reduce) {
+        .electrical-background * { animation: none; }
+        .scope-wave { stroke-dashoffset: 0; opacity: 0.5; }
       }
 
       .container {
@@ -284,8 +241,9 @@
 
       /* 3D Cylinder Container */
       .cylinder-container {
-        width: 500px;
-        height: 500px;
+        --cylinder-depth: clamp(90px, 18vw, 240px);
+        width: min(500px, calc(100vw - 32px));
+        aspect-ratio: 1;
         perspective: 1500px;
         margin: 0 auto 20px;
         position: relative;
@@ -336,12 +294,12 @@
       /* Name cards on cylinder */
       .cylinder-card {
         position: absolute;
-        width: 420px;
-        height: 180px;
+        width: 84%;
+        height: 36%;
         left: 50%;
         top: 50%;
-        margin-left: -210px;
-        margin-top: -90px;
+        margin-left: -42%;
+        margin-top: -18%;
         background: linear-gradient(
           145deg,
           rgba(79, 195, 247, 0.9),
@@ -351,7 +309,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 3.5rem;
+        font-size: clamp(1.8rem, 7vw, 3.5rem);
         font-weight: 700;
         color: #fff;
         text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
@@ -390,51 +348,51 @@
       }
 
       .cylinder-card:nth-child(1) {
-        transform: rotateY(0deg) translateZ(240px);
+        transform: rotateY(0deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(2) {
-        transform: rotateY(36deg) translateZ(240px);
+        transform: rotateY(36deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(3) {
-        transform: rotateY(72deg) translateZ(240px);
+        transform: rotateY(72deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(4) {
-        transform: rotateY(108deg) translateZ(240px);
+        transform: rotateY(108deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(5) {
-        transform: rotateY(144deg) translateZ(240px);
+        transform: rotateY(144deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(6) {
-        transform: rotateY(180deg) translateZ(240px);
+        transform: rotateY(180deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(7) {
-        transform: rotateY(216deg) translateZ(240px);
+        transform: rotateY(216deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(8) {
-        transform: rotateY(252deg) translateZ(240px);
+        transform: rotateY(252deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(9) {
-        transform: rotateY(288deg) translateZ(240px);
+        transform: rotateY(288deg) translateZ(var(--cylinder-depth));
       }
       .cylinder-card:nth-child(10) {
-        transform: rotateY(324deg) translateZ(240px);
+        transform: rotateY(324deg) translateZ(var(--cylinder-depth));
       }
 
       /* Central display card */
       .display-card {
         position: absolute;
-        width: 450px;
-        height: 200px;
+        width: 90%;
+        height: 40%;
         left: 50%;
         top: 50%;
-        margin-left: -225px;
-        margin-top: -100px;
+        margin-left: -45%;
+        margin-top: -20%;
         background: rgba(15, 15, 25, 0.95);
         border-radius: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4rem;
+        font-size: clamp(2rem, 7vw, 4rem);
         font-weight: 800;
         color: #fff;
         border: 2px solid rgba(255, 255, 255, 0.1);
@@ -561,6 +519,22 @@
         transform: none;
       }
 
+      @media (max-height: 600px) {
+        body { padding: 90px 16px 55px; }
+        .cylinder-container {
+          width: min(340px, calc(100vw - 32px), calc(100svh - 205px));
+          --cylinder-depth: clamp(55px, 20vh, 120px);
+          margin-bottom: 8px;
+        }
+        .display-card { font-size: clamp(1rem, 5vh, 2.4rem); }
+        .cylinder-card { font-size: clamp(1rem, 4vh, 2rem); }
+        .btn { padding: 12px 40px; font-size: 1rem; }
+        .electrical-quantities { top: 5%; }
+        .quantity-label { margin-bottom: 6px; }
+        .quantity-value { font-size: 24px; }
+        .electrical-law { bottom: 4%; }
+      }
+
       /* Confetti particles */
       .confetti {
         position: fixed;
@@ -582,10 +556,90 @@
     </style>
   </head>
   <body>
-    <div class="bg-grid"></div>
-    <div class="bg-glow bg-glow-1"></div>
-    <div class="bg-glow bg-glow-2"></div>
-    <div class="bg-glow bg-glow-3"></div>
+    <div class="electrical-background" aria-hidden="true">
+      <svg class="circuit-blueprint" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <path id="circuit-path" d="M100 422V330H192 M268 330H380V590H100V438" />
+          <pattern id="scope-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0H0V40" stroke="#7ebed1" stroke-opacity="0.12" stroke-width="1" />
+          </pattern>
+        </defs>
+
+        <!-- Closed DC circuit: 12 V across 24 ohms gives 0.5 A. -->
+        <g class="circuit-wire">
+          <use href="#circuit-path" />
+          <path d="M192 318H268V342H192Z M80 422H120 M88 438H112" />
+          <path d="M192 330V257H215 M245 257H268V330" />
+          <circle cx="230" cy="257" r="15" />
+          <path d="M135 366H173L166 361 M173 366L166 371" />
+          <circle cx="192" cy="330" r="3" fill="#65d8cc" />
+          <circle cx="268" cy="330" r="3" fill="#65d8cc" />
+          <text x="223" y="264" class="circuit-symbol">V</text>
+          <text x="204" y="305" class="circuit-label">R = 24 Ω</text>
+          <text x="132" y="405" class="circuit-symbol">I</text>
+          <text x="61" y="413" class="circuit-symbol">+</text>
+          <text x="64" y="458" class="circuit-symbol">−</text>
+          <text x="126" y="467" class="circuit-label">U = 12 V</text>
+          <text x="100" y="639" class="circuit-label">01 / DIRECT CURRENT</text>
+          <text x="100" y="666" class="circuit-symbol">I = U / R</text>
+        </g>
+        <use href="#circuit-path" class="current-trace" />
+
+        <!-- Oscilloscope graticule and alternating voltage. -->
+        <g transform="translate(1210 290)">
+          <rect y="20" width="300" height="240" fill="url(#scope-grid)" stroke="#71b9eb" stroke-opacity="0.12" />
+          <g class="circuit-wire" stroke="#71b9eb">
+            <path d="M0 140H310L303 136 M310 140L303 144 M0 270V6L-4 13 M0 6L4 13" />
+            <text x="-5" y="-12" class="circuit-symbol">U</text>
+            <text x="316" y="146" class="circuit-symbol">t</text>
+            <text x="0" y="310" class="circuit-label">02 / POTENTIAL &amp; TIME</text>
+            <text x="0" y="340" class="circuit-symbol">U(t) = Uₘ sin(ωt)</text>
+          </g>
+          <path class="scope-wave" d="M0 140C25 140 25 60 50 60S75 140 100 140S125 220 150 220S175 140 200 140S225 60 250 60S275 140 300 140" />
+        </g>
+
+        <!-- Faint traces and component symbols frame the central stage. -->
+        <g class="circuit-detail">
+          <path d="M0 180H340L410 250H505 M0 740H280L350 810H520 M1600 190H1320L1250 120H1140 M1600 770H1330L1260 840H1090" />
+          <circle cx="505" cy="250" r="5" />
+          <circle cx="520" cy="810" r="5" />
+          <circle cx="1140" cy="120" r="5" />
+          <circle cx="1090" cy="840" r="5" />
+          <path d="M140 825H205 M205 810V840 M217 810V840 M217 825H285 M1320 745H1370 M1370 733H1420V757H1370Z M1420 745H1490" />
+          <text x="140" y="878" class="circuit-symbol">Q = It</text>
+          <text x="1320" y="799" class="circuit-symbol">P = UI = I²R</text>
+        </g>
+      </svg>
+
+      <svg class="mobile-circuit" viewBox="0 0 390 844" preserveAspectRatio="none">
+        <path d="M0 174H56L80 150H122 M168 150H258L282 174H390 M122 143H168V157H122Z" />
+        <path d="M0 690H48L72 714H130 M144 714H230L254 690H390 M130 704V724 M144 704V724" />
+        <path d="M20 225V285 M20 530V625L44 649H80 M370 225V285 M370 530V625L346 649H310" />
+        <circle cx="20" cy="225" r="3" />
+        <circle cx="370" cy="225" r="3" />
+        <circle cx="80" cy="649" r="3" />
+        <circle cx="310" cy="649" r="3" />
+        <path class="current-trace" d="M0 174H56L80 150H122 M168 150H258L282 174H390" />
+      </svg>
+
+      <div class="electrical-quantities">
+        <div class="quantity">
+          <span class="quantity-label">电压 / VOLTAGE</span>
+          <span class="quantity-value"><em>U</em>12<small>V</small></span>
+        </div>
+        <div class="quantity">
+          <span class="quantity-label">电流 / CURRENT</span>
+          <span class="quantity-value"><em>I</em>0.5<small>A</small></span>
+        </div>
+        <div class="quantity">
+          <span class="quantity-label">电阻 / RESISTANCE</span>
+          <span class="quantity-value"><em>R</em>24<small>Ω</small></span>
+        </div>
+      </div>
+      <div class="electrical-law">
+        <span>OHM’S LAW</span><strong>U = IR</strong><span>电学 · 欧姆定律</span>
+      </div>
+    </div>
 
     <div class="container">
       <div class="cylinder-container">
@@ -818,7 +872,6 @@
           setTimeout(() => createFirework(centerX - 100, centerY - 50), 400);
           setTimeout(() => createFirework(centerX + 100, centerY - 50), 600);
           updateCylinderNames();
-          randomizeBackground();
           pickBtn.textContent = "随机点名";
           pickBtn.disabled = remainingStudents.length === 0;
           isSpinning = false;
@@ -828,173 +881,6 @@
         }, 1500);
       });
 
-      // Place elements only in outer zones (avoid center 32%)
-      function getEdgePosition(index, total) {
-        const zone = index % 4;
-        const offset = Math.floor(index / 4) * 8;
-        const positions = {
-          0: { top: 5 + offset + "%", left: 1 + Math.random() * 34 + "%" },
-          1: { top: 5 + offset + "%", right: 1 + Math.random() * 34 + "%" },
-          2: { top: 5 + offset + "%", left: 1 + Math.random() * 34 + "%" },
-          3: { top: 5 + offset + "%", right: 1 + Math.random() * 34 + "%" },
-        };
-        return positions[zone];
-      }
-
-      function randomizeBackground() {
-        document.querySelectorAll(".physics-element").forEach((el, i) => {
-          const pos = getEdgePosition(i, document.querySelectorAll(".physics-element").length);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-        });
-        document.querySelectorAll(".streamline").forEach((el, i) => {
-          const pos = getEdgePosition(i, document.querySelectorAll(".streamline").length);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-        });
-        document.querySelectorAll(".flow-particle").forEach((el, i) => {
-          const pos = getEdgePosition(i, document.querySelectorAll(".flow-particle").length);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-        });
-        document.querySelectorAll(".molecule").forEach((el, i) => {
-          const pos = getEdgePosition(i, document.querySelectorAll(".molecule").length);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-        });
-      }
-
-      function createStreamlines() {
-        for (let i = 0; i < 20; i++) {
-          const streamline = document.createElement("div");
-          streamline.className = "streamline";
-          const pos = getEdgePosition(i, 20);
-          streamline.style.top = pos.top;
-          if (pos.left) streamline.style.left = pos.left;
-          if (pos.right) streamline.style.right = pos.right;
-          streamline.style.width = 100 + Math.random() * 150 + "px";
-          streamline.style.animationDuration = 2 + Math.random() * 3 + "s";
-          streamline.style.animationDelay = Math.random() * 5 + "s";
-          document.body.appendChild(streamline);
-        }
-      }
-
-      function createFlowParticles() {
-        for (let i = 0; i < 50; i++) {
-          const particle = document.createElement("div");
-          particle.className = "flow-particle";
-          const pos = getEdgePosition(i, 50);
-          particle.style.top = pos.top;
-          if (pos.left) particle.style.left = pos.left;
-          if (pos.right) particle.style.right = pos.right;
-          particle.style.animation = `particleFlow ${2 + Math.random() * 3}s ease-in-out infinite`;
-          particle.style.animationDelay = Math.random() * 5 + "s";
-          particle.style.width = 2 + Math.random() * 4 + "px";
-          particle.style.height = particle.style.width;
-          document.body.appendChild(particle);
-        }
-      }
-
-      function createPressureZones() {
-        const positions = [
-          { top: "3%", left: "2%", type: "high" },
-          { top: "20%", left: "5%", type: "low" },
-          { top: "40%", left: "3%", type: "high" },
-          { top: "60%", left: "8%", type: "low" },
-          { top: "80%", left: "2%", type: "high" },
-          { top: "10%", right: "3%", type: "high" },
-          { top: "30%", right: "5%", type: "low" },
-          { top: "50%", right: "2%", type: "high" },
-          { top: "70%", right: "8%", type: "low" },
-          { top: "90%", right: "3%", type: "high" },
-        ];
-        positions.forEach((pos, i) => {
-          const zone = document.createElement("div");
-          zone.className = `pressure-zone pressure-${pos.type}`;
-          zone.style.top = pos.top;
-          if (pos.left) zone.style.left = pos.left;
-          if (pos.right) zone.style.right = pos.right;
-          zone.style.animationDelay = i * 0.3 + "s";
-          document.body.appendChild(zone);
-        });
-      }
-
-      function createPhysicsElements() {
-        const physicsData = [
-          { text: "P + ½ρv² = C", type: "formula" },
-          { text: "v = d/t", type: "formula" },
-          { text: "Q = Av", type: "formula" },
-          { text: "F = ρAv²", type: "formula" },
-          { text: "ΔP = ½ρ(v₂²-v₁²)", type: "formula" },
-          { text: "A₁v₁ = A₂v₂", type: "formula" },
-          { text: "伯努利原理", type: "concept" },
-          { text: "流速大压强小", type: "concept" },
-          { text: "机翼升力", type: "concept" },
-          { text: "文丘里效应", type: "concept" },
-          { text: "流体压强", type: "concept" },
-          { text: "流线", type: "concept" },
-          { text: "Bernoulli", type: "name" },
-          { text: "Venturi", type: "name" },
-        ];
-        physicsData.forEach((item, i) => {
-          const el = document.createElement("div");
-          el.className = `physics-element ${item.type}`;
-          el.textContent = item.text;
-          const pos = getEdgePosition(i, physicsData.length);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-          el.style.animationDelay = Math.random() * 15 + "s";
-          el.style.animationDuration = 8 + Math.random() * 6 + "s";
-          document.body.appendChild(el);
-        });
-        const extraElements = [
-          { text: "P = F/S", type: "formula" },
-          { text: "ρ = m/V", type: "formula" },
-          { text: "F浮 = ρgV排", type: "formula" },
-          { text: "升力公式", type: "concept" },
-          { text: "流速", type: "concept" },
-          { text: "压强差", type: "concept" },
-          { text: "连续性方程", type: "concept" },
-          { text: "能量守恒", type: "concept" },
-          { text: "Coanda", type: "name" },
-          { text: "Pascal", type: "name" },
-          { text: "Newton", type: "name" },
-        ];
-        extraElements.forEach((item, i) => {
-          const el = document.createElement("div");
-          el.className = `physics-element ${item.type}`;
-          el.textContent = item.text;
-          const pos = getEdgePosition(i + 14, extraElements.length + 14);
-          el.style.top = pos.top;
-          if (pos.left) el.style.left = pos.left;
-          if (pos.right) el.style.right = pos.right;
-          el.style.animationDelay = Math.random() * 15 + "s";
-          el.style.animationDuration = 8 + Math.random() * 6 + "s";
-          document.body.appendChild(el);
-        });
-        for (let i = 0; i < 40; i++) {
-          const molecule = document.createElement("div");
-          molecule.className = "molecule";
-          const pos = getEdgePosition(i, 40);
-          molecule.style.top = pos.top;
-          if (pos.left) molecule.style.left = pos.left;
-          if (pos.right) molecule.style.right = pos.right;
-          molecule.style.animation = `moleculeFloat ${3 + Math.random() * 4}s ease-out infinite`;
-          molecule.style.animationDelay = Math.random() * 5 + "s";
-          document.body.appendChild(molecule);
-        }
-      }
-
-      createStreamlines();
-      createFlowParticles();
-      createPressureZones();
-      createPhysicsElements();
-      randomizeBackground();
       init();
     </script>
   </body>
