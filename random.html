@@ -28,7 +28,7 @@
         position: relative;
       }
 
-      /* A quiet electrical laboratory, with the activity in the foreground. */
+      /* Electric light, moving charges and junior-school physics symbols. */
       .electrical-background {
         position: fixed;
         inset: 0;
@@ -36,9 +36,10 @@
         pointer-events: none;
         user-select: none;
         background:
-          radial-gradient(ellipse at 8% 30%, #0c393e80, transparent 48%),
-          radial-gradient(ellipse at 92% 72%, #15386470, transparent 48%),
-          radial-gradient(ellipse at 50% 42%, #10253880, transparent 55%);
+          radial-gradient(ellipse at 5% 35%, #006e8c88, transparent 48%),
+          radial-gradient(ellipse at 94% 65%, #6c24a378, transparent 48%),
+          radial-gradient(ellipse at 50% 90%, #123d8b70, transparent 55%),
+          #030916;
       }
 
       .electrical-background::before {
@@ -46,10 +47,10 @@
         position: absolute;
         inset: 0;
         background-image:
-          linear-gradient(#7ccbd406 1px, transparent 1px),
-          linear-gradient(90deg, #7ccbd406 1px, transparent 1px),
-          linear-gradient(#7ccbd409 1px, transparent 1px),
-          linear-gradient(90deg, #7ccbd409 1px, transparent 1px);
+          linear-gradient(#62dfff0a 1px, transparent 1px),
+          linear-gradient(90deg, #62dfff0a 1px, transparent 1px),
+          linear-gradient(#62dfff12 1px, transparent 1px),
+          linear-gradient(90deg, #62dfff12 1px, transparent 1px);
         background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
         mask-image: radial-gradient(ellipse, transparent 15%, #000 85%);
       }
@@ -58,7 +59,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at center, transparent 35%, #03091280);
+        background: radial-gradient(ellipse at center, transparent 40%, #03091250);
       }
 
       .circuit-blueprint {
@@ -74,11 +75,11 @@
       .mobile-circuit { display: none; }
 
       .circuit-wire {
-        opacity: 0.32;
+        opacity: 0.48;
       }
 
       .circuit-detail {
-        opacity: 0.14;
+        opacity: 0.25;
       }
 
       .circuit-label {
@@ -96,12 +97,12 @@
 
       .current-trace {
         stroke: #9cfff0;
-        stroke-width: 2.5;
+        stroke-width: 3;
         stroke-linecap: round;
-        stroke-dasharray: 3 42 3 340;
-        filter: drop-shadow(0 0 5px #56e8d0);
+        stroke-dasharray: 16 36 3 139;
+        filter: drop-shadow(0 0 7px #38e8ff);
         opacity: 0.75;
-        animation: chargeFlow 18s linear infinite;
+        animation: chargeFlow 3s linear infinite;
       }
 
       .characteristic-line {
@@ -137,13 +138,14 @@
       }
 
       .quantity-value {
-        color: #b1d3dd;
+        color: #dcf6ff;
         font: 300 clamp(26px, 2.8vw, 42px) "SFMono-Regular", Consolas, monospace;
         letter-spacing: -1px;
       }
 
       .quantity-value em {
-        color: #74d7cb;
+        color: #67f5ff;
+        text-shadow: 0 0 20px #33d9ff80;
         font-family: Georgia, serif;
         margin-right: 10px;
       }
@@ -164,27 +166,94 @@
         position: absolute;
         left: var(--x);
         top: var(--y);
-        color: var(--color, #91d3d0);
-        font: italic 400 var(--size, 56px) Georgia, "Times New Roman", serif;
+        color: var(--color, #8cfff0);
+        font: italic 600 var(--size, 56px) Georgia, "Times New Roman", serif;
         line-height: 1;
-        opacity: var(--opacity, 0.3);
-        text-shadow: 0 0 28px #61d5cc22;
+        opacity: calc(var(--opacity, 0.3) + 0.18);
+        text-shadow: 0 0 12px #38e8ff80, 0 0 38px #00c8ff40;
         animation: symbolDrift var(--duration, 8s) ease-in-out infinite;
         animation-delay: var(--delay, 0s);
       }
 
+      .physics-symbol:nth-child(3n) {
+        color: #c5acff;
+        text-shadow: 0 0 14px #995dff90, 0 0 40px #743bff60;
+      }
+
+      .physics-symbol:nth-child(5n) {
+        color: #ffcf86;
+        text-shadow: 0 0 14px #ff9b3970, 0 0 36px #ff7a2740;
+      }
+
+      .energy-orbit {
+        position: absolute;
+        left: 50%;
+        top: 48%;
+        width: clamp(600px, 78vw, 1200px);
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%) rotateX(66deg) rotateZ(-22deg);
+        opacity: 0.6;
+        transition: opacity 0.5s;
+      }
+
+      .energy-orbit.secondary {
+        transform: translate(-50%, -50%) rotateX(70deg) rotateZ(28deg) scale(1.15);
+        opacity: 0.35;
+      }
+
+      .energy-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: conic-gradient(transparent 25%, #15cfff30 65%, #8c76ff 93%, #b6fbff);
+        mask-image: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+        animation: orbitSpin 7s linear infinite;
+      }
+
+      .secondary .energy-ring {
+        background: conic-gradient(transparent 35%, #7144ff30 70%, #cc70ff 95%, #fff0ff);
+        animation: orbitSpin 11s linear infinite reverse;
+      }
+
+      .energy-rays { position: absolute; inset: 0; }
+
+      .energy-rays span {
+        position: absolute;
+        left: var(--ray-x);
+        top: -35%;
+        width: 2px;
+        height: clamp(100px, 24vh, 240px);
+        background: linear-gradient(transparent, #67e8ff90, #e4fcff, transparent);
+        box-shadow: 0 0 12px #24c8ff40;
+        opacity: 0;
+        animation: rayFlight var(--ray-speed) linear infinite;
+        animation-delay: var(--ray-delay);
+      }
+
+      .energized .energy-orbit { opacity: 1; }
+      .energized .energy-rays span { animation-duration: 1.4s; }
+      .energized .physics-symbol { animation-duration: calc(var(--duration) * 0.55); }
+
+      @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+      @keyframes rayFlight {
+        0% { transform: translate3d(70px, 0, 0) rotate(24deg); opacity: 0; }
+        15%, 75% { opacity: 0.55; }
+        100% { transform: translate3d(-260px, 145vh, 0) rotate(24deg); opacity: 0; }
+      }
+
       @keyframes symbolDrift {
         0%, 100% {
-          transform: translate3d(0, 0, 0) rotate(-6deg);
-          opacity: var(--opacity, 0.3);
+          transform: translate3d(0, 0, 0) rotate(-10deg) scale(0.94);
+          opacity: calc(var(--opacity, 0.3) + 0.18);
         }
         50% {
           transform: translate3d(
-            calc(var(--sway, 18px) * var(--motion-scale, 1)),
-            calc(var(--lift, -30px) * var(--motion-scale, 1)),
+            calc(var(--sway, 18px) * var(--motion-scale, 1.4)),
+            calc(var(--lift, -30px) * var(--motion-scale, 1.4)),
             0
-          ) rotate(6deg);
-          opacity: calc(var(--opacity, 0.3) + 0.1);
+          ) rotate(10deg) scale(1.08);
+          opacity: calc(var(--opacity, 0.3) + 0.38);
         }
       }
 
@@ -222,7 +291,12 @@
           stroke-width: 1;
           opacity: 0.22;
         }
-        .mobile-circuit .current-trace { opacity: 0.6; }
+        .mobile-circuit .current-trace { opacity: 0.9; }
+        .mobile-circuit { opacity: 0.4; }
+        .energy-orbit { width: 640px; opacity: 0.5; }
+        .energy-orbit.secondary { opacity: 0.25; }
+        .energy-rays span { width: 1px; }
+        .energy-rays span:nth-child(n + 4) { display: none; }
         .btn { padding: 16px 44px; font-size: 1rem; }
         .physics-symbol {
           left: var(--mobile-x, var(--x));
@@ -234,7 +308,9 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .electrical-background * { animation: none; }
+        .electrical-background *,
+        .electrical-background .energy-rays span,
+        .electrical-background .energy-ring { animation: none; }
         .characteristic-line { stroke-dashoffset: 0; opacity: 0.5; }
       }
 
@@ -246,7 +322,7 @@
 
       /* 3D Cylinder Container */
       .cylinder-container {
-        --cylinder-depth: clamp(90px, 18vw, 240px);
+        --cylinder-depth: clamp(70px, 18vw, 240px);
         width: min(500px, calc(100vw - 32px));
         aspect-ratio: 1;
         perspective: 1500px;
@@ -307,8 +383,8 @@
         margin-top: -18%;
         background: linear-gradient(
           145deg,
-          rgba(79, 195, 247, 0.9),
-          rgba(41, 182, 246, 0.9)
+          rgba(0, 128, 184, 0.8),
+          rgba(103, 52, 192, 0.8)
         );
         border-radius: 24px;
         display: flex;
@@ -392,7 +468,7 @@
         top: 50%;
         margin-left: -45%;
         margin-top: -20%;
-        background: rgba(15, 15, 25, 0.95);
+        background: rgba(6, 13, 31, 0.97);
         border-radius: 30px;
         display: flex;
         align-items: center;
@@ -400,10 +476,12 @@
         font-size: clamp(2rem, 7vw, 4rem);
         font-weight: 800;
         color: #fff;
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid #7cdaff80;
         box-shadow:
-          0 25px 80px rgba(0, 0, 0, 0.5),
-          inset 0 0 60px rgba(99, 102, 241, 0.05);
+          0 25px 80px #0009,
+          0 0 32px #00c8ff40,
+          0 0 90px #7950ff30,
+          inset 0 0 60px #5736c018;
         backdrop-filter: blur(20px);
         z-index: 100;
         overflow: hidden;
@@ -488,7 +566,7 @@
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, #4fc3f7, #29b6f6, #03a9f4);
+        background: linear-gradient(115deg, #00bded, #5354f8, #a435f0);
         background-size: 200% 200%;
         color: #fff;
         box-shadow:
@@ -528,7 +606,7 @@
         body { padding: 90px 16px 55px; }
         .cylinder-container {
           width: min(340px, calc(100vw - 32px), calc(100svh - 205px));
-          --cylinder-depth: clamp(55px, 20vh, 120px);
+          --cylinder-depth: clamp(45px, 16vw, 100px);
           margin-bottom: 8px;
         }
         .display-card { font-size: clamp(1rem, 5vh, 2.4rem); }
@@ -562,6 +640,15 @@
   </head>
   <body>
     <div class="electrical-background" aria-hidden="true">
+      <div class="energy-orbit"><div class="energy-ring"></div></div>
+      <div class="energy-orbit secondary"><div class="energy-ring"></div></div>
+      <div class="energy-rays">
+        <span style="--ray-x: 12%; --ray-speed: 4.2s; --ray-delay: -1s"></span>
+        <span style="--ray-x: 36%; --ray-speed: 5.6s; --ray-delay: -4s"></span>
+        <span style="--ray-x: 61%; --ray-speed: 3.8s; --ray-delay: -2s"></span>
+        <span style="--ray-x: 82%; --ray-speed: 4.8s; --ray-delay: -3s"></span>
+        <span style="--ray-x: 105%; --ray-speed: 6.2s; --ray-delay: -5s"></span>
+      </div>
       <svg class="circuit-blueprint" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
         <defs>
           <path id="circuit-path" d="M100 422V330H192 M268 330H380V590H100V438" />
@@ -644,18 +731,18 @@
       </div>
       <div class="physics-symbols">
         <span class="physics-symbol" style="--x: 7%; --y: 21%; --mobile-x: 10%; --mobile-y: 24%; --size: 76px; --duration: 5.5s; --sway: 22px; --lift: -34px; --delay: -8s">U</span>
-        <span class="physics-symbol" style="--x: 88%; --y: 23%; --mobile-x: 82%; --mobile-y: 27%; --size: 40px; --duration: 8s; --sway: -18px; --lift: -26px; --delay: -12s; --color: #9bbfe2">I</span>
+        <span class="physics-symbol" style="--x: 88%; --y: 23%; --mobile-x: 82%; --mobile-y: 27%; --size: 40px; --duration: 8s; --sway: -18px; --lift: -26px; --delay: -12s; --color: #bfaaff">I</span>
         <span class="physics-symbol" style="--x: 6%; --y: 70%; --mobile-x: 8%; --mobile-y: 61%; --size: 62px; --duration: 6.5s; --sway: 28px; --lift: -42px; --delay: -4s">R</span>
-        <span class="physics-symbol" style="--x: 90%; --y: 61%; --mobile-x: 84%; --mobile-y: 62%; --size: 52px; --duration: 9s; --sway: -24px; --lift: -30px; --delay: -16s; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 90%; --y: 61%; --mobile-x: 84%; --mobile-y: 62%; --size: 52px; --duration: 9s; --sway: -24px; --lift: -30px; --delay: -16s; --color: #bfaaff">U</span>
         <span class="physics-symbol" style="--x: 17%; --y: 86%; --mobile-x: 17%; --mobile-y: 84%; --size: 32px; --duration: 5s; --sway: 16px; --lift: -24px; --delay: -6s">I</span>
         <span class="physics-symbol" style="--x: 79%; --y: 86%; --mobile-x: 75%; --mobile-y: 86%; --size: 70px; --duration: 10.5s; --sway: -20px; --lift: -38px; --delay: -18s">R</span>
         <span class="physics-symbol" style="--x: 33%; --y: 22%; --mobile-x: 46%; --mobile-y: 20%; --size: 34px; --duration: 7s; --sway: 14px; --lift: -28px; --delay: -11s; --opacity: 0.2">t</span>
         <span class="physics-symbol" style="--x: 62%; --y: 91%; --mobile-x: 45%; --mobile-y: 91%; --size: 48px; --duration: 6s; --sway: -17px; --lift: -32px; --delay: -3s; --opacity: 0.22">P</span>
         <span class="physics-symbol" style="--x: 20%; --y: 47%; --size: 30px; --duration: 11s; --sway: -26px; --lift: -26px; --delay: -14s; --opacity: 0.18">I</span>
         <span class="physics-symbol" style="--x: 76%; --y: 45%; --size: 58px; --duration: 7.5s; --sway: 20px; --lift: -36px; --delay: -5s; --opacity: 0.2">R</span>
-        <span class="physics-symbol" style="--x: 62%; --y: 21%; --size: 44px; --duration: 9.5s; --sway: -18px; --lift: -30px; --delay: -19s; --opacity: 0.22; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 62%; --y: 21%; --size: 44px; --duration: 9.5s; --sway: -18px; --lift: -30px; --delay: -19s; --opacity: 0.22; --color: #bfaaff">U</span>
         <span class="physics-symbol" style="--x: 35%; --y: 86%; --size: 64px; --duration: 6.8s; --sway: 24px; --lift: -40px; --delay: -9s; --opacity: 0.25">R</span>
-        <span class="physics-symbol" style="--x: 48%; --y: 91%; --size: 38px; --duration: 8.5s; --sway: -14px; --lift: -24px; --delay: -20s; --opacity: 0.22; --color: #9bbfe2">U</span>
+        <span class="physics-symbol" style="--x: 48%; --y: 91%; --size: 38px; --duration: 8.5s; --sway: -14px; --lift: -24px; --delay: -20s; --opacity: 0.22; --color: #bfaaff">U</span>
         <span class="physics-symbol" style="--x: 92%; --y: 78%; --size: 46px; --duration: 5.8s; --sway: 18px; --lift: -34px; --delay: -7s; --opacity: 0.18">W</span>
       </div>
     </div>
@@ -857,10 +944,11 @@
       pickBtn.addEventListener("click", () => {
         if (remainingStudents.length === 0 || isSpinning) return;
         isSpinning = true;
+        document.body.classList.add("energized");
         pickBtn.disabled = true;
         pickBtn.textContent = "点名中...";
         displayCard.textContent = "???";
-        displayCard.style.background = "rgba(15, 15, 25, 0.95)";
+        displayCard.style.background = "rgba(6, 13, 31, 0.97)";
         cylinder.classList.add("spinning");
         const spinInterval = setInterval(() => {
           const randomNames = [...students]
@@ -882,7 +970,7 @@
           displayCard.classList.add("reveal");
           displayCard.textContent = selected;
           displayCard.style.background =
-            "linear-gradient(135deg, rgba(79, 195, 247, 0.9), rgba(41, 182, 246, 0.9))";
+            "linear-gradient(135deg, rgba(0, 155, 210, 0.97), rgba(106, 55, 210, 0.97))";
           const rect = displayCard.getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
@@ -894,6 +982,7 @@
           pickBtn.textContent = "随机点名";
           pickBtn.disabled = remainingStudents.length === 0;
           isSpinning = false;
+          document.body.classList.remove("energized");
           if (remainingStudents.length === 0) {
             displayCard.textContent = "点名完成！";
           }
