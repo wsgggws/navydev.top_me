@@ -8,6 +8,7 @@
  */
 
 import { gsap } from "gsap";
+import { luzhu } from "@/theme";
 import type * as THREE_NS from "./runtime";
 import {
   getRenderingProfile,
@@ -120,14 +121,14 @@ export class CinematicStage {
     this.renderer.domElement.style.height = "100%";
 
     // 3-point lighting rig
-    this.ambient = new THREE.AmbientLight(0x223344, 0.6);
+    this.ambient = new THREE.AmbientLight(luzhu.bgFloat, 0.6);
     this.scene.add(this.ambient);
 
-    this.keyLight = new THREE.DirectionalLight(0xffe4b2, 1.4);
+    this.keyLight = new THREE.DirectionalLight(luzhu.sand, 1.4);
     this.keyLight.position.set(2, 4, 3);
     this.scene.add(this.keyLight);
 
-    this.rimLight = new THREE.DirectionalLight(0x6ea8ff, 0.9);
+    this.rimLight = new THREE.DirectionalLight(luzhu.jade, 0.9);
     this.rimLight.position.set(-3, 2, -2);
     this.scene.add(this.rimLight);
 
@@ -287,7 +288,7 @@ export function warmupCinematicPipeline(): Promise<void> {
     const stage = new CinematicStage(host, {
       fov: 38,
       bloom: 0.5,
-      background: 0x000000,
+      background: parseInt(luzhu.bg.slice(1), 16),
       exposure: 1,
       pixelRatio: 1,
     });
@@ -295,8 +296,8 @@ export function warmupCinematicPipeline(): Promise<void> {
     const mesh = new THREE.Mesh(
       new THREE.BoxGeometry(0.5, 0.5, 0.5),
       new THREE.MeshStandardMaterial({
-        color: 0x88aaff,
-        emissive: 0x2244ff,
+        color: luzhu.jade,
+        emissive: luzhu.keyword,
         emissiveIntensity: 0.4,
       }),
     );

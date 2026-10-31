@@ -7,8 +7,8 @@ html, body, #root {
   padding: 0;
   height: 100%;
   width: 100%;
-  background: #000;
-  color: #e6f1ff;
+  background: var(--luzhu-bg, #1D3229);
+  color: var(--luzhu-fg, #DCE8D5);
   overflow: hidden;
   overscroll-behavior: none;
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -16,14 +16,14 @@ html, body, #root {
 
 /* ────────────────────────────────────────────────────────────────
    Cinematic letterbox.
-   The stage container is 2.35:1 (cinematic) inside a black field.
-   The two black bars top/bottom are pseudo-elements on .stage-host.
+   The stage container is 2.35:1 (cinematic) inside a LuZhu field.
+   The two matte bars top/bottom are pseudo-elements on .stage-host.
    ──────────────────────────────────────────────────────────────── */
 .stage-host {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #000;
+  background: var(--luzhu-bg, #1D3229);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@ html, body, #root {
   left: 0;
   height: min(22vh, 170px);
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.88));
+  background: linear-gradient(to bottom, transparent, rgba(var(--luzhu-bg-dark-rgb), 0.88));
   opacity: 1;
   transition: opacity 180ms ease;
 }
@@ -53,7 +53,7 @@ html, body, #root {
   height: min(100dvh, calc(100dvw / 2.35));
   width: min(100dvw, calc(100dvh * 2.35));
   position: relative;
-  background: #000;
+  background: var(--luzhu-bg, #1D3229);
   overflow: hidden;
   contain: layout paint size;
 }
@@ -67,14 +67,14 @@ html, body, #root {
   height: 5%;
   z-index: 60;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent);
+  background: linear-gradient(180deg, rgba(var(--luzhu-bg-dark-rgb), 0.6), transparent);
 }
 .stage-frame::before { top: 0; }
 .stage-frame::after  { bottom: 0; transform: scaleY(-1); }
 
 .stage-frame {
   /* Vignette overlay for anamorphic film feel */
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 120px rgba(var(--luzhu-bg-dark-rgb), 0.6);
 }
 
 .stage {
@@ -113,8 +113,8 @@ html, body, #root {
 .scene-transition {
   position: absolute;
   inset: 0;
-  --transition-duration: 240ms;
-  background: #000;
+  --transition-duration: 600ms;
+  background: var(--luzhu-bg, #1D3229);
   opacity: 0;
   pointer-events: none;
   transition:
@@ -131,80 +131,21 @@ html, body, #root {
 .scene-transition--wipe {
   clip-path: inset(0 50% 0 50%);
 }
-.scene-transition--zoom.scene-transition--active {
-  opacity: 1;
-  transform: scale(1.1);
-}
-.scene-transition--glitch {
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.08) 0,
-      rgba(255, 255, 255, 0.08) 1px,
-      rgba(0, 0, 0, 0.92) 1px,
-      rgba(0, 0, 0, 0.92) 5px
-    ),
-    #000;
-  transform: translateX(-2%);
-}
-.scene-transition--glitch::before,
-.scene-transition--glitch::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  mix-blend-mode: screen;
-  opacity: 0;
-}
-.scene-transition--glitch::before {
-  background: rgba(69, 255, 169, 0.2);
-  transform: translateX(-12px);
-}
-.scene-transition--glitch::after {
-  background: rgba(255, 42, 109, 0.16);
-  transform: translateX(14px);
-}
-.scene-transition--glitch.scene-transition--active {
-  opacity: 1;
-  transform: translateX(0);
-}
-.scene-transition--glitch.scene-transition--active::before,
-.scene-transition--glitch.scene-transition--active::after {
-  opacity: 1;
-}
-.scene-transition--iris {
-  opacity: 0;
-  clip-path: circle(0% at 50% 50%);
-}
-.scene-transition--iris.scene-transition--active {
-  opacity: 1;
-  clip-path: circle(150% at 50% 50%);
-}
-.scene-transition--match-cut {
-  background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.92) 0 1px, transparent 2px 7px, #000 8px),
-    #000;
-  transform: scale(0.06);
-}
-.scene-transition--match-cut.scene-transition--active {
-  opacity: 1;
-  transform: scale(1);
-}
-
 /* ────────────────────────────────────────────────────────────────
    Title card overlay. Shown briefly when a new scene enters.
    ──────────────────────────────────────────────────────────────── */
 .title-card {
   position: absolute;
   inset: 0;
-  --title-accent: rgba(255, 255, 255, 0.5);
-  --title-glow: rgba(255, 255, 255, 0.22);
+  --title-accent: var(--luzhu-jade);
+  --title-glow: rgba(var(--luzhu-jade-rgb), 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   pointer-events: none;
   z-index: 80;
-  background: rgba(0, 0, 0, 0.48);
+  background: rgba(var(--luzhu-bg-dark-rgb), 0.48);
   opacity: 0;
   will-change: opacity, transform;
 }
@@ -213,7 +154,7 @@ html, body, #root {
   font-family: "Courier New", monospace;
   letter-spacing: 0;
   font-size: clamp(11px, 1.4vmin, 16px);
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--luzhu-fg-dim);
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -223,9 +164,9 @@ html, body, #root {
   font-weight: 900;
   font-size: clamp(32px, 5.4vmin, 64px);
   letter-spacing: 0;
-  color: #f6f6f6;
+  color: var(--luzhu-fg, #DCE8D5);
   text-shadow:
-    0 2px 24px rgba(0, 0, 0, 0.8),
+    0 2px 24px rgba(var(--luzhu-bg-dark-rgb), 0.8),
     0 0 28px var(--title-glow);
 }
 
@@ -234,7 +175,7 @@ html, body, #root {
   font-family: "Courier New", monospace;
   font-size: clamp(11px, 1.45vmin, 16px);
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--luzhu-fg-dim);
   text-transform: uppercase;
 }
 
@@ -245,50 +186,19 @@ html, body, #root {
   background: var(--title-accent);
 }
 
-.title-card--grade-monitor-blue {
-  --title-accent: rgba(112, 170, 255, 0.78);
-  --title-glow: rgba(70, 120, 255, 0.34);
-}
-.title-card--grade-noir-green {
-  --title-accent: rgba(114, 255, 145, 0.78);
-  --title-glow: rgba(64, 255, 126, 0.34);
-}
-.title-card--grade-neon-pink {
-  --title-accent: rgba(255, 92, 180, 0.82);
-  --title-glow: rgba(255, 42, 145, 0.34);
-}
-.title-card--grade-toxic-red {
-  --title-accent: rgba(255, 75, 75, 0.82);
-  --title-glow: rgba(255, 32, 32, 0.34);
-}
-.title-card--grade-warm-garden {
-  --title-accent: rgba(255, 217, 129, 0.82);
-  --title-glow: rgba(128, 225, 155, 0.26);
-}
-.title-card--grade-launch-amber {
-  --title-accent: rgba(255, 187, 79, 0.86);
-  --title-glow: rgba(255, 164, 54, 0.32);
-}
-
 .title-card--terminal-caption {
   align-items: flex-start;
   justify-content: flex-end;
   padding: 0 0 7% 8%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(var(--luzhu-bg-dark-rgb), 0.3);
 }
 .title-card--terminal-caption .title-card__title,
 .title-card--terminal-caption .title-card__caption {
   font-family: "Courier New", monospace;
   text-shadow: 0 0 18px var(--title-glow);
 }
-.title-card--burn-in .title-card__title {
-  color: #fff4f8;
-  text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.6),
-    0 0 28px var(--title-glow);
-}
 .title-card--silent-card {
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(var(--luzhu-bg-dark-rgb), 0.72);
 }
 .title-card--silent-card .title-card__title {
   font-family: Georgia, "Times New Roman", serif;
@@ -303,7 +213,7 @@ html, body, #root {
 
 /* Optional — vignette around the cinematic frame for extra film feel. */
 .stage-frame::after {
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 120px rgba(var(--luzhu-bg-dark-rgb), 0.6);
 }
 
 .error-overlay {
@@ -315,15 +225,15 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.94);
-  color: #f4f5f7;
+  background: rgba(var(--luzhu-bg-dark-rgb), 0.94);
+  color: var(--luzhu-fg, #DCE8D5);
   text-align: center;
 }
 
 .error-overlay > span,
 .error-overlay p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.54);
+  color: var(--luzhu-fg-dim);
   font-family: "Courier New", monospace;
   font-size: 11px;
 }
@@ -342,18 +252,18 @@ html, body, #root {
   height: 40px;
   margin-top: 24px;
   padding: 0 18px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(var(--luzhu-fg-rgb), 0.38);
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(var(--luzhu-fg-rgb), 0.08);
+  color: var(--luzhu-fg, #DCE8D5);
   font-family: "Courier New", monospace;
   cursor: pointer;
 }
 
 .error-overlay button:hover,
 .error-overlay button:focus-visible {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--luzhu-fg, #DCE8D5);
+  background: rgba(var(--luzhu-fg-rgb), 0.16);
   outline: none;
 }
 
@@ -366,7 +276,7 @@ html, body, #root {
   bottom: max(14px, 2.2vw);
   z-index: 110;
   width: min(520px, 56vw);
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--luzhu-fg-dim);
   opacity: 0.68;
   transition:
     opacity 180ms ease,
@@ -383,17 +293,16 @@ html, body, #root {
   gap: 10px;
   margin-bottom: 8px;
   font-family: "Courier New", monospace;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 .chapter-rail__meta span {
-  color: rgba(255, 255, 255, 0.52);
+  color: var(--luzhu-fg-dim);
   font-size: 11px;
 }
 .chapter-rail__meta strong {
   min-width: 0;
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--luzhu-fg-dim);
   font-size: 12px;
   font-weight: 700;
   text-overflow: ellipsis;
@@ -402,7 +311,7 @@ html, body, #root {
   display: grid;
   grid-template-columns:
     minmax(48px, 0.9fr)
-    repeat(7, minmax(22px, 0.52fr))
+    repeat(4, minmax(22px, 0.52fr))
     minmax(76px, 1.35fr);
   gap: 4px;
 }
@@ -413,16 +322,16 @@ html, body, #root {
   place-items: center;
   box-sizing: border-box;
   height: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(var(--luzhu-fg-rgb), 0.18);
   border-radius: 4px;
   overflow: hidden;
   background:
     linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.62) 0 calc(var(--chapter-progress) * 100%),
-      rgba(255, 255, 255, 0.08) calc(var(--chapter-progress) * 100%) 100%
+      rgba(var(--luzhu-jade-rgb), 0.22) 0 calc(var(--chapter-progress) * 100%),
+      rgba(var(--luzhu-fg-rgb), 0.08) calc(var(--chapter-progress) * 100%) 100%
     );
-  color: rgba(255, 255, 255, 0.74);
+  color: var(--luzhu-fg-dim);
   font-family: "Courier New", monospace;
   font-size: 10px;
   letter-spacing: 0;
@@ -432,13 +341,13 @@ html, body, #root {
   white-space: nowrap;
 }
 .chapter-rail__chapter[aria-current="step"] {
-  border-color: rgba(255, 255, 255, 0.52);
-  color: #fff;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
+  border-color: var(--luzhu-fg-dim);
+  color: var(--luzhu-fg, #DCE8D5);
+  box-shadow: 0 0 18px rgba(var(--luzhu-fg-rgb), 0.12);
 }
 .chapter-rail__chapter:hover,
 .chapter-rail__chapter:focus-visible {
-  border-color: rgba(255, 255, 255, 0.72);
+  border-color: var(--luzhu-fg-dim);
   outline: none;
 }
 .chapter-rail__chapter span {
@@ -481,19 +390,19 @@ html, body, #root {
   width: 36px;
   min-width: 36px;
   height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(var(--luzhu-fg-rgb), 0.22);
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.46);
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--luzhu-bg-dark-rgb), 0.46);
+  color: var(--luzhu-fg-dim);
   padding: 0;
   cursor: pointer;
   backdrop-filter: blur(10px);
 }
 .reel-control:hover,
 .reel-control:focus-visible {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(14, 16, 20, 0.72);
+  color: var(--luzhu-fg, #DCE8D5);
+  border-color: var(--luzhu-fg-dim);
+  background: rgba(var(--luzhu-bg-float-rgb), 0.72);
   outline: none;
 }
 @media (orientation: portrait) {
@@ -559,7 +468,7 @@ html, body, #root {
   .chapter-rail__track {
     grid-template-columns:
       minmax(42px, 0.9fr)
-      repeat(7, minmax(0, 0.5fr))
+      repeat(4, minmax(0, 0.5fr))
       minmax(68px, 1.35fr);
     gap: 3px;
   }
@@ -585,3 +494,5 @@ html, body, #root {
   }
 
 }
+
+:focus-visible { outline: 2px solid var(--luzhu-jade); outline-offset: 4px; }

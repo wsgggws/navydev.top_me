@@ -1,7 +1,7 @@
 import * as THREE from "three";
+import { luzhu } from "@/theme";
 import type { SceneModule } from "@movie/types/scene";
 import { CinematicStage, ensureThree } from "@movie/lib/three/CinematicStage";
-import { typingClick } from "@movie/lib/audio/SoundDesign";
 import { scene } from "./config";
 import script from "./scene.md?raw";
 import "./styles.css";
@@ -11,7 +11,7 @@ import "./styles.css";
  *
  * A real CRT in a dark room. The screen face is a CanvasTexture that we
  * repaint as the typewriter runs. A custom shader pass laid over the
- * screen simulates phosphor mask + scanlines + soft glow. Bloom pulls the
+ * screen simulates scanlines + soft glow. Bloom pulls the
  * bright pixels into a halo. Camera dollies slowly from medium shot to
  * close-up on the screen.
  */
@@ -39,7 +39,6 @@ function createScene(): SceneModule {
   let ctx: CanvasRenderingContext2D | null = null;
   let texture: THREE.CanvasTexture | null = null;
   let lines: LineBuf[] = [];
-  const stops: (() => void)[] = [];
 
   function buildCrt(): THREE.Group {
     const g = new THREE.Group();
@@ -48,7 +47,7 @@ function createScene(): SceneModule {
     // with a beveled shape made from a BoxGeometry wider than the screen,
     // then layer a slightly recessed screen.
     const housingMat = new THREE.MeshStandardMaterial({
-      color: 0x2a2a2a,
+      color: luzhu.bgHighlight,
       roughness: 0.6,
       metalness: 0.4,
     });
@@ -69,7 +68,7 @@ function createScene(): SceneModule {
 
     // Base
     const baseMat = new THREE.MeshStandardMaterial({
-      color: 0x181818,
+      color: luzhu.bgDark,
       roughness: 0.7,
     });
     const base = new THREE.Mesh(
@@ -106,7 +105,7 @@ function createScene(): SceneModule {
   }
 
   function buildScanlineOverlay(): THREE.Mesh {
-    // Custom shader pass that overlays scanlines + RGB mask + subtle vignette.
+    // Scanlines retain the CRT texture without shifting LuZhu into RGB neon.
     const scan = /* glsl */ `
       varying vec2 vUv;
       void main() {
@@ -120,14 +119,6 @@ function createScene(): SceneModule {
       uniform sampler2D map;
       void main() {
         vec4 c = texture2D(map, vUv);
-        // RGB phosphor mask — shift R/B slightly with horizontal sub-pixels.
-        float px = vUv.x * 1024.0;
-        float sub = mod(px, 3.0);
-        vec3 mask;
-        if (sub < 1.0)      mask = vec3(1.25, 0.85, 0.85);
-        else if (sub < 2.0) mask = vec3(0.85, 1.25, 0.85);
-        else                mask = vec3(0.85, 0.85, 1.25);
-        c.rgb *= mask;
         // Scanlines: darken at every other row.
         float row = floor(vUv.y * 480.0);
         float scan = mod(row, 2.0) < 0.5 ? 0.78 : 1.0;
@@ -157,7 +148,7 @@ function createScene(): SceneModule {
     cv: HTMLCanvasElement,
     buf: LineBuf[],
   ): void {
-    c.fillStyle = "#000";
+    c.fillStyle = luzhu.bgDark;
     c.fillRect(0, 0, cv.width, cv.height);
 
     c.font = "26px 'VT323', monospace";
@@ -167,12 +158,12 @@ function createScene(): SceneModule {
       if (!line.visible) continue;
       const slice = line.full.slice(0, line.shown);
       if (line.prompt) {
-        c.fillStyle = "#88ff88";
+        c.fillStyle = luzhu.keyword;
         c.fillText(line.prompt + " ", 30, y);
-        c.fillStyle = "#6cff8a";
+        c.fillStyle = luzhu.jade;
         c.fillText(slice, 60, y);
       } else {
-        c.fillStyle = "#8eff8a";
+        c.fillStyle = luzhu.fg;
         c.fillText(slice, 30, y);
       }
       y += lineH;
@@ -185,7 +176,6 @@ function createScene(): SceneModule {
     shown: number;
     prompt?: string;
     visible: boolean;
-    _cadence?: number;
   }
 
   const module: SceneModule = {
@@ -197,7 +187,7 @@ function createScene(): SceneModule {
     },
 
     create(rootEl) {
-      rootEl.style.background = "#000";
+      rootEl.style.background = luzhu.bg;
       const portrait = rootEl.clientHeight > rootEl.clientWidth;
       rootEl.insertAdjacentHTML(
         "beforeend",
@@ -221,8 +211,8 @@ function createScene(): SceneModule {
       );
       stage = new CinematicStage(rootEl, {
         fov: portrait ? 68 : 30,
-        bloom: 0.55,
-        background: 0x000000,
+        bloom: 0.12,
+        background: parseInt(luzhu.bg.slice(1), 16),
         exposure: 1.0,
       });
 
@@ -252,7 +242,7 @@ function createScene(): SceneModule {
       // Lighting — almost none. The screen + a sliver of rim on the housing.
       stage.keyLight.intensity = 0.1;
       stage.rimLight.intensity = 0.4;
-      stage.rimLight.color.set(0x88aaff);
+      stage.rimLight.color.set(luzhu.jade);
       stage.ambient.intensity = 0.05;
 
       stage.start();
@@ -280,7 +270,7 @@ function createScene(): SceneModule {
       tl.fromTo(
         camera.position,
         { x: 0, y: 0.55, z: portrait ? 2.9 : 2.5 },
-        { x: 0, y: 0.55, z: portrait ? 2.05 : 1.05, duration: scene.duration, ease: "power1.inOut" },
+        { x: 0, y: 0.55, z: 2.05, duration: scene.duration, ease: "power1.inOut" },
         0,
       );
       // Slight breathing on camera Y.
@@ -311,7 +301,6 @@ function createScene(): SceneModule {
           cursor.shown = 0;
           buf.shown = 0;
           buf.visible = true;
-          buf._cadence = 0;
           if (ctx && canvas) paintTerminal(ctx, canvas, lines);
           if (texture) texture.needsUpdate = true;
         }, [], entry.at);
@@ -325,12 +314,6 @@ function createScene(): SceneModule {
             onUpdate() {
               const shown = Math.floor(cursor.shown);
               buf.shown = shown;
-              const cadence = Math.floor(shown / 3);
-              const prev = buf._cadence ?? 0;
-              if (cadence !== prev) {
-                buf._cadence = cadence;
-                typingClick();
-              }
               if (ctx && canvas) paintTerminal(ctx, canvas, lines);
               if (texture) texture.needsUpdate = true;
             },
@@ -351,7 +334,6 @@ function createScene(): SceneModule {
     pause() {},
 
     destroy() {
-      while (stops.length) stops.pop()!();
       if (stage) {
         stage.dispose();
         stage = null;

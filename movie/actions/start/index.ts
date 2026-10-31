@@ -15,7 +15,7 @@ function createAction(): SceneModule {
       root = r;
       r.innerHTML = `
         <section class="start-action">
-          <span>START</span>
+          <span>start</span>
           <h1>生活就是自导自演的一场戏</h1>
           <i aria-hidden="true"></i>
         </section>

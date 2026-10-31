@@ -7,11 +7,8 @@ export const scene: SceneConfig = {
   mood: "signal",
   pacing: "pulse",
   shot: "closeup",
-  colorGrade: "noir-green",
-  soundMotif: "rhythm",
   titleCard: "terminal-caption",
   duration: 10,
-  playbackRate: 1.08,
   transition: "fade",
   preload: [],
 };

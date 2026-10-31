@@ -3,10 +3,11 @@ import { scene } from "./config";
 import script from "./scene.md?raw";
 import "./styles.css";
 
-const QUESTIONS = [
-  { key: "QUESTION", title: "问题真正发生在哪里？", detail: "先缩小范围，再决定从哪里开始。" },
-  { key: "EVIDENCE", title: "哪些事实可以复现？", detail: "让判断来自证据，而不是直觉。" },
-  { key: "CHANGE", title: "怎样用最小改动验证？", detail: "一次只改变一件事，并留下退路。" },
+const TOOLKIT = [
+  { label: "编辑与终端", title: "Neovim / Tmux", tools: ["LuZhu", "Linux"], detail: "熟悉的键位，专注的工作台。" },
+  { label: "思考与协作", title: "Codex / Git", tools: ["GitHub", "Code Review"], detail: "一起推敲，让每次改动有迹可循。" },
+  { label: "编码与数据", title: "Python / Go", tools: ["PostgreSQL", "Redis"], detail: "把想法写成清楚、可靠的实现。" },
+  { label: "运行与交付", title: "Docker / Nginx", tools: ["Kubernetes", "GitHub Actions"], detail: "从本地验证，到持续交付。" },
 ];
 
 function createScene(): SceneModule {
@@ -16,64 +17,37 @@ function createScene(): SceneModule {
     config: scene,
     script,
     async preload() {},
-
     create(r) {
       root = r;
       r.innerHTML = `
-        <div class="method-grid" aria-hidden="true"></div>
-        <header class="method-heading">
-          <span>METHOD</span>
-          <h2>先问清楚，<br />再写答案</h2>
-          <p>真正有效的修改，通常始于一个更准确的问题。</p>
-        </header>
-        <div class="method-route" aria-hidden="true"><i></i></div>
-        <div class="method-questions"></div>
-        <p class="method-coda">理解 · 证据 · 小步验证</p>
+        <header class="tools-heading"><span>MY TOOLKIT</span><h2>手边的工具</h2><p>从一行代码，到一次交付。</p></header>
+        <div class="tools-grid"></div>
+        <p class="tools-coda">把重复交给工具，把心思留给创造。</p>
       `;
-
-      const questions = r.querySelector(".method-questions") as HTMLElement;
-      QUESTIONS.forEach(({ key, title, detail }, index) => {
-        const item = document.createElement("section");
-        item.className = "method-question";
-        item.innerHTML = `
-          <span>${String(index + 1).padStart(2, "0")}</span>
-          <strong>${key}</strong>
+      const grid = r.querySelector(".tools-grid")!;
+      TOOLKIT.forEach(({ label, title, tools, detail }, index) => {
+        const card = document.createElement("section");
+        card.className = "tool-card";
+        card.innerHTML = `
+          <div class="tool-card__label"><span>0${index + 1}</span>${label}</div>
           <h3>${title}</h3>
+          <div class="tool-card__tags">${tools.map((tool) => `<span>${tool}</span>`).join("")}</div>
           <p>${detail}</p>
         `;
-        questions.appendChild(item);
+        grid.appendChild(card);
       });
     },
-
-    async warmup() {
-      await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
-    },
-
     play(timeline) {
       if (!root) return;
-      const heading = root.querySelector(".method-heading") as HTMLElement;
-      const route = root.querySelector(".method-route i") as HTMLElement;
-      const questions = Array.from(root.querySelectorAll(".method-question")) as HTMLElement[];
-      const coda = root.querySelector(".method-coda") as HTMLElement;
-
-      timeline.fromTo(heading, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.9 }, 0.35);
-      timeline.fromTo(route, { scaleY: 0 }, { scaleY: 1, duration: 4.8, ease: "power2.inOut" }, 1.1);
-      questions.forEach((question, index) => {
-        timeline.fromTo(
-          question,
-          { opacity: 0, x: 20 },
-          { opacity: 1, x: 0, duration: 0.75, ease: "power2.out" },
-          1.45 + index * 1.45,
-        );
+      const cards = Array.from(root.querySelectorAll(".tool-card"));
+      timeline.fromTo(root.querySelector(".tools-heading"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+      cards.forEach((card, index) => {
+        timeline.fromTo(card, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 1.3 + index * 1.5);
       });
-      timeline.fromTo(coda, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 6.4);
-      timeline.to({} as object, { duration: 0.8 }, 7.2);
+      timeline.fromTo(root.querySelector(".tools-coda"), { opacity: 0 }, { opacity: 1, duration: 1 }, 8);
     },
-
     pause() {},
-    destroy() {
-      root = null;
-    },
+    destroy() { root = null; },
   };
 }
 

@@ -3,8 +3,7 @@ import { Timeline } from "./Timeline";
 import { Camera } from "./Camera";
 import type { SceneEntry, SceneConfig, SceneModule } from "../types/scene";
 
-const SCENE_PLAYBACK_RATE = 1;
-const REEL_TEMPO_MULTIPLIER = 1;
+import { REEL_PLAYBACK_RATE, TRANSITION_MS } from "../pacing";
 
 export interface MovieDirectorOptions {
   reducedMotion?: boolean;
@@ -228,9 +227,7 @@ export class MovieDirector {
     // Reset timeline. Each scene declares its own motion.
     this.timeline.clear();
     const gt = this.timeline.gsapTimeline;
-    gt.timeScale(
-      (next.config.playbackRate ?? SCENE_PLAYBACK_RATE) * REEL_TEMPO_MULTIPLIER,
-    );
+    gt.timeScale(REEL_PLAYBACK_RATE);
     next.play(gt);
 
     // Pin to scene's declared duration so the timeline never outruns the story.
@@ -360,10 +357,10 @@ export class MovieDirector {
     kind: SceneConfig["transition"],
     duringBlack: () => Promise<void>,
   ): Promise<void> {
-    const transitionMs = this.reducedMotion ? 80 : 240;
-    const classKind = this.reducedMotion && kind !== "cut" ? "fade" : kind;
+    const transitionMs = this.reducedMotion ? 80 : TRANSITION_MS;
+    const classKind = this.reducedMotion ? "fade" : kind;
 
-    if (!this.currentScene || kind === "cut") {
+    if (!this.currentScene) {
       await duringBlack();
       return;
     }

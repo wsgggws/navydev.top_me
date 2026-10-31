@@ -15,7 +15,7 @@ import { prewarmReel } from "@movie/prewarm";
 
 let numberedAction = 0;
 const reelLabels = reel.map((entry) =>
-  entry.config.navLabel ?? String(++numberedAction).padStart(2, "0"),
+  entry.config.navLabel ?? String(++numberedAction),
 );
 const numberedTotal = numberedAction;
 const numberedReelIndexes = reel.flatMap((entry, index) =>
@@ -77,7 +77,7 @@ export default function App() {
       } else {
         titleCard.show(
           state.config,
-          `${reelLabels[state.index]} / ${String(numberedTotal).padStart(2, "0")}`,
+          `${reelLabels[state.index]} / ${String(numberedTotal)}`,
         );
       }
     });
@@ -222,10 +222,10 @@ export default function App() {
   }, [armed, reelComplete]);
 
   const currentEntry = reel[currentIndex];
-  const currentActionLabel = reelLabels[currentIndex] ?? "START";
+  const currentActionLabel = reelLabels[currentIndex] ?? "start";
   const railLabel = currentEntry?.config.navLabel
     ? currentActionLabel
-    : `${currentActionLabel} / ${String(numberedTotal).padStart(2, "0")}`;
+    : `${currentActionLabel} / ${String(numberedTotal)}`;
   const railTitle = currentEntry?.config.title;
 
   return (

@@ -10,45 +10,35 @@ function createAction(): SceneModule {
     config: scene,
     script,
     async preload() {},
-
     create(r) {
       root = r;
       r.innerHTML = `
         <section class="continue-action">
-          <span>CONTINUE</span>
+          <span>continue</span>
           <h2>未完待续</h2>
-          <p>下一幕还在写，镜头先停在这里。</p>
-          <a href="https://github.com/wsgggws" target="_blank" rel="noreferrer">
-            <small>片尾之后</small>
-            <strong>github.com/wsgggws ↗</strong>
-          </a>
+          <p class="continue-copy">下一幕还在写，镜头先停在这里。</p>
+          <blockquote>此心光明，神采飞扬</blockquote>
+          <nav class="continue-links" aria-label="片尾链接">
+            <a href="https://github.com/wsgggws" target="_blank" rel="noreferrer">
+              <small>片尾之后</small><strong>GitHub ↗</strong>
+            </a>
+            <a href="https://navydev.top/">
+              <small>回到主页</small><strong>navydev.top ↗</strong>
+            </a>
+          </nav>
         </section>
       `;
     },
-
     play(timeline) {
       if (!root) return;
-      const marker = root.querySelector(".continue-action > span") as HTMLElement;
-      const title = root.querySelector(".continue-action h2") as HTMLElement;
-      const copy = root.querySelector(".continue-action p") as HTMLElement;
-      const link = root.querySelector(".continue-action a") as HTMLElement;
-
-      timeline.fromTo(marker, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.05);
-      timeline.fromTo(
-        title,
-        { opacity: 0, scale: 0.97 },
-        { opacity: 1, scale: 1, duration: 0.65, ease: "power2.out" },
-        0.12,
-      );
-      timeline.fromTo(copy, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.42 }, 0.58);
-      timeline.fromTo(link, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.45 }, 0.9);
-      timeline.to({}, { duration: 1.05 }, 1.55);
+      timeline.fromTo(root.querySelector(".continue-action > span"), { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.1);
+      timeline.fromTo(root.querySelector("h2"), { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }, 0.2);
+      timeline.fromTo(root.querySelector(".continue-copy"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7 }, 0.8);
+      timeline.fromTo(root.querySelector("blockquote"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.9 }, 1.4);
+      timeline.fromTo(root.querySelector(".continue-links"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.8 }, 2.1);
     },
-
     pause() {},
-    destroy() {
-      root = null;
-    },
+    destroy() { root = null; },
   };
 }
 

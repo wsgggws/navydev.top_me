@@ -2,8 +2,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #020304;
-  color: #f6f6f6;
+  background: var(--luzhu-bg);
+  color: var(--luzhu-fg);
 }
 
 .start-action {
@@ -17,7 +17,7 @@
 }
 
 .start-action span {
-  color: rgba(255, 255, 255, 0.44);
+  color: var(--luzhu-fg-dim);
   font-family: "Courier New", monospace;
   font-size: clamp(10px, 1.15vmin, 13px);
 }
@@ -34,7 +34,7 @@
   width: min(112px, 18vw);
   height: 1px;
   margin-top: 25px;
-  background: rgba(255, 255, 255, 0.38);
+  background: rgba(var(--luzhu-fg-rgb), 0.38);
   transform-origin: center;
 }
 

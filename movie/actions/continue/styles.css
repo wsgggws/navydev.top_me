@@ -1,88 +1,48 @@
 .scene-root[data-scene-id="continue"] {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: #060807;
-  color: #f2f0ea;
+  background: var(--luzhu-bg);
+  color: var(--luzhu-fg);
 }
-
 .continue-action {
   position: absolute;
   inset: 0;
   display: grid;
   place-content: center;
   justify-items: center;
-  padding: 0 7% 4%;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(125, 177, 165, 0.12), transparent 28%),
-    #060807;
+  padding: 0 7% 2%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(var(--luzhu-jade-rgb), 0.08), transparent 60%);
   text-align: center;
 }
-
 .continue-action > span,
-.continue-action p,
-.continue-action a {
-  font-family: "Courier New", monospace;
+.continue-copy,
+.continue-links {
+  font-family: ui-monospace, Menlo, monospace;
 }
-
-.continue-action > span {
-  color: rgba(125, 177, 165, 0.72);
-  font-size: clamp(10px, 1.15vmin, 13px);
-}
-
+.continue-action > span { color: var(--luzhu-jade); font-size: 12px; }
 .continue-action h2 {
-  margin: 13px 0 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(54px, 11vmin, 146px);
-  font-weight: 500;
-  line-height: 0.95;
-}
-
-.continue-action p {
   margin: 18px 0 0;
-  color: rgba(242, 240, 234, 0.56);
-  font-size: clamp(10px, 1.25vmin, 14px);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(46px, 9vmin, 106px);
+  font-weight: 500;
+  line-height: 1.15;
 }
-
-.continue-action a {
-  display: grid;
-  gap: 5px;
-  margin-top: 25px;
-  color: inherit;
-  text-decoration: none;
+.continue-copy { margin: 16px 0 0; color: var(--luzhu-fg-dim); font-size: clamp(10px, 1.4vmin, 15px); }
+.continue-action blockquote {
+  margin: clamp(20px, 4vmin, 42px) 0 0;
+  color: var(--luzhu-sand);
+  font-family: Georgia, "Songti SC", "SimSun", serif;
+  font-size: clamp(20px, 3.5vmin, 34px);
+  font-weight: 400;
 }
-
-.continue-action a small {
-  color: rgba(211, 181, 116, 0.68);
-  font-size: 10px;
-}
-
-.continue-action a strong {
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(211, 181, 116, 0.38);
-  font-size: clamp(11px, 1.2vmin, 14px);
-}
-
-.continue-action a:hover strong,
-.continue-action a:focus-visible strong {
-  border-color: #d3b574;
-  color: #d3b574;
-}
-
-.continue-action a:focus-visible {
-  outline: none;
-}
-
+.continue-links { display: flex; gap: 38px; margin-top: clamp(22px, 4vmin, 40px); }
+.continue-links a { display: grid; gap: 7px; padding: 8px 4px; color: var(--luzhu-jade); text-decoration: none; }
+.continue-links small { color: var(--luzhu-fg-dim); font-size: 10px; }
+.continue-links strong { font-size: clamp(12px, 1.5vmin, 16px); font-weight: 500; border-bottom: 1px solid var(--luzhu-border); padding-bottom: 5px; }
+.continue-links a:hover strong { color: var(--luzhu-sand); border-color: var(--luzhu-gold); }
+.continue-links a:focus-visible { outline: 2px solid var(--luzhu-jade); outline-offset: 5px; border-radius: 3px; }
 @media (orientation: portrait) {
-  .continue-action {
-    padding-bottom: max(13%, 112px);
-  }
-
-  .continue-action h2 {
-    font-size: clamp(50px, 18vmin, 92px);
-  }
-
-  .continue-action p {
-    line-height: 1.55;
-  }
+  .continue-action { padding-bottom: max(21%, 128px); }
+  .continue-action h2 { font-size: clamp(48px, 16vmin, 82px); }
+  .continue-copy { max-width: 22em; font-size: 11px; line-height: 1.6; }
+  .continue-action blockquote { margin-top: 34px; font-size: clamp(21px, 6vmin, 28px); }
+  .continue-links { gap: 24px; margin-top: 30px; }
 }

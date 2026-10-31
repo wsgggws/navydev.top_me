@@ -2,16 +2,13 @@ import type { SceneConfig } from "@movie/types/scene";
 
 export const scene: SceneConfig = {
   id: "scene-04",
-  title: "工具退到身后",
-  caption: "熟练之后，工具应当消失",
-  mood: "release",
+  title: "继续提问",
+  caption: "答案会过期，好奇心不会",
+  mood: "contrast",
   pacing: "pulse",
-  shot: "overhead",
-  colorGrade: "monitor-blue",
-  soundMotif: "accent",
-  titleCard: "chapter-card",
-  duration: 8,
-  playbackRate: 1.08,
-  transition: "fade",
+  shot: "medium",
+  titleCard: "silent-card",
+  duration: 8.2,
+  transition: "wipe",
   preload: [],
 };

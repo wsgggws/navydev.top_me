@@ -2,8 +2,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #090c10;
-  color: #edf1f4;
+  background: var(--luzhu-bg);
+  color: var(--luzhu-fg);
   font-family: "Inter", system-ui, sans-serif;
 }
 
@@ -11,190 +11,241 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(90deg, transparent 0 11vw, rgba(255, 255, 255, 0.035) 11vw calc(11vw + 1px));
-  mask-image: linear-gradient(to bottom, #000, transparent 86%);
+  background:
+    radial-gradient(circle at center, rgba(var(--luzhu-jade-rgb), 0.09), transparent 34%),
+    linear-gradient(135deg, rgba(var(--luzhu-gold-rgb), 0.05), transparent 46%);
 }
 
-.workflow-heading {
+.curiosity-orbit {
+  position: absolute;
+  top: 51%;
+  left: 51%;
+  width: min(36vw, 460px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.curiosity-orbit::before,
+.curiosity-orbit::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.curiosity-orbit::before {
+  content: "";
+  width: 2px;
+  height: 118%;
+  background: linear-gradient(transparent, rgba(var(--luzhu-fg-rgb), 0.2), transparent);
+  transform: translate(-50%, -50%) rotate(43deg);
+}
+
+.curiosity-orbit::after {
+  content: "?";
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 22%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--luzhu-gold);
+  color: var(--luzhu-bg-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 5.4vmin, 72px);
+}
+
+.curiosity-orbit i {
+  position: absolute;
+  border: 1px solid rgba(var(--luzhu-jade-rgb), 0.4);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.curiosity-orbit i:nth-child(1) {
+  inset: 34%;
+  border-color: rgba(var(--luzhu-gold-rgb), 0.72);
+}
+
+.curiosity-orbit i:nth-child(2) {
+  inset: 18%;
+}
+
+.curiosity-orbit i:nth-child(3) {
+  inset: 2%;
+  border-color: rgba(var(--luzhu-blue-rgb), 0.34);
+}
+
+.curiosity-heading {
   position: absolute;
   top: 9%;
   left: 7%;
   z-index: 2;
+  width: min(42vw, 570px);
   opacity: 0;
 }
 
-.workflow-heading span,
-.workflow-step span,
-.workflow-step small,
-.workflow-coda {
+.curiosity-heading span,
+.curiosity-prompt strong,
+.curiosity-prompt p,
+.curiosity-coda {
   font-family: "Courier New", monospace;
 }
 
-.workflow-heading span {
-  color: #79b7a6;
+.curiosity-heading span {
+  color: var(--luzhu-jade);
   font-size: clamp(10px, 1.15vmin, 13px);
 }
 
-.workflow-heading h2 {
+.curiosity-heading h2 {
   margin: 10px 0 0;
-  font-size: clamp(26px, 4.1vmin, 52px);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4.5vmin, 58px);
+  font-weight: 500;
   line-height: 1.04;
 }
 
-.workflow-line {
+.curiosity-prompts {
   position: absolute;
-  top: 55%;
-  right: 7%;
-  left: 7%;
-  height: 2px;
-  background: linear-gradient(90deg, #79b7a6, #d0ac68, #7f9fc8);
-  box-shadow: 0 0 18px rgba(121, 183, 166, 0.2);
-  transform: rotate(10deg);
-  transform-origin: left;
+  inset: 0;
 }
 
-.workflow-steps {
+.curiosity-prompt {
   position: absolute;
-  top: 36%;
-  right: 7%;
-  left: 7%;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(14px, 2.4vw, 36px);
-}
-
-.workflow-step {
-  position: relative;
-  display: grid;
-  align-content: start;
+  width: min(24vw, 310px);
   min-width: 0;
-  padding-left: 14px;
-  border-left: 2px solid rgba(121, 183, 166, 0.56);
   opacity: 0;
 }
 
-.workflow-step:nth-child(2) {
-  margin-top: 6vh;
-  border-color: rgba(208, 172, 104, 0.62);
+.curiosity-prompt::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  width: clamp(34px, 5vw, 76px);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(var(--luzhu-gold-rgb), 0.8), transparent);
 }
 
-.workflow-step:nth-child(3) {
-  margin-top: 12vh;
-  border-color: rgba(127, 159, 200, 0.62);
+.curiosity-prompt:nth-child(1) {
+  top: 20%;
+  right: 7%;
 }
 
-.workflow-step:nth-child(4) {
-  margin-top: 18vh;
-  border-color: rgba(237, 241, 244, 0.34);
+.curiosity-prompt:nth-child(1)::before,
+.curiosity-prompt:nth-child(2)::before {
+  right: calc(100% + 12px);
 }
 
-.workflow-step span {
-  color: rgba(237, 241, 244, 0.34);
-  font-size: 10px;
+.curiosity-prompt:nth-child(2) {
+  top: 52%;
+  right: 5%;
 }
 
-.workflow-step strong {
-  margin-top: 5px;
-  color: #f4f6f7;
-  font-size: clamp(25px, 4vmin, 52px);
-  line-height: 0.95;
+.curiosity-prompt:nth-child(3) {
+  bottom: 13%;
+  left: 8%;
+  text-align: right;
 }
 
-.workflow-step p {
-  margin: 9px 0 0;
-  color: rgba(237, 241, 244, 0.68);
-  font-size: clamp(11px, 1.25vmin, 15px);
+.curiosity-prompt:nth-child(3)::before {
+  left: calc(100% + 12px);
+  transform: scaleX(-1);
 }
 
-.workflow-step small {
-  margin-top: 11px;
-  color: rgba(121, 183, 166, 0.66);
-  font-size: clamp(9px, 1vmin, 11px);
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+.curiosity-prompt strong {
+  color: var(--luzhu-gold);
+  font-size: clamp(10px, 1.15vmin, 13px);
 }
 
-.workflow-coda {
+.curiosity-prompt h3 {
+  margin: 8px 0 0;
+  font-size: clamp(15px, 1.85vmin, 23px);
+  line-height: 1.22;
+}
+
+.curiosity-prompt p {
+  margin: 7px 0 0;
+  color: var(--luzhu-fg-dim);
+  font-size: clamp(9px, 1.05vmin, 12px);
+}
+
+.curiosity-coda {
   position: absolute;
   right: 7%;
   bottom: 8%;
-  width: min(48vw, 680px);
   margin: 0;
-  color: rgba(237, 241, 244, 0.5);
-  text-align: right;
+  color: rgba(var(--luzhu-jade-rgb), 0.7);
   font-size: clamp(10px, 1.2vmin, 14px);
-  line-height: 1.6;
   opacity: 0;
 }
 
 @media (orientation: portrait) {
-  .workflow-heading {
-    top: 7%;
+  .curiosity-heading {
+    top: 6%;
     right: 7%;
+    width: auto;
   }
 
-  .workflow-heading h2 {
-    font-size: clamp(26px, 8vmin, 44px);
+  .curiosity-heading h2 {
+    font-size: clamp(28px, 8.6vmin, 47px);
   }
 
-  .workflow-line {
-    top: 30%;
+  .curiosity-orbit {
+    top: 48%;
+    left: 52%;
+    width: min(72vw, 360px);
+  }
+
+  .curiosity-prompt {
+    width: 45%;
+  }
+
+  .curiosity-prompt:nth-child(1) {
+    top: 31%;
+    right: 4%;
+  }
+
+  .curiosity-prompt:nth-child(2) {
+    top: 47%;
     right: auto;
-    bottom: 24%;
-    left: 11%;
-    width: 2px;
-    height: auto;
-    transform: rotate(-7deg);
+    left: 4%;
+    width: 40%;
+    text-align: right;
   }
 
-  .workflow-steps {
-    top: 29%;
+  .curiosity-prompt:nth-child(3) {
+    bottom: auto;
+    top: 62%;
     right: 7%;
-    bottom: 24%;
-    left: 14%;
-    display: block;
+    left: auto;
+    width: 50%;
+    text-align: left;
   }
 
-  .workflow-step,
-  .workflow-step:nth-child(2),
-  .workflow-step:nth-child(3),
-  .workflow-step:nth-child(4) {
-    position: absolute;
-    right: 0;
-    display: grid;
-    grid-template-columns: 28px 80px minmax(0, 1fr);
-    align-items: baseline;
-    width: 100%;
-    margin-top: 0;
-    padding: 7px 0 0 9px;
+  .curiosity-prompt::before {
+    width: 28px;
   }
 
-  .workflow-step:nth-child(1) { top: 0; }
-  .workflow-step:nth-child(2) { top: 24%; left: 4%; width: 96%; }
-  .workflow-step:nth-child(3) { top: 48%; left: 8%; width: 92%; }
-  .workflow-step:nth-child(4) { top: 72%; left: 12%; width: 88%; }
-
-  .workflow-step strong {
-    margin: 0;
-    font-size: clamp(18px, 5.5vmin, 28px);
+  .curiosity-prompt:nth-child(1)::before,
+  .curiosity-prompt:nth-child(3)::before {
+    right: calc(100% + 6px);
+    left: auto;
+    transform: none;
   }
 
-  .workflow-step p {
-    margin: 0;
-    font-size: clamp(10px, 2.9vmin, 13px);
+  .curiosity-prompt:nth-child(2)::before {
+    right: auto;
+    left: calc(100% + 6px);
+    transform: scaleX(-1);
   }
 
-  .workflow-step small {
-    grid-column: 3;
-    margin-top: 3px;
-    font-size: clamp(8px, 2.25vmin, 10px);
+  .curiosity-prompt h3 {
+    font-size: clamp(14px, 4.1vmin, 20px);
   }
 
-  .workflow-coda {
+  .curiosity-coda {
     right: 7%;
     bottom: max(15%, 124px);
     left: 7%;
-    width: auto;
-    text-align: left;
   }
 }

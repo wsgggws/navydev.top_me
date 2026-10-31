@@ -2,16 +2,13 @@ import type { SceneConfig } from "@movie/types/scene";
 
 export const scene: SceneConfig = {
   id: "scene-03",
-  title: "让系统彼此听懂",
-  caption: "接口不是边界，是承诺",
-  mood: "signal",
-  pacing: "pulse",
-  shot: "closeup",
-  colorGrade: "noir-green",
-  soundMotif: "rhythm",
-  titleCard: "terminal-caption",
+  title: "屏幕之外",
+  caption: "阅读 · 跑步 · 观察",
+  mood: "isolation",
+  pacing: "slow-burn",
+  shot: "medium",
+  titleCard: "silent-card",
   duration: 8,
-  playbackRate: 1.08,
-  transition: "wipe",
+  transition: "fade",
   preload: [],
 };

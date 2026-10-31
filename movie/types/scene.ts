@@ -8,19 +8,11 @@
  * Source of truth for the behavior: movie/scenes/<id>/index.ts
  */
 
-export type TransitionKind = "fade" | "cut" | "wipe" | "zoom" | "glitch" | "iris" | "match-cut";
+export type TransitionKind = "fade" | "wipe";
 export type SceneMood = "isolation" | "signal" | "rush" | "contrast" | "play" | "release";
 export type ScenePacing = "slow-burn" | "pulse" | "staccato" | "hold" | "crescendo";
 export type SceneShot = "establishing" | "medium" | "closeup" | "macro" | "overhead" | "split";
-export type SceneColorGrade =
-  | "monitor-blue"
-  | "noir-green"
-  | "neon-pink"
-  | "toxic-red"
-  | "warm-garden"
-  | "launch-amber";
-export type SceneSoundMotif = "bed" | "rhythm" | "accent" | "silence";
-export type TitleCardStyle = "chapter-card" | "cold-open" | "burn-in" | "terminal-caption" | "silent-card";
+export type TitleCardStyle = "chapter-card" | "terminal-caption" | "silent-card";
 
 export interface SceneConfig {
   /** Stable identifier. Must match folder name. */
@@ -37,16 +29,10 @@ export interface SceneConfig {
   pacing: ScenePacing;
   /** Primary shot language for the scene. */
   shot: SceneShot;
-  /** Shared color grade token for scene-level and overlay-level consistency. */
-  colorGrade: SceneColorGrade;
-  /** Dominant sound design role for this scene. */
-  soundMotif: SceneSoundMotif;
   /** Optional title-card treatment. Defaults to chapter-card. */
   titleCard?: TitleCardStyle;
   /** Target length in seconds. Director uses this for timeline scheduling. */
   duration: number;
-  /** Optional scene-local playback multiplier. Defaults to Director global rate. */
-  playbackRate?: number;
   /** How this scene hands off to the next. */
   transition: TransitionKind;
   /** Asset URLs the Director preloads before create(). */
