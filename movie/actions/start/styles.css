@@ -38,6 +38,14 @@
   transform-origin: center;
 }
 
+.start-action blockquote {
+  margin: 24px 0 0;
+  color: var(--luzhu-sand);
+  font-family: Georgia, "Songti SC", "SimSun", serif;
+  font-size: clamp(20px, 3.2vmin, 32px);
+  line-height: 1.5;
+}
+
 @media (orientation: portrait) {
   .start-action {
     padding-bottom: max(16%, 120px);
@@ -45,6 +53,6 @@
 
   .start-action h1 {
     max-width: 11em;
-    font-size: clamp(28px, 8.8vmin, 48px);
+    font-size: clamp(24px, 7.7vmin, 42px);
   }
 }

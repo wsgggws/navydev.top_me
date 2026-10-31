@@ -8,12 +8,12 @@
 
 | 标记 | 模块 | 内容 |
 | --- | --- | --- |
-| start | `movie/actions/start` | 生活就是自导自演的一场戏 |
+| start | `movie/actions/start` | 生活似自导自演的电影；座右铭“此心光明，神采飞扬” |
 | 1 | `movie/scenes/scene-01` | 关于我：CRT 终端中的身份、原则与兴趣 |
 | 2 | `movie/scenes/scene-02` | 手边的工具：Neovim / Tmux、Codex / Git、Python / Go、Docker / Nginx |
 | 3 | `movie/scenes/scene-03` | 屏幕之外：阅读、跑步与观察 |
 | 4 | `movie/scenes/scene-04` | 继续提问：为什么、如果与下一步 |
-| continue | `movie/actions/continue` | 未完待续、座右铭、GitHub 与主页链接；停留在最终画面 |
+| continue | `movie/actions/continue` | 未完待续、GitHub 与主页链接；停留在最终画面 |
 
 第二幕的工具分组在 `movie/scenes/scene-02/index.ts` 的 `TOOLKIT` 中维护。
 

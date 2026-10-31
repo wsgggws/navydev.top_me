@@ -26,13 +26,6 @@
   line-height: 1.15;
 }
 .continue-copy { margin: 16px 0 0; color: var(--luzhu-fg-dim); font-size: clamp(10px, 1.4vmin, 15px); }
-.continue-action blockquote {
-  margin: clamp(20px, 4vmin, 42px) 0 0;
-  color: var(--luzhu-sand);
-  font-family: Georgia, "Songti SC", "SimSun", serif;
-  font-size: clamp(20px, 3.5vmin, 34px);
-  font-weight: 400;
-}
 .continue-links { display: flex; gap: 38px; margin-top: clamp(22px, 4vmin, 40px); }
 .continue-links a { display: grid; gap: 7px; padding: 8px 4px; color: var(--luzhu-jade); text-decoration: none; }
 .continue-links small { color: var(--luzhu-fg-dim); font-size: 10px; }
@@ -43,6 +36,5 @@
   .continue-action { padding-bottom: max(21%, 128px); }
   .continue-action h2 { font-size: clamp(48px, 16vmin, 82px); }
   .continue-copy { max-width: 22em; font-size: 11px; line-height: 1.6; }
-  .continue-action blockquote { margin-top: 34px; font-size: clamp(21px, 6vmin, 28px); }
-  .continue-links { gap: 24px; margin-top: 30px; }
+    .continue-links { gap: 24px; margin-top: 30px; }
 }
