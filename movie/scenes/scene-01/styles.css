@@ -21,13 +21,6 @@
 .tmux-window--quad .tmux-pane__body { font-size: clamp(10px, 1.6vmin, 16px); padding: 8px 12px; line-height: 1.6; }
 .tmux-window--quad .terminal-line { min-height: 1.6em; }
 .tmux-window--quad .terminal-line__prefix { flex: 0 0 auto; padding-right: 0.5em; }
-.tmux-pane--editor .terminal-line__prefix { color: var(--luzhu-fg-dim); flex-basis: 2em; }
-.tmux-pane--editor .terminal-line:nth-child(7) { background: var(--luzhu-bg-highlight); }
-.code-keyword { color: var(--luzhu-keyword); }
-.code-string { color: var(--luzhu-bamboo); }
-.nvim-status { display: flex; align-items: center; gap: 10px; padding-right: 10px; height: 24px; flex: 0 0 24px; background: var(--luzhu-bg-highlight); color: var(--luzhu-fg-dim); font-size: 10px; }
-.nvim-status strong { align-self: stretch; padding: 5px 9px; background: var(--luzhu-jade); color: var(--luzhu-bg-dark); font-weight: 600; }
-.nvim-status__saved { margin-left: auto; color: var(--luzhu-keyword); opacity: 0; }
 .tmux-status { display: flex; gap: 14px; align-items: center; height: 30px; flex: 0 0 30px; padding: 0 12px; border-top: 1px solid var(--luzhu-border); background: var(--luzhu-bg-float); font-size: clamp(10px, 1.4vmin, 14px); }
 .tmux-status > strong { color: var(--luzhu-jade); font-weight: 500; }
 .tmux-tabs { display: flex; height: 100%; gap: 2px; }
@@ -47,9 +40,6 @@
   .tmux-window--split .tmux-pane__body { font-size: clamp(9px, 2.4vmin, 11px); padding: 12px 6px; }
   .tmux-window--quad .tmux-pane__body { font-size: clamp(9px, 2.6vmin, 12px); padding: 12px 7px; }
   .tmux-window--split .tmux-pane__title, .tmux-window--quad .tmux-pane__title { padding: 6px; font-size: 9px; }
-  .nvim-status { height: 20px; flex-basis: 20px; font-size: 7px; gap: 5px; padding-right: 3px; }
-  .nvim-status strong { padding: 5px 4px; }
-  .nvim-status__saved { display: none; }
   .tmux-status { height: 29px; flex-basis: 29px; padding: 0 6px; gap: 6px; font-size: 9px; }
   .tmux-status > strong { font-size: 8px; }
   .tmux-tabs { flex: 1; justify-content: space-around; }

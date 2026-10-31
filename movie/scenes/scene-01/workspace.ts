@@ -1,11 +1,10 @@
 export interface TerminalLine {
   text: string;
   at: number;
-  tone?: "command" | "success" | "muted" | "add" | "user" | "code" | "accent";
+  tone?: "command" | "success" | "muted" | "add" | "user" | "accent";
 }
 export interface Pane {
   title: string;
-  editor?: string;
   prompt?: string;
   lines: TerminalLine[];
 }
@@ -13,6 +12,7 @@ export interface WorkspaceWindow {
   name: string;
   layout: "single" | "split" | "quad";
   at: number;
+  demo?: "nvim";
   panes: Pane[];
 }
 
@@ -32,32 +32,25 @@ export const WINDOWS: WorkspaceWindow[] = [
     { at: 4.2, tone: "command", text: "tmux attach" },
     { at: 4.9, tone: "muted", text: "attached to navy:work" },
   ] }] },
-  { name: "nvim", layout: "split", at: 6.4, panes: [
-    { title: "nvim · api/app.py", editor: "app.py · Python", lines: [
-      "from typing import TypedDict", "", "class Health(TypedDict):", "    status: str", "", "def health() -> Health:", '    return {"status": "ok"}',
-    ].map((text, index) => ({ text, at: 0.25 + index * 0.3, tone: "code" })) },
-    { title: "nvim · api/health.go", editor: "health.go · Go", lines: [
-      "package api", "", "type Health struct {", '    Status string `json:"status"`', "}", "", "func Check() Health {", '    return Health{Status: "ok"}', "}",
-    ].map((text, index) => ({ text, at: 0.35 + index * 0.3, tone: "code" })) },
-  ] },
-  { name: "git", layout: "single", at: 11.2, panes: [{ title: "git · ~/github/navydev.top_me", lines: [
+  { name: "nvim", layout: "single", at: 6.4, demo: "nvim", panes: [{ title: "nvim · Python", lines: [] }] },
+  { name: "git", layout: "single", at: 21.2, panes: [{ title: "git · ~/github/navydev.top_me", lines: [
     { at: 0.2, tone: "command", text: "gst" },
-    { at: 0.7, tone: "add", text: " M api/app.py\n M api/health.go" },
+    { at: 0.7, tone: "add", text: " M api.py\n M tests/test_api.py" },
     { at: 1.25, tone: "command", text: "gcb feat/app" },
     { at: 1.85, text: "Switched to a new branch 'feat/app'" },
     { at: 2.4, tone: "command", text: "gd" },
-    { at: 2.9, tone: "muted", text: 'diff --git a/api/app.py b/api/app.py\n+    return {"status": "ok"}\ndiff --git a/api/health.go b/api/health.go\n+    return Health{Status: "ok"}' },
+    { at: 2.9, tone: "muted", text: 'diff --git a/api.py b/api.py\n-    return {"status": "starting"}\n+    return {"status": "ok"}\ndiff --git a/tests/test_api.py b/tests/test_api.py\n+    assert health()["status"] == "ok"' },
     { at: 3.45, tone: "command", text: "make test" },
-    { at: 4.1, text: "pytest -q · go test ./..." },
-    { at: 4.7, tone: "success", text: "✓ Python: 4 passed · Go: 4 passed" },
+    { at: 4.1, text: "pytest -q" },
+    { at: 4.7, tone: "success", text: "✓ Python: 4 passed" },
     { at: 5.25, tone: "command", text: "ga ." },
     { at: 5.75, tone: "muted", text: "2 files staged" },
-    { at: 6.25, tone: "command", text: 'gc -m"feat(app): add app.py and health.go"' },
+    { at: 6.25, tone: "command", text: 'gc -m"feat(app): update api.py and add Python tests"' },
     { at: 7.15, text: "pre-commit · running hooks" },
     { at: 7.7, tone: "success", text: "ruff lint ................. Passed" },
-    { at: 8.2, tone: "success", text: "ruff format · gofmt ........ Passed" },
-    { at: 8.7, tone: "success", text: "go vet · tests ............ Passed" },
-    { at: 9.3, text: "[feat/app 8ac31d2] feat(app): add app.py and health.go" },
+    { at: 8.2, tone: "success", text: "ruff format ............... Passed" },
+    { at: 8.7, tone: "success", text: "pytest .................... Passed" },
+    { at: 9.3, text: "[feat/app 8ac31d2] feat(app): update api.py and add Python tests" },
     { at: 9.9, tone: "command", text: "gl origin main --rebase" },
     { at: 10.6, tone: "muted", text: "From github.com:wsgggws/navydev.top_me" },
     { at: 11.15, tone: "success", text: "Successfully rebased and updated feat/app." },
@@ -66,7 +59,7 @@ export const WINDOWS: WorkspaceWindow[] = [
     { at: 13, tone: "success", text: "Create a pull request:" },
     { at: 13.4, tone: "accent", text: "https://github.com/wsgggws/navydev.top_me/pull/new/feat/app" },
   ] }] },
-  { name: "ops", layout: "quad", at: 26.5, panes: [
+  { name: "ops", layout: "quad", at: 36.5, panes: [
     { title: "api · live logs", lines: [
       { at: 0.15, tone: "command", text: "docker logs -f api" },
       { at: 0.9, tone: "muted", text: "INFO server ready :8000" },
@@ -100,12 +93,12 @@ export const WINDOWS: WorkspaceWindow[] = [
       { at: 5.1, text: "(integer) 57" },
     ] },
   ] },
-  { name: "AI", layout: "split", at: 34, panes: [
+  { name: "AI", layout: "split", at: 44, panes: [
     { title: "claude · review", lines: [
       { at: 0.1, tone: "command", text: "claude" },
       { at: 0.7, tone: "accent", text: "Claude Code" },
       { at: 1.1, tone: "user", text: "对本次 diff 做 code review，重点检查正确性、边界情况和测试覆盖，只报告有依据的问题。" },
-      { at: 2.3, tone: "muted", text: "Reviewing diff · app.py / health.go…" },
+      { at: 2.3, tone: "muted", text: "Reviewing api.py · tests/test_api.py…" },
       { at: 3.1, text: "• 正确性与边界情况已检查\n• 测试覆盖缺少状态码断言" },
       { at: 4.1, text: "Review 建议：补充状态码断言。" },
       { at: 5.4, tone: "success", text: "✓ Review complete" },
@@ -114,9 +107,9 @@ export const WINDOWS: WorkspaceWindow[] = [
       { at: 0.2, tone: "command", text: "codex" },
       { at: 0.8, tone: "accent", text: "OpenAI Codex" },
       { at: 1.3, tone: "user", text: "补充状态码断言，运行 make test。" },
-      { at: 2.6, tone: "add", text: "+ test_health.py\n+ health_test.go" },
+      { at: 2.6, tone: "add", text: "+ tests/test_api.py" },
       { at: 3.5, tone: "command", text: "make test" },
-      { at: 4.4, tone: "success", text: "✓ Python: 4 passed\n✓ Go: 4 passed" },
+      { at: 4.4, tone: "success", text: "✓ Python: 4 passed" },
       { at: 5.6, text: "断言已补充，全部测试通过。" },
       { at: 6.5, tone: "muted", text: "ready for review" },
     ] },

@@ -16,6 +16,7 @@ export function typeText(timeline: ReturnType<typeof import("gsap").gsap.timelin
   timeline.fromTo(cursor, { length: 0 }, {
     length: text.length,
     duration,
+    immediateRender: false,
     ease: "none",
     onUpdate: () => { element.textContent = text.slice(0, Math.floor(cursor.length)); onUpdate?.(); },
     onComplete: () => { element.textContent = text; onUpdate?.(); },

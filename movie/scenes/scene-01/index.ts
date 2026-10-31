@@ -2,58 +2,31 @@ import type { SceneModule } from "@movie/types/scene";
 import { terminalChrome, typeText } from "@movie/lib/terminal";
 import { ATTACH_AT, WINDOWS, type Pane } from "./workspace";
 import { scene } from "./config";
+import { createNvimDemo, playNvimDemo } from "./nvim";
 import script from "./scene.md?raw";
 import "./styles.css";
 
-function highlightCode(host: HTMLElement, text: string): void {
-  host.replaceChildren();
-  const tokens = /("[^"]*"|'[^']*'|`[^`]*`|\b(?:from|import|class|def|return|func|package|type|struct|string|str)\b)/g;
-  let offset = 0;
-  for (const match of text.matchAll(tokens)) {
-    host.append(text.slice(offset, match.index));
-    const token = document.createElement("span");
-    token.className = /^["'`]/.test(match[0]) ? "code-string" : "code-keyword";
-    token.textContent = match[0];
-    host.append(token);
-    offset = match.index! + match[0].length;
-  }
-  host.append(text.slice(offset));
-}
-
 function createPane(pane: Pane): HTMLElement {
   const section = document.createElement("section");
-  section.className = pane.editor ? "tmux-pane tmux-pane--editor" : "tmux-pane";
+  section.className = "tmux-pane";
   const title = document.createElement("header");
   title.className = "tmux-pane__title";
   title.textContent = pane.title;
   section.append(title);
   const body = document.createElement("div");
   body.className = "tmux-pane__body";
-  pane.lines.forEach((line, index) => {
+  pane.lines.forEach((line) => {
     const row = document.createElement("div");
     row.className = `terminal-line terminal-line--${line.tone ?? "output"}`;
     const prefix = document.createElement("span");
     prefix.className = "terminal-line__prefix";
-    prefix.textContent = pane.editor ? String(index + 1) : line.tone === "command" ? (pane.prompt ?? "❯") : line.tone === "user" ? "›" : "";
+    prefix.textContent = line.tone === "command" ? (pane.prompt ?? "❯") : line.tone === "user" ? "›" : "";
     const content = document.createElement("span");
     content.className = "terminal-line__text";
     row.append(prefix, content);
     body.append(row);
   });
   section.append(body);
-  if (pane.editor) {
-    const status = document.createElement("footer");
-    status.className = "nvim-status";
-    const mode = document.createElement("strong");
-    mode.textContent = "NORMAL";
-    const file = document.createElement("span");
-    file.textContent = pane.editor;
-    const saved = document.createElement("span");
-    saved.className = "nvim-status__saved";
-    saved.textContent = "written ✓";
-    status.append(mode, file, saved);
-    section.append(status);
-  }
   return section;
 }
 
@@ -79,7 +52,8 @@ function createScene(): SceneModule {
         panel.dataset.window = window.name;
         panel.setAttribute("aria-label", `${window.name} · ${window.panes.length} ${window.panes.length === 1 ? "pane" : "panes"}`);
         panel.hidden = index !== 0;
-        window.panes.forEach((pane) => panel.append(createPane(pane)));
+        if (window.demo === "nvim") panel.append(createNvimDemo());
+        else window.panes.forEach((pane) => panel.append(createPane(pane)));
         windows.append(panel);
         const tab = document.createElement("span");
         tab.textContent = `${index}:${window.name}`;
@@ -114,6 +88,10 @@ function createScene(): SceneModule {
           timeline.fromTo(panels[index], { opacity: 0.4 }, { opacity: 1, duration: 0.2 }, window.at);
           timeline.call(() => { l.dataset.pressed = "false"; hud.dataset.pressing = "false"; }, [], window.at + 0.2);
         }
+        if (window.demo === "nvim") {
+          playNvimDemo(timeline, panels[index].querySelector<HTMLElement>(".nvim-demo")!, window.at);
+          return;
+        }
         window.panes.forEach((pane, paneIndex) => {
           const panel = panels[index].querySelectorAll<HTMLElement>(".tmux-pane")[paneIndex];
           const body = panel.querySelector<HTMLElement>(".tmux-pane__body")!;
@@ -125,15 +103,13 @@ function createScene(): SceneModule {
             const at = window.at + line.at;
             timeline.set(row, { display: "flex", opacity: 1 }, at);
             timeline.call(followOutput, [], at);
-            if (["command", "user", "code"].includes(line.tone ?? "")) {
-              const duration = line.tone === "user" ? 1 : line.tone === "code" ? 0.2 : Math.min(0.7, Math.max(0.28, line.text.length * 0.016));
+            if (["command", "user"].includes(line.tone ?? "")) {
+              const duration = line.tone === "user" ? 1 : Math.min(0.7, Math.max(0.28, line.text.length * 0.016));
               typeText(timeline, text, line.text, at, duration, followOutput);
-              if (line.tone === "code") timeline.call(() => highlightCode(text, line.text), [], at + duration + 0.01);
             } else {
               timeline.call(() => { text.textContent = line.text; followOutput(); }, [], at);
             }
           });
-          if (pane.editor) timeline.set(panel.querySelector(".nvim-status__saved"), { opacity: 1 }, window.at + 3.4);
         });
       });
     },
