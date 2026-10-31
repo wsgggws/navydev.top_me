@@ -9,7 +9,7 @@ export const scene: SceneConfig = {
   pacing: "pulse",
   shot: "medium",
   titleCard: "none",
-  duration: 53.2,
+  duration: 61.5,
   playbackRate: WORKSPACE_PLAYBACK_RATE,
   transition: "fade",
   preload: [],

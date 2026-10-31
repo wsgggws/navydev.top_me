@@ -23,6 +23,7 @@
 - 第一幕统一为一个 WezTerm / Tmux 工作流：0:zsh、1:nvim、2:git、3:ops、4:AI。窗口与 pane 内容由 `movie/scenes/scene-01/workspace.ts` 维护；Nvim 启动、fzf 搜索、buffer 编辑、内部分屏和保存退出由同目录 `nvim.ts` / `nvim.css` 维护。所有演示代码与测试统一使用 Python。
 - Tmux 的 `prefix+l` 默认是 last-window。按顺序循环多个窗口时，保留演示开头的 next-window 绑定，使按键、状态栏与内容切换一致。
 - `tmux attach` 前只展示 zsh，随后显示五个窗口标签。运维四 pane 按左上日志、左下 curl、右上 MySQL、右下 Redis 排列，AI 为左 Claude / 右 Codex。
+- AI 后的窗口搜索与 detach 收尾由 `outro.ts` / `outro.css` 维护：fzf 浮窗输入 zsh → 返回 0:zsh → detach → 外层 shell 续写金句。保留 attach 前的 shell 历史；收尾键帽按展示要求使用 Cmd+B，标准 Tmux 前缀为 Ctrl+B。
 - Nvim 只有一个 Tmux pane，左右分屏在 Neovim 内部完成。保留 `:w` 保存、`:wq` 保存并退出的正确含义；退出前先关闭已保存的右侧分屏。
 - 终端是静态预设动画。文本、输出、按键按下 / 松开、窗口切换都挂到场景主时间线，确保暂停、重播和跳章不会留下额外循环。
 - 保持 2.35:1 横屏与 9:16 竖屏，内容避开底部章节和控制条；双分屏与四分屏在竖屏也保留结构，优先精简输出以确保可读。

@@ -3,6 +3,7 @@ import { terminalChrome, typeText } from "@movie/lib/terminal";
 import { ATTACH_AT, WINDOWS, type Pane } from "./workspace";
 import { scene } from "./config";
 import { createNvimDemo, playNvimDemo } from "./nvim";
+import { createWorkspaceOutro, playWorkspaceOutro } from "./outro";
 import script from "./scene.md?raw";
 import "./styles.css";
 
@@ -60,6 +61,18 @@ function createScene(): SceneModule {
         tab.dataset.active = String(index === 0);
         tabs.append(tab);
       });
+      const shellPane = WINDOWS[0].panes[0];
+      const attachIndex = shellPane.lines.findIndex(line => line.text === "tmux attach");
+      const shell = createPane({ ...shellPane, lines: shellPane.lines.slice(0, attachIndex + 1) });
+      shell.classList.add("shell-return");
+      shell.hidden = true;
+      shell.querySelectorAll<HTMLElement>(".terminal-line").forEach((row, index) => {
+        const line = shellPane.lines[index];
+        row.style.display = "flex";
+        row.style.opacity = "1";
+        row.querySelector(".terminal-line__text")!.textContent = line.text;
+      });
+      windows.append(shell, createWorkspaceOutro());
       r.querySelector(".tmux-layout-label")!.textContent = "1 pane";
       r.dataset.window = WINDOWS[0].name;
       r.dataset.attached = "false";
@@ -71,22 +84,34 @@ function createScene(): SceneModule {
       const tabs = Array.from(host.querySelectorAll<HTMLElement>(".tmux-tabs > span"));
       const ctrl = host.querySelector<HTMLElement>('[data-key="ctrl"]')!;
       const b = host.querySelector<HTMLElement>('[data-key="b"]')!;
-      const l = host.querySelector<HTMLElement>('[data-key="l"]')!;
+      const key = host.querySelector<HTMLElement>('[data-key="l"]')!;
       const hud = host.querySelector<HTMLElement>(".shortcut-hud")!;
+      const selectWindow = (index: number) => {
+        panels.forEach((panel, position) => { panel.hidden = position !== index; });
+        tabs.forEach((tab, position) => { tab.dataset.active = String(position === index); });
+        host.dataset.window = WINDOWS[index].name;
+        const count = WINDOWS[index].panes.length;
+        host.querySelector(".tmux-layout-label")!.textContent = `${count} ${count === 1 ? "pane" : "panes"}`;
+      };
+      const shortcut = (at: number, letter: string, label: string, modifier = "Ctrl") => {
+        timeline.call(() => {
+          ctrl.textContent = modifier;
+          b.textContent = "B";
+          key.textContent = letter;
+          hud.querySelector(".shortcut-hud__label")!.textContent = label;
+          hud.dataset.pressing = "true";
+          ctrl.dataset.pressed = b.dataset.pressed = "true";
+        }, [], at - 0.85);
+        timeline.call(() => { ctrl.dataset.pressed = b.dataset.pressed = "false"; key.dataset.pressed = "true"; }, [], at - 0.28);
+        timeline.call(() => { key.dataset.pressed = "false"; hud.dataset.pressing = "false"; }, [], at + 0.2);
+      };
       timeline.fromTo(host.querySelector(".workstation"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, 0);
       timeline.call(() => { host.dataset.attached = "true"; }, [], ATTACH_AT);
       WINDOWS.forEach((window, index) => {
         if (index > 0) {
-          timeline.call(() => { hud.dataset.pressing = "true"; ctrl.dataset.pressed = b.dataset.pressed = "true"; }, [], window.at - 0.85);
-          timeline.call(() => { ctrl.dataset.pressed = b.dataset.pressed = "false"; l.dataset.pressed = "true"; }, [], window.at - 0.28);
-          timeline.call(() => {
-            panels.forEach((panel, position) => { panel.hidden = position !== index; });
-            tabs.forEach((tab, position) => { tab.dataset.active = String(position === index); });
-            host.dataset.window = window.name;
-            host.querySelector(".tmux-layout-label")!.textContent = `${window.panes.length} ${window.panes.length === 1 ? "pane" : "panes"}`;
-          }, [], window.at);
+          shortcut(window.at, "L", "next window");
+          timeline.call(() => selectWindow(index), [], window.at);
           timeline.fromTo(panels[index], { opacity: 0.4 }, { opacity: 1, duration: 0.2 }, window.at);
-          timeline.call(() => { l.dataset.pressed = "false"; hud.dataset.pressing = "false"; }, [], window.at + 0.2);
         }
         if (window.demo === "nvim") {
           playNvimDemo(timeline, panels[index].querySelector<HTMLElement>(".nvim-demo")!, window.at);
@@ -112,6 +137,7 @@ function createScene(): SceneModule {
           });
         });
       });
+      playWorkspaceOutro(timeline, host, selectWindow, shortcut);
     },
     pause() {},
     destroy() { root = null; },
