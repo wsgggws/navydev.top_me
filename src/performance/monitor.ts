@@ -1,9 +1,3 @@
-import {
-  getRenderingQuality,
-  observeFrameRate,
-  type RenderingQuality,
-} from "@movie/lib/three/quality";
-
 interface LargestContentfulPaintEntry extends PerformanceEntry {
   renderTime: number;
   loadTime: number;
@@ -29,7 +23,7 @@ export interface PerformanceSnapshot {
   longTaskTotal: number;
   longTaskMax: number;
   fps: number;
-  quality: RenderingQuality;
+  quality: "dom";
 }
 
 declare global {
@@ -48,7 +42,7 @@ const snapshot: PerformanceSnapshot = {
   longTaskTotal: 0,
   longTaskMax: 0,
   fps: 0,
-  quality: getRenderingQuality(),
+  quality: "dom",
 };
 
 function round(value: number, digits = 0): number {
@@ -57,7 +51,6 @@ function round(value: number, digits = 0): number {
 }
 
 function publishSnapshot(): void {
-  snapshot.quality = getRenderingQuality();
   window.__NAVYDEV_PERFORMANCE__ = { ...snapshot };
 }
 
@@ -175,7 +168,6 @@ export function startPerformanceMonitor(): () => void {
         recentFps.push(fps);
         if (recentFps.length > 5) recentFps.shift();
         snapshot.fps = recentFps.reduce((sum, value) => sum + value, 0) / recentFps.length;
-        observeFrameRate(fps);
         publishSnapshot();
         sampleStarted = now;
         sampleFrames = 0;

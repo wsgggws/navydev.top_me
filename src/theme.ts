@@ -1,4 +1,4 @@
-// LuZhu.nvim/lua/luzhu/palette.lua：DOM、Canvas 与 WebGL 共用同一色板。
+// LuZhu.nvim/lua/luzhu/palette.lua：页面与终端动画共用同一色板。
 export const luzhu = {
   bg: "#1D3229",
   bgDark: "#182A22",

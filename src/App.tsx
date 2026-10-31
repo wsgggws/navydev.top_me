@@ -72,7 +72,7 @@ export default function App() {
       setCurrentIndex(state.index);
       setSceneProgress(0);
       setPlaying(true);
-      if (state.config.navLabel) {
+      if (state.config.navLabel || state.config.titleCard === "none") {
         titleCard.hide();
       } else {
         titleCard.show(

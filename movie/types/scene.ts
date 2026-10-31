@@ -12,7 +12,7 @@ export type TransitionKind = "fade" | "wipe";
 export type SceneMood = "isolation" | "signal" | "rush" | "contrast" | "play" | "release";
 export type ScenePacing = "slow-burn" | "pulse" | "staccato" | "hold" | "crescendo";
 export type SceneShot = "establishing" | "medium" | "closeup" | "macro" | "overhead" | "split";
-export type TitleCardStyle = "chapter-card" | "terminal-caption" | "silent-card";
+export type TitleCardStyle = "none" | "chapter-card" | "terminal-caption" | "silent-card";
 
 export interface SceneConfig {
   /** Stable identifier. Must match folder name. */

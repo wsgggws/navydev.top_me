@@ -11,7 +11,7 @@
 
 ## 场景边界
 
-- `movie/movie.ts` 静态导入配置，使用动态 `load()` 导入场景实现，保证 Three.js 和场景资源延迟加载。
+- `movie/movie.ts` 静态导入配置，使用动态 `load()` 导入场景实现，保证场景资源按需加载。
 - `MovieDirector` 是唯一播放控制者，负责预热、挂载、时间线、转场、跳章和销毁。场景之间保持独立。
 - `preload()` 准备资源，`create()` 挂载对象，`warmup()` 准备首帧，`play(timeline)` 安排剧情，`destroy()` 幂等释放资源。
 - GSAP timeline 是剧情的唯一时间源；场景动画总时长应不超过 `config.duration`。Director 会补足短于声明时长的空白。
@@ -19,9 +19,10 @@
 
 ## 画面与性能
 
-- 配色以 `src/theme.ts` 为唯一运行时来源，来自相邻 LuZhu.nvim 的色板。CSS 使用 `--luzhu-*`，Canvas / Three.js 使用同一个 `luzhu` 对象；加载背景与 HTML theme-color 同步。
-- 文字使用珠白 / 薄绢，玉青、碧玉、钗金作强调；CRT、光影和过场也遵循 LuZhu，避免恢复旧版荧光 RGB、纯黑或霓虹配色。
-- 保持 2.35:1 横屏与 9:16 竖屏，内容避开底部章节和控制条；系统减少动态效果设置下使用简短 fade。
-- Three.js 通过 `ensureThree()` 预载，再创建 `CinematicStage`。Canvas 纹理只在文字变化时更新，销毁时释放材质、几何体、纹理、渲染器和 ticker。
-- 首轮只预热 start 与第一幕，播放中只预热下一幕。入口预算和延迟加载规则由 `check:performance` 检查。
+- 配色统一取自 `src/theme.ts` 的 LuZhu 色板；页面、终端、语法高亮与按键效果使用 `--luzhu-*`，动画文案不展示主题名称或色板说明。
+- 第一幕顶部保留欢迎语，命令各输出一行；第二幕围绕 WezTerm / Tmux 的实际工作状态展开，窗口与 pane 内容由 `workspace.ts` 维护。
+- Tmux 的 `prefix+l` 默认是 last-window。按顺序循环多个窗口时，保留演示开头的 next-window 绑定，使按键、状态栏与内容切换一致。
+- 终端是静态预设动画。文本、输出、按键按下 / 松开、窗口切换都挂到场景主时间线，确保暂停、重播和跳章不会留下额外循环。
+- 保持 2.35:1 横屏与 9:16 竖屏，内容避开底部章节和控制条；双分屏与四分屏在竖屏也保留结构，优先精简输出以确保可读。
+- 所有场景为 DOM / CSS。首轮只预热 start 与第一幕，播放中只预热下一幕；`check:performance` 检查入口大小、分包和闲置 3D 依赖。
 - 当前 reel 静音，保留这一行为。

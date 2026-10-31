@@ -7,8 +7,8 @@ export const scene: SceneConfig = {
   mood: "signal",
   pacing: "pulse",
   shot: "closeup",
-  titleCard: "terminal-caption",
-  duration: 10,
+  titleCard: "none",
+  duration: 5.6,
   transition: "fade",
   preload: [],
 };

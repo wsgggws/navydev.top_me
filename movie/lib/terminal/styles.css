@@ -1,0 +1,27 @@
+.terminal-chrome {
+  height: 34px;
+  flex: 0 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--luzhu-border);
+  background: var(--luzhu-bg-float);
+  color: var(--luzhu-fg-dim);
+  font: 11px ui-monospace, Menlo, Consolas, monospace;
+}
+.terminal-lights { display: flex; gap: 6px; }
+.terminal-lights i { width: 8px; height: 8px; border-radius: 50%; background: var(--luzhu-sand); }
+.terminal-lights i:nth-child(2) { background: var(--luzhu-gold); }
+.terminal-lights i:nth-child(3) { background: var(--luzhu-keyword); }
+.terminal-chrome__shell { color: var(--luzhu-fg-dim); font-size: 10px; }
+.terminal-prompt { color: var(--luzhu-jade); }
+.terminal-success { color: var(--luzhu-keyword); }
+.terminal-muted { color: var(--luzhu-fg-dim); }
+.terminal-accent { color: var(--luzhu-gold); }
+
+@media (orientation: portrait) {
+  .terminal-chrome { padding: 0 9px; gap: 6px; font-size: 9px; }
+  .terminal-chrome__shell { display: none; }
+}

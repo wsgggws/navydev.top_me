@@ -43,24 +43,13 @@ for (const required of ["vendor-react-", "vendor-motion-"]) {
   }
 }
 
-const initialAssets = [
-  ...html.matchAll(/<(?:script|link)[^>]+(?:src|href)="([^"]+)"/g),
-].map((match) => match[1]);
-const eagerThreeAssets = initialAssets.filter((asset) => HEAVY_THREE_PATTERN.test(asset));
-if (eagerThreeAssets.length > 0) {
-  fail(`Three.js must remain lazy, but index.html loads ${eagerThreeAssets.join(", ")}`);
-}
-
-const hasLazyThreeChunk = assets.some(
-  (asset) => asset.endsWith(".js") && HEAVY_THREE_PATTERN.test(asset),
-);
-if (!hasLazyThreeChunk) {
-  fail("no lazy Three.js or postprocessing chunk was found in dist/assets");
-}
+// 终端场景已全部改用 DOM，构建不应再携带闲置的 3D pipeline。
+const graphicsAssets = assets.filter((asset) => HEAVY_THREE_PATTERN.test(asset));
+if (graphicsAssets.length > 0) fail(`unused graphics chunks: ${graphicsAssets.join(", ")}`);
 
 if (!process.exitCode) {
   console.log(
     `Performance budget passed: entry ${(entrySize / 1024).toFixed(1)} KB, ` +
-      "stable React/GSAP vendors, Three.js lazy.",
+      "stable React/GSAP vendors, DOM scenes only.",
   );
 }

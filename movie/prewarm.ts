@@ -1,5 +1,4 @@
 import type { SceneEntry } from "./types/scene";
-import { warmupCinematicPipeline } from "./lib/three/CinematicStage";
 
 let activePrewarm: Promise<void> | null = null;
 const OPENING_SCENE_COUNT = 2;
@@ -16,7 +15,6 @@ export function prewarmReel(reel: SceneEntry[]): Promise<void> {
   // keeps preloading one scene ahead during playback, so downloading the full
   // reel here only creates request and parse contention on slower devices.
   activePrewarm = Promise.allSettled([
-    warmupCinematicPipeline(),
     ...reel.slice(0, OPENING_SCENE_COUNT).map(preloadEntry),
   ])
     .then(() => undefined);
