@@ -6,10 +6,10 @@ export function terminalChrome(title: string): string {
 }
 
 /** 文本变化由主时间线驱动，暂停、重播与切章共用同一个时钟。 */
-export function typeText(timeline: ReturnType<typeof import("gsap").gsap.timeline>, element: HTMLElement, text: string, at: number, duration: number): void {
+export function typeText(timeline: ReturnType<typeof import("gsap").gsap.timeline>, element: HTMLElement, text: string, at: number, duration: number, onUpdate?: () => void): void {
   timeline.call(() => { element.textContent = ""; }, [], at);
   if (prefersReducedMotion()) {
-    timeline.call(() => { element.textContent = text; }, [], at + duration);
+    timeline.call(() => { element.textContent = text; onUpdate?.(); }, [], at + duration);
     return;
   }
   const cursor = { length: 0 };
@@ -17,7 +17,7 @@ export function typeText(timeline: ReturnType<typeof import("gsap").gsap.timelin
     length: text.length,
     duration,
     ease: "none",
-    onUpdate: () => { element.textContent = text.slice(0, Math.floor(cursor.length)); },
-    onComplete: () => { element.textContent = text; },
+    onUpdate: () => { element.textContent = text.slice(0, Math.floor(cursor.length)); onUpdate?.(); },
+    onComplete: () => { element.textContent = text; onUpdate?.(); },
   }, at);
 }

@@ -1,37 +1,71 @@
-.scene-root[data-scene-id="scene-01"] {
-  display: grid;
-  place-items: center;
-  background: radial-gradient(ellipse at 50% 60%, var(--luzhu-bg-float), var(--luzhu-bg) 72%);
-  color: var(--luzhu-fg);
-}
-.intro-terminal {
-  width: 78%;
-  height: 87%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--luzhu-border);
-  border-radius: 9px;
-  background: var(--luzhu-bg-dark);
-  box-shadow: 0 24px 80px rgba(var(--luzhu-bg-dark-rgb), 0.5);
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-}
-.intro-terminal__body { padding: clamp(16px, 2.5vmin, 30px) 5%; }
-.terminal-welcome { padding-bottom: 15px; border-bottom: 1px solid var(--luzhu-border); margin-bottom: 14px; }
-.terminal-welcome p { margin: 0 0 7px; font-size: clamp(17px, 2.6vmin, 26px); color: var(--luzhu-fg); }
-.terminal-welcome > span { font-size: clamp(10px, 1.45vmin, 14px); color: var(--luzhu-fg-dim); }
-.intro-commands { display: grid; gap: clamp(8px, 1.3vmin, 13px); font-size: clamp(11px, 1.75vmin, 17px); line-height: 1.35; }
-.intro-command { opacity: 0; }
-.intro-command__input { display: flex; gap: 12px; }
-.intro-command code { color: var(--luzhu-fg); font: inherit; white-space: pre; }
-.intro-command p { margin: 3px 0 0 22px; color: var(--luzhu-fg-dim); white-space: pre; }
-.intro-ready { margin-top: 14px; display: flex; gap: 12px; align-items: center; opacity: 0; }
-.intro-ready i { width: 7px; height: 15px; background: var(--luzhu-jade); animation: terminal-cursor 1.2s step-end infinite; }
-@keyframes terminal-cursor { 50% { opacity: 0; } }
+.scene-root[data-scene-id="scene-01"] { background: radial-gradient(ellipse at 50% 60%, var(--luzhu-bg-float), var(--luzhu-bg) 75%); color: var(--luzhu-fg); font-family: ui-monospace, Menlo, Consolas, monospace; }
+.workstation { position: absolute; inset: 5% 5% 15%; display: flex; flex-direction: column; border: 1px solid var(--luzhu-border); border-radius: 9px; overflow: hidden; background: var(--luzhu-bg-dark); box-shadow: 0 24px 80px rgba(var(--luzhu-bg-dark-rgb), 0.6); }
+.tmux-windows { flex: 1; min-height: 0; position: relative; }
+.tmux-window { position: absolute; inset: 0; display: grid; }
+.tmux-window[hidden] { display: none; }
+.tmux-window--split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tmux-window--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.tmux-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; border: 1px solid var(--luzhu-border); overflow: hidden; }
+.tmux-pane:first-child { border-color: var(--luzhu-jade); }
+.tmux-pane__title { flex: 0 0 auto; padding: 7px 12px; font-size: clamp(9px, 1.3vmin, 13px); color: var(--luzhu-fg-dim); background: var(--luzhu-bg-float); border-bottom: 1px solid var(--luzhu-border); }
+.tmux-pane__body { flex: 1; min-height: 0; padding: 12px 16px; overflow: hidden; overscroll-behavior: contain; font-size: clamp(11px, 1.85vmin, 19px); line-height: 1.65; }
+.terminal-line { display: none; min-height: 1.65em; opacity: 0; }
+.terminal-line__prefix { flex: 0 0 1.5em; color: var(--luzhu-jade); user-select: none; }
+.terminal-line__prefix:empty { flex-basis: 0; }
+.terminal-line__text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.terminal-line--muted { color: var(--luzhu-fg-dim); }
+.terminal-line--success, .terminal-line--add { color: var(--luzhu-keyword); }
+.terminal-line--accent { color: var(--luzhu-gold); }
+.terminal-line--user { margin: 12px 0; padding: 8px 12px; background: var(--luzhu-bg-float); border-left: 2px solid var(--luzhu-jade); }
+.tmux-window--split .tmux-pane__body { font-size: clamp(10px, 1.7vmin, 17px); padding: 15px 12px; }
+.tmux-window--quad .tmux-pane__body { font-size: clamp(10px, 1.6vmin, 16px); padding: 8px 12px; line-height: 1.6; }
+.tmux-window--quad .terminal-line { min-height: 1.6em; }
+.tmux-window--quad .terminal-line__prefix { flex: 0 0 auto; padding-right: 0.5em; }
+.tmux-pane--editor .terminal-line__prefix { color: var(--luzhu-fg-dim); flex-basis: 2em; }
+.tmux-pane--editor .terminal-line:nth-child(7) { background: var(--luzhu-bg-highlight); }
+.code-keyword { color: var(--luzhu-keyword); }
+.code-string { color: var(--luzhu-bamboo); }
+.nvim-status { display: flex; align-items: center; gap: 10px; padding-right: 10px; height: 24px; flex: 0 0 24px; background: var(--luzhu-bg-highlight); color: var(--luzhu-fg-dim); font-size: 10px; }
+.nvim-status strong { align-self: stretch; padding: 5px 9px; background: var(--luzhu-jade); color: var(--luzhu-bg-dark); font-weight: 600; }
+.nvim-status__saved { margin-left: auto; color: var(--luzhu-keyword); opacity: 0; }
+.tmux-status { display: flex; gap: 14px; align-items: center; height: 30px; flex: 0 0 30px; padding: 0 12px; border-top: 1px solid var(--luzhu-border); background: var(--luzhu-bg-float); font-size: clamp(10px, 1.4vmin, 14px); }
+.tmux-status > strong { color: var(--luzhu-jade); font-weight: 500; }
+.tmux-tabs { display: flex; height: 100%; gap: 2px; }
+.tmux-tabs > span { display: grid; place-items: center; padding: 0 12px; color: var(--luzhu-fg-dim); }
+.tmux-tabs > span[data-active="true"] { background: var(--luzhu-bg-highlight); color: var(--luzhu-fg); box-shadow: inset 0 -2px var(--luzhu-jade); }
+.tmux-layout-label { margin-left: auto; color: var(--luzhu-fg-dim); white-space: nowrap; }
+.shortcut-hud { position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; color: var(--luzhu-fg-dim); font-size: 10px; white-space: nowrap; }
+.shortcut-hud kbd { display: grid; place-items: center; height: 28px; min-width: 29px; padding: 0 8px; border: 1px solid var(--luzhu-border); border-bottom-width: 3px; border-radius: 5px; background: var(--luzhu-bg-float); color: var(--luzhu-fg-dim); font: 12px ui-monospace, Menlo, monospace; transition: transform 90ms, color 90ms, background 90ms; }
+.shortcut-hud kbd[data-pressed="true"] { transform: translateY(2px); background: var(--luzhu-jade); color: var(--luzhu-bg-dark); border-color: var(--luzhu-fg); box-shadow: 0 0 24px rgba(var(--luzhu-jade-rgb), 0.3); }
+.shortcut-hud__then { margin: 0 4px; }
+.shortcut-hud__label { margin-left: 7px; color: var(--luzhu-fg-dim); }
+.shortcut-hud[data-pressing="true"] .shortcut-hud__label { color: var(--luzhu-fg); }
 @media (orientation: portrait) {
-  .intro-terminal { width: 92%; height: auto; min-height: 68%; margin-bottom: max(13%, 90px); }
-  .intro-terminal__body { padding: 23px 17px 28px; }
-  .terminal-welcome p { font-size: clamp(16px, 4.5vmin, 21px); }
-  .intro-commands { font-size: clamp(11px, 3.1vmin, 14px); gap: 14px; }
+  .workstation { inset: 7% 3% 23%; }
+  .tmux-pane__title { padding: 7px 8px; font-size: 9px; }
+  .tmux-pane__body { padding: 16px 12px; font-size: clamp(10px, 2.9vmin, 13px); line-height: 1.8; }
+  .tmux-window--split .tmux-pane__body { font-size: clamp(9px, 2.4vmin, 11px); padding: 12px 6px; }
+  .tmux-window--quad .tmux-pane__body { font-size: clamp(9px, 2.6vmin, 12px); padding: 12px 7px; }
+  .tmux-window--split .tmux-pane__title, .tmux-window--quad .tmux-pane__title { padding: 6px; font-size: 9px; }
+  .nvim-status { height: 20px; flex-basis: 20px; font-size: 7px; gap: 5px; padding-right: 3px; }
+  .nvim-status strong { padding: 5px 4px; }
+  .nvim-status__saved { display: none; }
+  .tmux-status { height: 29px; flex-basis: 29px; padding: 0 6px; gap: 6px; font-size: 9px; }
+  .tmux-status > strong { font-size: 8px; }
+  .tmux-tabs { flex: 1; justify-content: space-around; }
+  .tmux-tabs > span { padding: 0 4px; }
+  .tmux-layout-label { display: none; }
+  .shortcut-hud { bottom: max(15%, 112px); }
 }
-@media (prefers-reduced-motion: reduce) { .intro-ready i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .shortcut-hud kbd { transition: none; } }
+
+.scene-root[data-attached="false"] .tmux-status,
+.scene-root[data-attached="false"] .shortcut-hud { visibility: hidden; }
+.tmux-pane__body { scrollbar-width: none; }
+.tmux-pane__body::-webkit-scrollbar { display: none; }
+.tmux-window[data-window="AI"] .terminal-line--user { margin: 5px 0; padding: 5px 7px; }
+@media (orientation: portrait) {
+  .tmux-tabs > span { padding: 0 3px; font-size: 8px; }
+  .tmux-status > strong { display: none; }
+  .tmux-window[data-window="AI"] .tmux-pane__body { font-size: clamp(10px, 2.7vmin, 13px); }
+}

@@ -269,7 +269,7 @@ export default function App() {
             <span>{railLabel}</span>
             <strong>{railTitle}</strong>
           </div>
-          <div className="chapter-rail__track">
+          <div className="chapter-rail__track" style={{ "--chapter-count": numberedTotal } as React.CSSProperties}>
             {reel.map((entry, index) => {
               const progress =
                 index < currentIndex

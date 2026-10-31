@@ -1,59 +1,250 @@
-.scene-root[data-scene-id="scene-02"] { background: radial-gradient(ellipse at 50% 60%, var(--luzhu-bg-float), var(--luzhu-bg) 75%); color: var(--luzhu-fg); font-family: ui-monospace, Menlo, Consolas, monospace; }
-.workstation { position: absolute; inset: 5% 5% 15%; display: flex; flex-direction: column; border: 1px solid var(--luzhu-border); border-radius: 9px; overflow: hidden; background: var(--luzhu-bg-dark); box-shadow: 0 24px 80px rgba(var(--luzhu-bg-dark-rgb), 0.6); }
-.tmux-windows { flex: 1; min-height: 0; position: relative; }
-.tmux-window { position: absolute; inset: 0; display: grid; }
-.tmux-window[hidden] { display: none; }
-.tmux-window--split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tmux-window--quad { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
-.tmux-pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; border: 1px solid var(--luzhu-border); overflow: hidden; }
-.tmux-pane:first-child { border-color: var(--luzhu-jade); }
-.tmux-pane__title { flex: 0 0 auto; padding: 7px 12px; font-size: clamp(9px, 1.3vmin, 13px); color: var(--luzhu-fg-dim); background: var(--luzhu-bg-float); border-bottom: 1px solid var(--luzhu-border); }
-.tmux-pane__body { flex: 1; min-height: 0; padding: 12px 16px; overflow: hidden; font-size: clamp(11px, 1.85vmin, 19px); line-height: 1.65; }
-.terminal-line { display: flex; min-height: 1.65em; opacity: 0; }
-.terminal-line__prefix { flex: 0 0 1.5em; color: var(--luzhu-jade); user-select: none; }
-.terminal-line__prefix:empty { flex-basis: 0; }
-.terminal-line__text { white-space: pre-wrap; overflow-wrap: anywhere; }
-.terminal-line--muted { color: var(--luzhu-fg-dim); }
-.terminal-line--success, .terminal-line--add { color: var(--luzhu-keyword); }
-.terminal-line--accent { color: var(--luzhu-gold); }
-.terminal-line--user { margin: 12px 0; padding: 8px 12px; background: var(--luzhu-bg-float); border-left: 2px solid var(--luzhu-jade); }
-.tmux-window--split .tmux-pane__body { font-size: clamp(10px, 1.7vmin, 17px); padding: 15px 12px; }
-.tmux-window--quad .tmux-pane__body { font-size: clamp(10px, 1.6vmin, 16px); padding: 8px 12px; line-height: 1.6; }
-.tmux-window--quad .terminal-line { min-height: 1.6em; }
-.tmux-pane--editor .terminal-line__prefix { color: var(--luzhu-fg-dim); flex-basis: 2em; }
-.tmux-pane--editor .terminal-line:nth-child(7) { background: var(--luzhu-bg-highlight); }
-.code-keyword { color: var(--luzhu-keyword); }
-.code-string { color: var(--luzhu-bamboo); }
-.nvim-status { display: flex; align-items: center; gap: 10px; padding-right: 10px; height: 24px; flex: 0 0 24px; background: var(--luzhu-bg-highlight); color: var(--luzhu-fg-dim); font-size: 10px; }
-.nvim-status strong { align-self: stretch; padding: 5px 9px; background: var(--luzhu-jade); color: var(--luzhu-bg-dark); font-weight: 600; }
-.nvim-status__saved { margin-left: auto; color: var(--luzhu-keyword); opacity: 0; }
-.tmux-status { display: flex; gap: 14px; align-items: center; height: 30px; flex: 0 0 30px; padding: 0 12px; border-top: 1px solid var(--luzhu-border); background: var(--luzhu-bg-float); font-size: clamp(10px, 1.4vmin, 14px); }
-.tmux-status > strong { color: var(--luzhu-jade); font-weight: 500; }
-.tmux-tabs { display: flex; height: 100%; gap: 2px; }
-.tmux-tabs > span { display: grid; place-items: center; padding: 0 12px; color: var(--luzhu-fg-dim); }
-.tmux-tabs > span[data-active="true"] { background: var(--luzhu-bg-highlight); color: var(--luzhu-fg); box-shadow: inset 0 -2px var(--luzhu-jade); }
-.tmux-layout-label { margin-left: auto; color: var(--luzhu-fg-dim); white-space: nowrap; }
-.shortcut-hud { position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; color: var(--luzhu-fg-dim); font-size: 10px; white-space: nowrap; }
-.shortcut-hud kbd { display: grid; place-items: center; height: 28px; min-width: 29px; padding: 0 8px; border: 1px solid var(--luzhu-border); border-bottom-width: 3px; border-radius: 5px; background: var(--luzhu-bg-float); color: var(--luzhu-fg-dim); font: 12px ui-monospace, Menlo, monospace; transition: transform 90ms, color 90ms, background 90ms; }
-.shortcut-hud kbd[data-pressed="true"] { transform: translateY(2px); background: var(--luzhu-jade); color: var(--luzhu-bg-dark); border-color: var(--luzhu-fg); box-shadow: 0 0 24px rgba(var(--luzhu-jade-rgb), 0.3); }
-.shortcut-hud__then { margin: 0 4px; }
-.shortcut-hud__label { margin-left: 7px; color: var(--luzhu-fg-dim); }
-.shortcut-hud[data-pressing="true"] .shortcut-hud__label { color: var(--luzhu-fg); }
-@media (orientation: portrait) {
-  .workstation { inset: 7% 3% 23%; }
-  .tmux-pane__title { padding: 7px 8px; font-size: 9px; }
-  .tmux-pane__body { padding: 16px 12px; font-size: clamp(10px, 2.9vmin, 13px); line-height: 1.8; }
-  .tmux-window--split .tmux-pane__body { font-size: clamp(9px, 2.4vmin, 11px); padding: 12px 6px; }
-  .tmux-window--quad .tmux-pane__body { font-size: clamp(9px, 2.6vmin, 12px); padding: 12px 7px; }
-  .tmux-window--split .tmux-pane__title, .tmux-window--quad .tmux-pane__title { padding: 6px; font-size: 9px; }
-  .nvim-status { height: 20px; flex-basis: 20px; font-size: 7px; gap: 5px; padding-right: 3px; }
-  .nvim-status strong { padding: 5px 4px; }
-  .nvim-status__saved { display: none; }
-  .tmux-status { height: 29px; flex-basis: 29px; padding: 0 6px; gap: 6px; font-size: 9px; }
-  .tmux-status > strong { font-size: 8px; }
-  .tmux-tabs { flex: 1; justify-content: space-around; }
-  .tmux-tabs > span { padding: 0 4px; }
-  .tmux-layout-label { display: none; }
-  .shortcut-hud { bottom: max(15%, 112px); }
+.scene-root[data-scene-id="scene-02"] {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--luzhu-bg);
+  color: var(--luzhu-fg);
+  font-family: Georgia, "Times New Roman", serif;
 }
-@media (prefers-reduced-motion: reduce) { .shortcut-hud kbd { transition: none; } }
+
+.life-light {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(var(--luzhu-bg-dark-rgb), 0.3), transparent 36%, rgba(var(--luzhu-bg-dark-rgb), 0.28));
+  pointer-events: none;
+}
+
+.life-heading {
+  position: absolute;
+  top: 8%;
+  left: 7%;
+  z-index: 3;
+  opacity: 0;
+}
+
+.life-heading span,
+.life-moment span,
+.life-moment strong,
+.life-moment p,
+.life-coda {
+  font-family: "Courier New", monospace;
+}
+
+.life-heading span {
+  color: var(--luzhu-fg-dim);
+  font-size: clamp(10px, 1.15vmin, 13px);
+}
+
+.life-heading h2 {
+  margin: 9px 0 0;
+  font-size: clamp(28px, 4.5vmin, 58px);
+  font-weight: 500;
+  line-height: 1.03;
+  text-shadow: 0 2px 24px rgba(var(--luzhu-bg-dark-rgb), 0.7);
+}
+
+.life-moments {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.life-moment {
+  position: relative;
+  display: grid;
+  align-content: end;
+  min-width: 0;
+  padding: 42% 4% 13%;
+  overflow: hidden;
+  border-left: 1px solid rgba(var(--luzhu-fg-rgb), 0.12);
+  opacity: 0;
+}
+
+.life-moment:first-child {
+  border-left: 0;
+}
+
+.life-moment::before,
+.life-moment::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.life-moment::before {
+  inset: 0;
+  z-index: -1;
+  transition: transform 1s ease;
+}
+
+.life-moment--read::before {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 15px, rgba(var(--luzhu-sand-rgb), 0.07) 15px 16px),
+    radial-gradient(circle at 30% 34%, rgba(var(--luzhu-gold-rgb), 0.28), transparent 42%),
+    var(--luzhu-bg-float);
+}
+
+.life-moment--read::after {
+  top: 23%;
+  left: 13%;
+  width: 56%;
+  height: 34%;
+  border: 1px solid rgba(var(--luzhu-fg-rgb), 0.22);
+  border-width: 1px 0;
+  box-shadow: 14px 0 0 rgba(var(--luzhu-fg-rgb), 0.04), 28px 0 0 rgba(var(--luzhu-fg-rgb), 0.025);
+  transform: rotate(-7deg);
+}
+
+.life-moment--run::before {
+  background:
+    radial-gradient(circle at 28% 34%, transparent 0 25%, rgba(var(--luzhu-blue-rgb), 0.24) 25.5% 26%, transparent 26.5%),
+    radial-gradient(circle at 70% 52%, rgba(var(--luzhu-blue-rgb), 0.2), transparent 42%),
+    var(--luzhu-bg-dark);
+}
+
+.life-moment--run::after {
+  top: 18%;
+  left: 19%;
+  width: 56%;
+  height: 45%;
+  border: 2px solid transparent;
+  border-top-color: rgba(var(--luzhu-blue-rgb), 0.46);
+  border-right-color: rgba(var(--luzhu-blue-rgb), 0.28);
+  border-radius: 50%;
+  transform: rotate(21deg);
+}
+
+.life-moment--notice::before {
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(var(--luzhu-fg-rgb), 0.16) 50%, transparent 50.2%),
+    linear-gradient(transparent 49.8%, rgba(var(--luzhu-fg-rgb), 0.16) 50%, transparent 50.2%),
+    radial-gradient(circle at 58% 35%, rgba(var(--luzhu-keyword-rgb), 0.3), transparent 40%),
+    var(--luzhu-bg-highlight);
+}
+
+.life-moment--notice::after {
+  top: 17%;
+  right: 14%;
+  width: 42%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(var(--luzhu-fg-rgb), 0.32);
+  border-radius: 50%;
+}
+
+.life-moment > span {
+  position: relative;
+  color: var(--luzhu-fg-dim);
+  font-size: 10px;
+}
+
+.life-moment strong {
+  position: relative;
+  margin-top: 8px;
+  color: var(--luzhu-gold);
+  font-size: clamp(20px, 3.4vmin, 44px);
+  font-weight: 400;
+}
+
+.life-moment--run strong {
+  color: var(--luzhu-blue);
+}
+
+.life-moment--notice strong {
+  color: var(--luzhu-keyword);
+}
+
+.life-moment h3 {
+  position: relative;
+  margin: 10px 0 0;
+  max-width: 320px;
+  font-size: clamp(17px, 2.15vmin, 28px);
+  font-weight: 500;
+  line-height: 1.18;
+}
+
+.life-moment p {
+  position: relative;
+  margin: 9px 0 0;
+  color: var(--luzhu-fg-dim);
+  font-size: clamp(9px, 1.1vmin, 12px);
+}
+
+.life-moment i {
+  display: none;
+}
+
+.life-coda {
+  position: absolute;
+  right: 7%;
+  bottom: 6%;
+  z-index: 3;
+  margin: 0;
+  color: var(--luzhu-fg-dim);
+  font-size: clamp(10px, 1.2vmin, 14px);
+  text-shadow: 0 2px 16px var(--luzhu-bg);
+  opacity: 0;
+}
+
+@media (orientation: portrait) {
+  .life-heading {
+    top: 6%;
+  }
+
+  .life-heading h2 {
+    font-size: clamp(27px, 8.2vmin, 44px);
+  }
+
+  .life-moments {
+    top: 25%;
+    bottom: max(24%, 145px);
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+
+  .life-moment {
+    grid-template-columns: 20px 78px minmax(0, 1fr);
+    column-gap: 8px;
+    align-items: center;
+    align-content: center;
+    padding: 8px 7%;
+    border-top: 1px solid rgba(var(--luzhu-fg-rgb), 0.1);
+    border-left: 0;
+  }
+
+  .life-moment strong,
+  .life-moment h3,
+  .life-moment p {
+    margin-top: 0;
+  }
+
+  .life-moment strong {
+    font-size: clamp(15px, 4.7vmin, 23px);
+  }
+
+  .life-moment h3 {
+    font-size: clamp(14px, 4vmin, 20px);
+  }
+
+  .life-moment p {
+    grid-column: 3;
+    margin-top: 3px;
+  }
+
+  .life-moment::after {
+    top: 18%;
+    right: 5%;
+    left: auto;
+    width: 26%;
+    height: 54%;
+    opacity: 0.42;
+  }
+
+  .life-coda {
+    right: 7%;
+    bottom: max(15%, 124px);
+    left: 7%;
+    line-height: 1.5;
+  }
+}

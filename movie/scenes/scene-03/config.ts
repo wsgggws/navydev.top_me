@@ -2,13 +2,13 @@ import type { SceneConfig } from "@movie/types/scene";
 
 export const scene: SceneConfig = {
   id: "scene-03",
-  title: "屏幕之外",
-  caption: "阅读 · 跑步 · 观察",
-  mood: "isolation",
-  pacing: "slow-burn",
+  title: "继续提问",
+  caption: "答案会过期，好奇心不会",
+  mood: "contrast",
+  pacing: "pulse",
   shot: "medium",
   titleCard: "silent-card",
-  duration: 8,
-  transition: "fade",
+  duration: 8.2,
+  transition: "wipe",
   preload: [],
 };

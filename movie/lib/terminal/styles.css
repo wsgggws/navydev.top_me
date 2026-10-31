@@ -16,10 +16,6 @@
 .terminal-lights i:nth-child(2) { background: var(--luzhu-gold); }
 .terminal-lights i:nth-child(3) { background: var(--luzhu-keyword); }
 .terminal-chrome__shell { color: var(--luzhu-fg-dim); font-size: 10px; }
-.terminal-prompt { color: var(--luzhu-jade); }
-.terminal-success { color: var(--luzhu-keyword); }
-.terminal-muted { color: var(--luzhu-fg-dim); }
-.terminal-accent { color: var(--luzhu-gold); }
 
 @media (orientation: portrait) {
   .terminal-chrome { padding: 0 9px; gap: 6px; font-size: 9px; }

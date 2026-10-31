@@ -4,28 +4,36 @@
 
 ## 当前内容
 
-播放顺序为 **start → 1 → 2 → 3 → 4 → continue**。场景目录、配置 ID、章节轨和快捷键均按新顺序编号。
+播放顺序为 **start → 1 → 2 → 3 → continue**。场景目录、配置 ID、章节轨和快捷键按顺序编号。
 
 | 标记 | 模块 | 内容 |
 | --- | --- | --- |
 | start | `movie/actions/start` | 生活似自导自演的电影；座右铭“此心光明，神采飞扬” |
-| 1 | `movie/scenes/scene-01` | 关于我：欢迎界面与五条快速命令 |
-| 2 | `movie/scenes/scene-02` | 工作现场：WezTerm / Tmux 的 Git、双分屏 Nvim、四分屏运维与 Codex 对话 |
-| 3 | `movie/scenes/scene-03` | 屏幕之外：阅读、跑步与观察 |
-| 4 | `movie/scenes/scene-04` | 继续提问：为什么、如果与下一步 |
+| 1 | `movie/scenes/scene-01` | 同一个 WezTerm / Tmux 工作流：zsh、Nvim、Git、运维、AI |
+| 2 | `movie/scenes/scene-02` | 屏幕之外：阅读、跑步与观察 |
+| 3 | `movie/scenes/scene-03` | 继续提问：为什么、如果与下一步 |
 | continue | `movie/actions/continue` | 未完待续、GitHub 与主页链接；停留在最终画面 |
 
-第一幕的命令集中在 `movie/scenes/scene-01/index.ts` 的 `COMMANDS`；第二幕的窗口、pane、文本和时间点集中在 `movie/scenes/scene-02/workspace.ts`。
+第一幕的五个窗口、pane、文本与时间点集中在 `movie/scenes/scene-01/workspace.ts`：
 
-- 第 1 幕顶部是“代码爱干净，码码要洗手”的欢迎语；五条命令各输出一行，约 5 秒显示完整，随后留出阅读时间。
-- 第 2 幕为四个 Tmux window：Git 单 pane、Nvim 左右两个 pane、运维四个 pane、Codex 单 pane。Python / Go 代码、运行中的容器、make test 全部通过及 Codex 对话依次出现。
-- 窗口切换展示真实顺序的键帽动作：`Ctrl+B` → `L`。Tmux 默认 `prefix+l` 为 last-window；演示先使用 `tmux bind-key l next-window`，让四窗口依次切换。
-- 终端内容是预设动画，不连接真实终端，也不执行命令。所有文本、输出、按键和窗口变化均由 GSAP 主时间线驱动，支持暂停、重播和跳章。
+| 窗口 | 布局 | 工作流 |
+| --- | --- | --- |
+| `0:zsh` | 单 pane | 欢迎语；`whoami` → `j top_me` → `ls fun/` → `tmux bind-key l next-window` → `tmux attach`，随后显示全部窗口标签 |
+| `1:nvim` | 左右双 pane | 编辑 Python 的 app.py 与 Go 的 health.go，保留原编辑内容 |
+| `2:git` | 单 pane | `gst` → `gcb feat/app` → `gd` → `make test` → `ga .` → `gc -m"feat(app): add app.py and health.go"` → `gl origin main --rebase` → `gp origin feat/app`；显示 pre-commit 检查与创建 PR 的链接 |
+| `3:ops` | 四 pane | 左上 Docker 日志，左下 curl 请求；右上 MySQL 查询，右下 Redis 缓存操作 |
+| `4:AI` | 左右双 pane | Claude 检查实现，Codex 补充测试并运行 make test |
+
+Git 动画沿用 shell 别名：`gst=git status --short`、`gcb=git checkout -b`、`gd=git diff`、`ga=git add`、`gc=git commit`、`gl=git pull`、`gp=git push`。别名说明只用于维护，不作为额外命令输出。
+
+- 窗口切换展示 `Ctrl+B` → `L` 键帽动作。Tmux 默认 prefix+l 是 last-window；zsh 中先绑定 next-window，使五个窗口依次切换。
+- 每条命令均逐字输入，并显示相应输出；长输出自动滚动到最新行。所有文本、滚动、按键和窗口变化均跟随 GSAP 时间线，支持暂停、重播和跳章。
+- 终端、数据库、AI 对话和 PR 地址均为预设动画，不连接真实服务，不执行命令或创建 PR。
 - 配色集中在 `src/theme.ts`，来自 LuZhu.nvim 色板；页面、终端、语法高亮与按键效果统一使用 `--luzhu-*`。动画不展示主题名称或色板说明。
-- `movie/pacing.ts` 保持统一的 **0.65** 倍播放与开合各 **600ms** 的转场。第一幕使用更密集的时间点，第二幕约 40 秒，留出每个工作窗口的阅读时间。
-- 章节可直接点击重播或跳转；`1`–`4` 跳章，`Space` 暂停 / 播放，`R` 重播，`S` / `→` 跳过，`Home` 从头开始。
-- 横屏使用 2.35:1 舞台，竖屏使用 9:16；控制层无操作 3 秒后隐藏。系统减少动态效果设置会缩短并简化转场。
-- 当前版本静音，已移除闲置音频和不再使用的场景、旧配色与转场实现。
+- `movie/pacing.ts` 保持 **0.65** 倍播放与开合各 **600ms** 的转场；第一幕命令节奏紧凑，约 **66 秒**，其余两幕保留原节奏。
+- `1`–`3` 跳章，`Space` 暂停 / 播放，`R` 重播，`S` / `→` 跳过，`Home` 从头开始。
+- 横屏使用 2.35:1 舞台，竖屏使用 9:16，保留双分屏和四分屏结构；控制层无操作 3 秒后隐藏。系统减少动态效果设置会简化转场与输入效果。
+- 当前版本静音，已删除独立欢迎终端和合并后不再使用的场景代码。
 
 ## 本地开发
 
@@ -45,7 +53,7 @@ npm run build
 npm run check:performance
 ```
 
-随后手动检查完整播放、六个章节按钮、暂停 / 重播 / 跳过、片尾两个链接，以及横竖屏布局。维护规则见 [CLAUDE.md](CLAUDE.md)。
+随后手动检查完整播放、五个章节按钮、暂停 / 重播 / 跳过、片尾两个链接，以及横竖屏布局。维护规则见 [AGENTS.md](AGENTS.md)。
 
 ## 架构
 

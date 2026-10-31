@@ -311,7 +311,7 @@ html, body, #root {
   display: grid;
   grid-template-columns:
     minmax(48px, 0.9fr)
-    repeat(4, minmax(22px, 0.52fr))
+    repeat(var(--chapter-count), minmax(22px, 0.52fr))
     minmax(76px, 1.35fr);
   gap: 4px;
 }
@@ -468,7 +468,7 @@ html, body, #root {
   .chapter-rail__track {
     grid-template-columns:
       minmax(42px, 0.9fr)
-      repeat(4, minmax(0, 0.5fr))
+      repeat(var(--chapter-count), minmax(0, 0.5fr))
       minmax(68px, 1.35fr);
     gap: 3px;
   }
