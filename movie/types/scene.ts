@@ -33,6 +33,8 @@ export interface SceneConfig {
   titleCard?: TitleCardStyle;
   /** Target length in seconds. Director uses this for timeline scheduling. */
   duration: number;
+  /** Optional timeline speed; defaults to the reel rate in pacing.ts. */
+  playbackRate?: number;
   /** How this scene hands off to the next. */
   transition: TransitionKind;
   /** Asset URLs the Director preloads before create(). */

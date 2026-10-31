@@ -104,10 +104,10 @@ export const WINDOWS: WorkspaceWindow[] = [
     { title: "claude · review", lines: [
       { at: 0.1, tone: "command", text: "claude" },
       { at: 0.7, tone: "accent", text: "Claude Code" },
-      { at: 1.1, tone: "user", text: "检查健康接口的实现和边界情况。" },
-      { at: 2.3, tone: "muted", text: "Reading app.py, health.go…" },
-      { at: 3.1, text: "• 返回结构一致\n• 状态字段使用明确类型" },
-      { at: 4.1, text: "建议增加响应状态码断言。" },
+      { at: 1.1, tone: "user", text: "对本次 diff 做 code review，重点检查正确性、边界情况和测试覆盖，只报告有依据的问题。" },
+      { at: 2.3, tone: "muted", text: "Reviewing diff · app.py / health.go…" },
+      { at: 3.1, text: "• 正确性与边界情况已检查\n• 测试覆盖缺少状态码断言" },
+      { at: 4.1, text: "Review 建议：补充状态码断言。" },
       { at: 5.4, tone: "success", text: "✓ Review complete" },
     ] },
     { title: "codex · tests", lines: [

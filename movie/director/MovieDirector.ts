@@ -3,7 +3,7 @@ import { Timeline } from "./Timeline";
 import { Camera } from "./Camera";
 import type { SceneEntry, SceneConfig, SceneModule } from "../types/scene";
 
-import { REEL_PLAYBACK_RATE, TRANSITION_MS } from "../pacing";
+import { getScenePlaybackRate, TRANSITION_MS } from "../pacing";
 
 export interface MovieDirectorOptions {
   reducedMotion?: boolean;
@@ -227,7 +227,7 @@ export class MovieDirector {
     // Reset timeline. Each scene declares its own motion.
     this.timeline.clear();
     const gt = this.timeline.gsapTimeline;
-    gt.timeScale(REEL_PLAYBACK_RATE);
+    gt.timeScale(getScenePlaybackRate(next.config));
     next.play(gt);
 
     // Pin to scene's declared duration so the timeline never outruns the story.

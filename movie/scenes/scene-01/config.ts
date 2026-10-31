@@ -1,4 +1,5 @@
 import type { SceneConfig } from "@movie/types/scene";
+import { WORKSPACE_PLAYBACK_RATE } from "@movie/pacing";
 
 export const scene: SceneConfig = {
   id: "scene-01",
@@ -9,6 +10,7 @@ export const scene: SceneConfig = {
   shot: "medium",
   titleCard: "none",
   duration: 43.2,
+  playbackRate: WORKSPACE_PLAYBACK_RATE,
   transition: "fade",
   preload: [],
 };

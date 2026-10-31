@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import { REEL_PLAYBACK_RATE } from "../pacing";
+import { getScenePlaybackRate } from "../pacing";
 import type { SceneConfig } from "../types/scene";
 
 /**
@@ -43,6 +43,7 @@ export function mountTitleCard(host: HTMLElement): TitleCardHandle {
       captionEl.textContent = config.caption ?? "";
       captionEl.hidden = !config.caption;
 
+      const playbackRate = getScenePlaybackRate(config);
       const hold =
         config.pacing === "hold" || config.titleCard === "silent-card"
           ? 0.8
@@ -55,18 +56,18 @@ export function mountTitleCard(host: HTMLElement): TitleCardHandle {
       // Casting through `any` keeps the runtime behaviour identical.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const g: any = gsap;
-      g.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.28 / REEL_PLAYBACK_RATE, ease: "power2.out" });
+      g.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.28 / playbackRate, ease: "power2.out" });
       g.fromTo(
         titleEl,
         { y: enterY, scale: 1 },
-        { y: 0, scale: 1, duration: 0.65 / REEL_PLAYBACK_RATE, ease: "power3.out" },
+        { y: 0, scale: 1, duration: 0.65 / playbackRate, ease: "power3.out" },
         "<",
       );
-      g.fromTo(captionEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.48 / REEL_PLAYBACK_RATE, delay: 0.1 / REEL_PLAYBACK_RATE }, "<");
+      g.fromTo(captionEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.48 / playbackRate, delay: 0.1 / playbackRate }, "<");
       g.to(card, {
         opacity: 0,
-        duration: 0.3 / REEL_PLAYBACK_RATE,
-        delay: hold / REEL_PLAYBACK_RATE,
+        duration: 0.3 / playbackRate,
+        delay: hold / playbackRate,
         ease: "power2.in",
         onComplete: () => card.setAttribute("aria-hidden", "true"),
       });

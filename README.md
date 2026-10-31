@@ -22,7 +22,7 @@
 | `1:nvim` | 左右双 pane | 编辑 Python 的 app.py 与 Go 的 health.go，保留原编辑内容 |
 | `2:git` | 单 pane | `gst` → `gcb feat/app` → `gd` → `make test` → `ga .` → `gc -m"feat(app): add app.py and health.go"` → `gl origin main --rebase` → `gp origin feat/app`；显示 pre-commit 检查与创建 PR 的链接 |
 | `3:ops` | 四 pane | 左上 Docker 日志，左下 curl 请求；右上 MySQL 查询，右下 Redis 缓存操作 |
-| `4:AI` | 左右双 pane | Claude 检查实现，Codex 补充测试并运行 make test |
+| `4:AI` | 左右双 pane | Claude 对 diff 做 code review，关注正确性、边界情况和测试覆盖；Codex 补充测试并运行 make test |
 
 Git 动画沿用 shell 别名：`gst=git status --short`、`gcb=git checkout -b`、`gd=git diff`、`ga=git add`、`gc=git commit`、`gl=git pull`、`gp=git push`。别名说明只用于维护，不作为额外命令输出。
 
@@ -30,9 +30,9 @@ Git 动画沿用 shell 别名：`gst=git status --short`、`gcb=git checkout -b`
 - 每条命令均逐字输入，并显示相应输出；长输出自动滚动到最新行。所有文本、滚动、按键和窗口变化均跟随 GSAP 时间线，支持暂停、重播和跳章。
 - 终端、数据库、AI 对话和 PR 地址均为预设动画，不连接真实服务，不执行命令或创建 PR。
 - 配色集中在 `src/theme.ts`，来自 LuZhu.nvim 色板；页面、终端、语法高亮与按键效果统一使用 `--luzhu-*`。动画不展示主题名称或色板说明。
-- `movie/pacing.ts` 保持 **0.65** 倍播放与开合各 **600ms** 的转场；第一幕命令节奏紧凑，约 **66 秒**，其余两幕保留原节奏。
+- `movie/pacing.ts` 将 start、第 2 / 3 幕和 continue 调整为 **0.73** 倍，较之前快约 **12%**；第一幕通过配置保留 **0.65** 倍，约 **66 秒**。转场开合仍各 **600ms**。
 - `1`–`3` 跳章，`Space` 暂停 / 播放，`R` 重播，`S` / `→` 跳过，`Home` 从头开始。
-- 横屏使用 2.35:1 舞台，竖屏使用 9:16，保留双分屏和四分屏结构；控制层无操作 3 秒后隐藏。系统减少动态效果设置会简化转场与输入效果。
+- 横屏使用 2.35:1 舞台，终端宽度 84%、高度 86%；竖屏使用 9:16，终端占满舞台宽度、高度 76%，上下保留留白。保留双分屏和四分屏结构；控制层无操作 3 秒后隐藏。系统减少动态效果设置会简化转场与输入效果。
 - 当前版本静音，已删除独立欢迎终端和合并后不再使用的场景代码。
 
 ## 本地开发
