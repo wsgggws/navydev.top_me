@@ -12,9 +12,11 @@
 | 1 | `movie/scenes/scene-01` | 同一个 WezTerm / Tmux 工作流：zsh、Nvim、Git、运维、AI |
 | 2 | `movie/scenes/scene-02` | 屏幕之外：阅读、跑步与观察 |
 | 3 | `movie/scenes/scene-03` | 继续提问：为什么、如果与下一步 |
-| continue | `movie/actions/continue` | 未完待续、GitHub 与主页链接；停留在最终画面 |
+| continue | `movie/actions/continue` | 未完待续收进 macOS 桌面便笺；GitHub 与主页链接停留可访问 |
 
 第一幕的窗口、终端输出与时间点集中在 `movie/scenes/scene-01/workspace.ts`；Nvim 内部的启动、搜索、分屏和保存流程在同目录的 `nvim.ts` / `nvim.css` 维护。
+
+片尾先展示「未完待续」，再显出山峦壁纸、菜单栏、精选 App Dock、示意文件夹与 WezTerm 窗口，文字和链接留在「下一幕.md」便笺中。桌面布景在 `movie/actions/continue/desktop.ts` / `styles.css` 维护，静态 App 图标放在同目录 `icons/`，仅在 continue 预热时加载，图标来源记录在 `icons/SOURCES.md`。WezTerm 中的 `brew upgrade` 逐字输入并展示九个常用工具的预设升级输出；不执行系统命令。布景不读取真实系统数据，不展示通信、网络连接或账户内容；迅雷、FlClash 等工具不纳入。桌面元素仅为背景，只有片尾两个链接可以导航。
 
 | 窗口 | 布局 | 工作流 |
 | --- | --- | --- |
