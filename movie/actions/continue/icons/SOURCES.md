@@ -12,7 +12,7 @@
 | CC Switch | CC Switch.app / MacOS/cc-switch 中内嵌的 72×72 透明 PNG（白色放射图形） |
 | KeepingYouAwake | KeepingYouAwake.app / Assets.car / ActiveIcon |
 
-新增 Dock 图形分别来自 Rectangle.app/AppIcon.icns、LaunchNext.app/AppIcon.icns、KeyCastr.app/KeyCastr.icns、Omi录屏专家.app/AppIcon.icns。
+Longshot 的 Dock 图形来自 Longshot.app/AppIcon.icns；其余新增 Dock 图形分别来自 Rectangle.app/AppIcon.icns、LaunchNext.app/AppIcon.icns、KeyCastr.app/KeyCastr.icns、Omi录屏专家.app/AppIcon.icns。
 
 ## 核对范围
 

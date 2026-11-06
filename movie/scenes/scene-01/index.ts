@@ -44,7 +44,7 @@ function createScene(): SceneModule {
         <div class="tmux-windows"></div>
         <footer class="tmux-status"><strong>navy:work</strong><div class="tmux-tabs"></div><span class="tmux-layout-label"></span></footer>
       </section>
-      <div class="shortcut-hud" aria-label="窗口切换快捷键"><kbd data-key="ctrl">Ctrl</kbd><span>+</span><kbd data-key="b">B</kbd><span class="shortcut-hud__then">then</span><kbd data-key="l">L</kbd><span class="shortcut-hud__label">next window</span></div>`;
+      <div class="shortcut-hud" aria-label="窗口切换快捷键"><kbd data-key="ctrl">Ctrl</kbd><span>+</span><kbd data-key="b">B</kbd><span class="shortcut-hud__then">then</span><kbd data-key="window">N</kbd><span class="shortcut-hud__label">next window</span></div>`;
       const windows = r.querySelector(".tmux-windows")!;
       const tabs = r.querySelector(".tmux-tabs")!;
       WINDOWS.forEach((window, index) => {
@@ -62,7 +62,7 @@ function createScene(): SceneModule {
         tabs.append(tab);
       });
       const shellPane = WINDOWS[0].panes[0];
-      const attachIndex = shellPane.lines.findIndex(line => line.text === "tmux attach");
+      const attachIndex = shellPane.lines.findIndex(line => line.text === "tmux");
       const shell = createPane({ ...shellPane, lines: shellPane.lines.slice(0, attachIndex + 1) });
       shell.classList.add("shell-return");
       shell.hidden = true;
@@ -84,7 +84,7 @@ function createScene(): SceneModule {
       const tabs = Array.from(host.querySelectorAll<HTMLElement>(".tmux-tabs > span"));
       const ctrl = host.querySelector<HTMLElement>('[data-key="ctrl"]')!;
       const b = host.querySelector<HTMLElement>('[data-key="b"]')!;
-      const key = host.querySelector<HTMLElement>('[data-key="l"]')!;
+      const key = host.querySelector<HTMLElement>('[data-key="window"]')!;
       const hud = host.querySelector<HTMLElement>(".shortcut-hud")!;
       const selectWindow = (index: number) => {
         panels.forEach((panel, position) => { panel.hidden = position !== index; });
@@ -109,7 +109,7 @@ function createScene(): SceneModule {
       timeline.call(() => { host.dataset.attached = "true"; }, [], ATTACH_AT);
       WINDOWS.forEach((window, index) => {
         if (index > 0) {
-          shortcut(window.at, "L", "next window");
+          shortcut(window.at, "N", "next window");
           timeline.call(() => selectWindow(index), [], window.at);
           timeline.fromTo(panels[index], { opacity: 0.4 }, { opacity: 1, duration: 0.2 }, window.at);
         }

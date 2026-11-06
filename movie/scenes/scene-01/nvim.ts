@@ -71,7 +71,7 @@ export function createNvimDemo(): HTMLElement {
     <section class="nvim-view nvim-launch" data-view="closed" hidden><p>✓ Python files saved · Neovim exited</p><div>❯ <span class="nvim-shell-cursor">▍</span></div></section>
   </div>
   <div class="nvim-commandbar"><code class="nvim-command"></code><span class="nvim-feedback">~/github/navydev.top_me</span></div>
-  <footer class="nvim-keyboard" aria-label="Neovim keystrokes"><div class="nvim-keys"></div><span class="nvim-save-help"><b>:w</b> 保存 · <b>:wq</b> 保存退出</span></footer>`;
+  <footer class="nvim-keyboard" aria-label="Neovim keystrokes"><div class="nvim-keys"></div><span class="nvim-save-help"><b>:w</b> 保存 · <b>:wqa</b> 全部保存退出</span></footer>`;
   renderCode(root.querySelector(".nvim-preview-code")!, API);
   const editors = root.querySelector(".nvim-editors")!;
   const left = buffer("api.py", API);
@@ -160,9 +160,9 @@ export function playNvimDemo(timeline: StoryTimeline, root: HTMLElement, start: 
   call(9.21, () => highlight(right.querySelectorAll<HTMLElement>(".nvim-code-line code")[3], ASSERTION));
   press(["Esc"], 9.35);
   call(9.35, () => mode(right, "NORMAL"));
-  exCommand(":w", 9.7, 10.7, () => { right.dataset.modified = "false"; feedback.textContent = '"tests/test_api.py" 4L written · 已保存'; });
-  press(["Ctrl", "W"], 11.1);
-  press(["C"], 11.45);
-  call(11.65, () => { right.hidden = true; editors.dataset.split = "false"; feedback.textContent = "关闭右侧分屏 · api.py"; });
-  exCommand(":wq", 12, 13.1, () => { phase("closed"); feedback.textContent = ":wq · 已保存并退出 Neovim"; });
+  exCommand(":wqa", 11.4, 13.1, () => {
+    left.dataset.modified = right.dataset.modified = "false";
+    phase("closed");
+    feedback.textContent = ":wqa · 已全部保存并退出 Neovim";
+  });
 }

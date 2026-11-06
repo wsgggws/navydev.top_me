@@ -27,10 +27,8 @@ export const WINDOWS: WorkspaceWindow[] = [
     { at: 1.8, text: "~/github/navydev.top_me" },
     { at: 2.15, tone: "command", text: "ls fun/" },
     { at: 2.6, text: "reading/  running/  history/" },
-    { at: 2.95, tone: "command", text: "tmux bind-key l next-window" },
-    { at: 3.55, tone: "success", text: "✓ prefix + l → next-window" },
-    { at: 4.2, tone: "command", text: "tmux attach" },
-    { at: 4.9, tone: "muted", text: "attached to navy:work" },
+    { at: 2.95, tone: "command", text: "tmux" },
+    { at: 4.9, tone: "success", text: "✓ restored session navy:work · 5 windows" },
   ] }] },
   { name: "nvim", layout: "single", at: 6.4, demo: "nvim", panes: [{ title: "nvim · Python", lines: [] }] },
   { name: "git", layout: "single", at: 21.2, panes: [{ title: "git · ~/github/navydev.top_me", lines: [

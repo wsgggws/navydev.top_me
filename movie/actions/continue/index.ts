@@ -57,7 +57,6 @@ function createAction(): SceneModule {
       timeline.fromTo(root.querySelector(".continue-note"), { "--note-surface": 0, scale: reduced ? 1 : 1.08 }, { "--note-surface": 1, scale: 1, duration: 1.2, ease: "power2.inOut" }, 2.8);
       timeline.fromTo(root.querySelectorAll(".continue-note__bar, .continue-note__footer"), { opacity: 0 }, { opacity: 1, duration: 0.9 }, 3.2);
       timeline.fromTo(root.querySelector(".desktop-menubar"), { opacity: 0, y: reduced ? 0 : -16 }, { opacity: 1, y: 0, duration: 0.8 }, 3.5);
-      timeline.fromTo(root.querySelectorAll(".desktop-file"), { opacity: 0, y: reduced ? 0 : 12 }, { opacity: 1, y: 0, stagger: 0.12, duration: 0.8 }, 3.8);
       timeline.fromTo(root.querySelector(".desktop-dock"), { opacity: 0, y: reduced ? 0 : 28 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, 4.2);
       timeline.fromTo(root.querySelector(".desktop-terminal"), { opacity: 0, y: reduced ? 0 : 12 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 4.7);
       const command = root.querySelector(".desktop-terminal__command > span");

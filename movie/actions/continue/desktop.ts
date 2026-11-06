@@ -6,9 +6,6 @@ import chatgpt from "./icons/chatgpt.png";
 import iina from "./icons/iina.png";
 import music from "./icons/music.png";
 import keka from "./icons/keka.png";
-import word from "./icons/word.png";
-import excel from "./icons/excel.png";
-import powerpoint from "./icons/powerpoint.png";
 import longshot from "./icons/longshot.png";
 import keycastr from "./icons/keycastr.png";
 import alfredMenu from "./icons/menu-alfred.png";
@@ -34,6 +31,7 @@ const dockApps = [
   { name: "Rectangle", icon: rectangle, running: true },
   { name: "LaunchNext", icon: launchnext, running: true },
   { name: "KeyCastr", icon: keycastr, running: false },
+  { name: "Longshot", icon: longshot, running: false },
   { name: "Omi录屏专家", icon: omi, running: false },
 ];
 
@@ -49,7 +47,6 @@ const menuApps = [
 
 export const desktopAssets = [...new Set([
   ...dockApps.map((app) => app.icon), ...menuApps.map((app) => app.icon),
-  word, excel, powerpoint, longshot,
 ])];
 
 export const brewPackages = ["neovim", "tmux", "fzf", "eza", "starship", "yazi", "uv", "ruff", "lazygit"];
@@ -61,7 +58,7 @@ function brewTerminal(): string {
       <span>WezTerm — zsh</span><small>⌘ 1</small>
     </div>
     <div class="desktop-terminal__body">
-      <div class="desktop-terminal__prompt"><span>~/Projects</span><span>on</span><b> main</b></div>
+      <div class="desktop-terminal__prompt"><span>~</span><span>via</span><b> zsh</b></div>
       <div class="desktop-terminal__command"><b>❯</b> <span></span><i></i></div>
       <div class="desktop-terminal__output">
         <p class="desktop-terminal__intro"><b>==&gt;</b> Upgrading 9 outdated packages:</p>
@@ -71,17 +68,6 @@ function brewTerminal(): string {
       </div>
     </div>
     <div class="desktop-terminal__status"><span>zsh</span><span>brew · 9 packages upgraded</span></div>
-  </div>`;
-}
-
-function folder(name: string, detail: string, previews: string[] = []): string {
-  return `<div class="desktop-file">
-    <div class="desktop-folder">
-      <svg viewBox="0 0 80 64" fill="none"><path d="M5 15a5 5 0 0 1 5-5h21l8 8h31a5 5 0 0 1 5 5v32a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5Z" fill="var(--luzhu-blue)"/><path d="M5 26a5 5 0 0 1 5-5h60a5 5 0 0 1 5 5v29a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5Z" fill="var(--luzhu-jade)"/><path d="M11 23h58" stroke="var(--luzhu-fg)" stroke-opacity=".45"/></svg>
-      <div class="desktop-folder__previews">${previews.map((src) => `<img src="${src}" alt="" width="128" height="128" draggable="false">`).join("")}</div>
-      ${previews.length ? "" : '<span class="desktop-folder__code">&lt;/&gt;</span>'}
-    </div>
-    <strong>${name}</strong><small>${detail}</small>
   </div>`;
 }
 
@@ -105,11 +91,6 @@ export function desktopMarkup(): string {
         <svg class="desktop-status" viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="21" height="12" rx="3"/><path d="M26 8v4"/><rect x="5" y="7" width="15" height="6" rx="1" fill="currentColor" stroke="none"/></svg>
         <span class="desktop-clock">周五 09:41</span>
       </div>
-    </div>
-    <div class="desktop-files" aria-hidden="true">
-      ${folder("Projects", "保持好奇，继续构建")}
-      ${folder("写作与演示", "Word · Excel · PowerPoint", [word, excel, powerpoint])}
-      ${folder("截图与录屏", "Longshot · KeyCastr", [longshot, keycastr])}
     </div>
     ${brewTerminal()}
     <div class="desktop-dock-position"><div class="desktop-dock" aria-hidden="true">

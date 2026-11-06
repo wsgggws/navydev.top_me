@@ -4,7 +4,7 @@ export const scene: SceneConfig = {
   id: "continue",
   navLabel: "continue",
   title: "未完待续",
-  caption: "下一幕还在写，工具也在继续生长",
+  caption: "干净的桌面，继续构建下一幕",
   mood: "release",
   pacing: "staccato",
   shot: "establishing",

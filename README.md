@@ -16,25 +16,25 @@
 
 第一幕的窗口、终端输出与时间点集中在 `movie/scenes/scene-01/workspace.ts`；Nvim 内部的启动、搜索、分屏和保存流程在同目录的 `nvim.ts` / `nvim.css` 维护。
 
-片尾先展示「未完待续」，再显出山峦壁纸、菜单栏、精选 App Dock、示意文件夹与 WezTerm 窗口，文字和链接留在「下一幕.md」便笺中。桌面布景在 `movie/actions/continue/desktop.ts` / `styles.css` 维护，静态 App 图标放在同目录 `icons/`，仅在 continue 预热时加载，图标来源记录在 `icons/SOURCES.md`。WezTerm 中的 `brew upgrade` 逐字输入并展示九个常用工具的预设升级输出；不执行系统命令。布景不读取真实系统数据，不展示通信、网络连接或账户内容；迅雷、FlClash 等工具不纳入。桌面元素仅为背景，只有片尾两个链接可以导航。
+片尾先展示「未完待续」，再显出山峦壁纸、菜单栏、精选 App Dock 与加高的 WezTerm 窗口，文字和链接留在「下一幕.md」便笺中。桌面布景在 `movie/actions/continue/desktop.ts` / `styles.css` 维护，静态 App 图标放在同目录 `icons/`，仅在 continue 预热时加载，图标来源记录在 `icons/SOURCES.md`。WezTerm 中的 `brew upgrade` 逐字输入并逐行展示九个常用工具的预设升级输出；不执行系统命令。布景不读取真实系统数据，不展示通信、网络连接或账户内容；迅雷、FlClash 等工具不纳入。桌面保持无图标与文件夹，Longshot 放在 Dock；桌面元素仅为背景，只有片尾两个链接可以导航。
 
 | 窗口 | 布局 | 工作流 |
 | --- | --- | --- |
-| `0:zsh` | 单 pane | 欢迎语；`whoami` → `j top_me` → `ls fun/` → `tmux bind-key l next-window` → `tmux attach`，随后显示全部窗口标签 |
+| `0:zsh` | 单 pane | 欢迎语；`whoami` → `j top_me` → `ls fun/` → `tmux`，自动恢复 session 与五个窗口标签 |
 | `1:nvim` | 单 Tmux pane，Neovim 内部分屏 | 输入 `nvim` → LazyVim 启动页 → `Space Space` 唤出 fzf 搜索 → 输入 `api.py`、回车打开 → 编辑 → `Ctrl+W`、`V` 左右分屏 → 编辑 Python 测试 → 保存并退出 |
 | `2:git` | 单 pane | `gst` → `gcb feat/app` → `gd` → `make test` → `ga .` → `gc -m"feat(app): update api.py and add Python tests"` → `gl origin main --rebase` → `gp origin feat/app`；显示 pre-commit 检查与创建 PR 的链接 |
 | `3:ops` | 四 pane | 左上 Docker 日志，左下 curl 请求；右上 MySQL 查询，右下 Redis 缓存操作 |
 | `4:AI` | 左右双 pane | Claude 对 diff 做 code review，关注正确性、边界情况和测试覆盖；Codex 补充测试并运行 make test |
 
-Nvim 搜索浮窗上方显示查询词，左侧显示匹配文件，右侧预览 `api.py`。编辑先从单个 buffer 开始，随后在同一个 Neovim 实例里分屏编辑 `tests/test_api.py`。底部明确区分 **`:w` 保存** 与 **`:wq` 保存并退出**；测试文件保存、关闭右侧分屏后，使用 `:wq` 退出剩余编辑窗口。命令、按键与界面变化均由 GSAP 主时间线安排。
+Nvim 搜索浮窗上方显示查询词，左侧显示匹配文件，右侧预览 `api.py`。编辑先从单个 buffer 开始，随后在同一个 Neovim 实例里分屏编辑 `tests/test_api.py`。底部明确区分 **`:w` 保存** 与 **`:wqa` 全部保存并退出**；编辑测试后保持两个分屏，通过 `:wqa` 一次保存全部 buffer 并退出 Neovim。命令、按键与界面变化均由 GSAP 主时间线安排。
 
-AI 演示结束后，通过 `Cmd+B → S` 打开 session:window 搜索浮窗；输入 `zsh`，预览并回到 `0:zsh`，再以 `Cmd+B → D` 临时退出 Tmux。外层 shell 保留原先 `tmux attach` 前的历史，并续写 `# Talk is cheap, show me the code.`。选择器参考本机 fzf 配置，收尾键帽使用 Cmd 标识；标准 Tmux 对应 Ctrl+B 前缀。收尾实现集中在 `outro.ts` / `outro.css`，后续第 2 / 3 幕与 continue 延续原顺序。
+AI 演示结束后，通过 `Cmd+B → S` 打开 session:window 搜索浮窗；输入 `zsh`，预览并回到 `0:zsh`，再以 `Cmd+B → D` 临时退出 Tmux。外层 shell 保留启动 `tmux` 前的命令历史，并续写 `# Talk is cheap, show me the code.`。选择器参考本机 fzf 配置，收尾键帽使用 Cmd 标识；标准 Tmux 对应 Ctrl+B 前缀。收尾实现集中在 `outro.ts` / `outro.css`，后续第 2 / 3 幕与 continue 延续原顺序。
 
 整个工作流仅演示 Python，Git 改动、Ruff 检查、pytest 结果和 AI 对话中的文件名保持一致。
 
 Git 动画沿用 shell 别名：`gst=git status --short`、`gcb=git checkout -b`、`gd=git diff`、`ga=git add`、`gc=git commit`、`gl=git pull`、`gp=git push`。别名说明只用于维护，不作为额外命令输出。
 
-- 窗口切换展示 `Ctrl+B` → `L` 键帽动作。Tmux 默认 prefix+l 是 last-window；zsh 中先绑定 next-window，使五个窗口依次切换。
+- 窗口切换展示标准 `Ctrl+B` → `N`（next-window）键帽动作，使五个窗口依次切换；开头只输入 `tmux`，恢复预设工作区。
 - 每条命令均逐字输入，并显示相应输出；长输出自动滚动到最新行。所有文本、滚动、按键和窗口变化均跟随 GSAP 时间线，支持暂停、重播和跳章。
 - 终端、数据库、AI 对话和 PR 地址均为预设动画，不连接真实服务，不执行命令或创建 PR。
 - 配色集中在 `src/theme.ts`，来自 LuZhu.nvim 色板；页面、终端、语法高亮与按键效果统一使用 `--luzhu-*`。动画不展示主题名称或色板说明。
