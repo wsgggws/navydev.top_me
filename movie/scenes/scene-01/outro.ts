@@ -51,12 +51,12 @@ export function playWorkspaceOutro(
   quote.append(prompt, text);
   body.append(detached, quote);
 
-  shortcut(52.5, "S", "session:window search", "Cmd");
+  shortcut(49.2, "S", "session:window search", "Cmd");
   timeline.call(() => {
     picker.hidden = false;
     picker.querySelector(".window-picker__screen")!.textContent = "claude · review          │ codex · tests\n\n✓ Review complete        │ make test\n                         │ ✓ Python: 4 passed\n                         │ ready for review";
-  }, [], 52.5);
-  typeText(timeline, picker.querySelector(".window-picker__query")!, "zsh", 53.4, 0.7, () => {
+  }, [], 49.2);
+  typeText(timeline, picker.querySelector(".window-picker__query")!, "zsh", 49.35, 0.55, () => {
     const query = picker.querySelector(".window-picker__query")!.textContent ?? "";
     let count = 0;
     picker.querySelectorAll<HTMLElement>(".window-picker__item").forEach(row => {
@@ -75,22 +75,24 @@ export function playWorkspaceOutro(
     hud.querySelector('[data-key="ctrl"]')!.textContent = "Enter";
     hud.setAttribute("data-enter", "true");
     hud.querySelector(".shortcut-hud__label")!.textContent = "switch to 0:zsh";
-  }, [], 55);
+  }, [], 49.94);
   timeline.call(() => {
     picker.hidden = true;
     selectWindow(0);
+  }, [], 49.94);
+  timeline.call(() => {
     host.querySelector(".shortcut-hud")!.removeAttribute("data-enter");
     host.querySelector('[data-key="ctrl"]')!.textContent = "Cmd";
-  }, [], 55.35);
-  shortcut(57, "D", "detach session", "Cmd");
+  }, [], 50.06);
+  shortcut(51.5, "D", "detach session", "Cmd");
   timeline.call(() => {
     host.querySelectorAll<HTMLElement>(".tmux-window").forEach(panel => { panel.hidden = true; });
     host.dataset.attached = "false";
     host.dataset.window = "shell";
     shell.hidden = false;
     followOutput();
-  }, [], 57);
-  timeline.set(detached, { display: "flex", opacity: 1 }, 57);
-  timeline.set(quote, { display: "flex", opacity: 1 }, 57.7);
-  typeText(timeline, text, "# Talk is cheap, show me the code.", 57.7, 1.8, followOutput);
+  }, [], 51.5);
+  timeline.set(detached, { display: "flex", opacity: 1 }, 51.5);
+  timeline.set(quote, { display: "flex", opacity: 1 }, 51.65);
+  typeText(timeline, text, "# Talk is cheap, show me the code.", 51.65, 1.8, followOutput);
 }

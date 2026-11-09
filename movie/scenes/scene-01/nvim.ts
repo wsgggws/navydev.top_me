@@ -107,11 +107,13 @@ export function playNvimDemo(timeline: StoryTimeline, root: HTMLElement, start: 
         return key;
       }));
     });
-    call(time + 0.22, () => root.querySelectorAll<HTMLElement>(".nvim-keys kbd").forEach(key => { key.dataset.pressed = "false"; }));
+    call(time + 0.12, () => root.querySelectorAll<HTMLElement>(".nvim-keys kbd").forEach(key => { key.dataset.pressed = "false"; }));
   };
-  const exCommand = (text: string, time: number, enter: number, action: () => void) => {
+  const exCommand = (text: string, time: number, action: () => void) => {
     call(time, () => { feedback.textContent = ""; });
-    typeText(timeline, command, text, at(time), text.length > 5 ? 0.65 : 0.3);
+    const duration = text.length > 5 ? 0.65 : 0.3;
+    const enter = time + duration + 0.04;
+    typeText(timeline, command, text, at(time), duration);
     press(["Enter"], enter);
     call(enter, () => { action(); command.textContent = ""; });
   };
@@ -122,27 +124,27 @@ export function playNvimDemo(timeline: StoryTimeline, root: HTMLElement, start: 
     call(time + duration, () => highlight(code, text));
   };
   typeText(timeline, root.querySelector(".nvim-launch-command")!, "nvim", at(0.15), 0.45);
-  call(0.9, () => { phase("dashboard"); feedback.textContent = "LazyVim · Ready"; });
+  call(0.64, () => { phase("dashboard"); feedback.textContent = "LazyVim · Ready"; });
   press(["Space", "Space"], 1.6, [0]);
-  press(["Space", "Space"], 1.95, [1]);
-  call(2.15, () => { phase("picker"); feedback.textContent = "Find Files · Space Space"; });
-  typeText(timeline, root.querySelector(".nvim-query")!, "api.py", at(2.35), 0.65, () => {
+  press(["Space", "Space"], 1.78, [1]);
+  call(1.8, () => { phase("picker"); feedback.textContent = "Find Files · Space Space"; });
+  typeText(timeline, root.querySelector(".nvim-query")!, "api.py", at(2), 0.65, () => {
     const query = root.querySelector(".nvim-query")!.textContent ?? "";
     let matches = 0;
     root.querySelectorAll<HTMLElement>(".nvim-files li").forEach(file => { file.hidden = !file.dataset.file!.includes(query); if (!file.hidden) matches++; });
     root.querySelector(".nvim-match-count")!.textContent = `${matches} files`;
   });
-  press(["Enter"], 3.2);
-  call(3.4, () => { phase("editor"); feedback.textContent = "api.py"; });
+  press(["Enter"], 2.69);
+  call(2.69, () => { phase("editor"); feedback.textContent = "api.py"; });
   press(["C", "C"], 3.8);
-  edit(left, 7, RETURN, 4, 0.6);
-  press(["Esc"], 4.7);
-  call(4.7, () => mode(left, "NORMAL"));
-  exCommand(":w", 4.9, 5.95, () => { left.dataset.modified = "false"; feedback.textContent = '"api.py" 7L written · 已保存'; });
-  press(["Ctrl", "W"], 6.4);
-  press(["V"], 6.75);
-  call(7, () => { right.hidden = false; editors.dataset.split = "true"; feedback.textContent = "Ctrl+W → V · 左右分屏"; });
-  exCommand(":e tests/test_api.py", 7.2, 7.95, () => {
+  edit(left, 7, RETURN, 3.82, 0.6);
+  press(["Esc"], 4.46);
+  call(4.46, () => mode(left, "NORMAL"));
+  exCommand(":w", 4.9, () => { left.dataset.modified = "false"; feedback.textContent = '"api.py" 7L written · 已保存'; });
+  press(["Ctrl", "W"], 5.6);
+  press(["V"], 5.78);
+  call(5.78, () => { right.hidden = false; editors.dataset.split = "true"; feedback.textContent = "Ctrl+W → V · 左右分屏"; });
+  exCommand(":e tests/test_api.py", 6, () => {
     right.querySelector(".nvim-file")!.textContent = "tests/test_api.py";
     right.querySelector(".nvim-status > span")!.textContent = "tests/test_api.py";
     renderCode(right.querySelector(".nvim-code")!, TEST);
@@ -160,7 +162,7 @@ export function playNvimDemo(timeline: StoryTimeline, root: HTMLElement, start: 
   call(9.21, () => highlight(right.querySelectorAll<HTMLElement>(".nvim-code-line code")[3], ASSERTION));
   press(["Esc"], 9.35);
   call(9.35, () => mode(right, "NORMAL"));
-  exCommand(":wqa", 11.4, 13.1, () => {
+  exCommand(":wqa", 11.4, () => {
     left.dataset.modified = right.dataset.modified = "false";
     phase("closed");
     feedback.textContent = ":wqa · 已全部保存并退出 Neovim";

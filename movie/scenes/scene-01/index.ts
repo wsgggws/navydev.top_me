@@ -101,9 +101,9 @@ function createScene(): SceneModule {
           hud.querySelector(".shortcut-hud__label")!.textContent = label;
           hud.dataset.pressing = "true";
           ctrl.dataset.pressed = b.dataset.pressed = "true";
-        }, [], at - 0.85);
-        timeline.call(() => { ctrl.dataset.pressed = b.dataset.pressed = "false"; key.dataset.pressed = "true"; }, [], at - 0.28);
-        timeline.call(() => { key.dataset.pressed = "false"; hud.dataset.pressing = "false"; }, [], at + 0.2);
+        }, [], at - 0.32);
+        timeline.call(() => { ctrl.dataset.pressed = b.dataset.pressed = "false"; key.dataset.pressed = "true"; }, [], at);
+        timeline.call(() => { key.dataset.pressed = "false"; hud.dataset.pressing = "false"; }, [], at + 0.1);
       };
       timeline.fromTo(host.querySelector(".workstation"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, 0);
       timeline.call(() => { host.dataset.attached = "true"; }, [], ATTACH_AT);
