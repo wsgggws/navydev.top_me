@@ -108,14 +108,13 @@ export class MovieDirector {
   }
 
   /**
-   * Begin playback from the first scene. Preloads scene 0 and 1 in parallel.
+   * 预热第一幕后直接开始播放；进入场景后再预热下一幕。
    */
   async start(): Promise<void> {
     if (this.scenes.length === 0) return;
     this.disposed = false;
     try {
       await this.preloadScene(0);
-      if (this.scenes[1]) void this.preloadScene(1).catch(() => undefined);
       await this.enterScene(0);
     } catch (error) {
       this.emitError(0, error);

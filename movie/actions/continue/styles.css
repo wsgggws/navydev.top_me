@@ -197,6 +197,13 @@
 .desktop-terminal__package > small { margin-left: auto; font: inherit; font-size: .8em; color: var(--luzhu-fg-dim); }
 .desktop-terminal__done { color: var(--luzhu-fg-dim); font-size: .85em; opacity: 0; }
 .desktop-terminal__ready { display: flex; align-items: center; gap: .6em; opacity: 0; }
+/* 片尾提示符只做装饰性闪烁；暂停时冻结，重播随场景 DOM 重建。 */
+.desktop-terminal__ready > i { width: 2px; height: 1.1em; animation: desktop-caret-blink 1s step-end infinite; }
+.stage-host[data-playback-state="paused"] .desktop-terminal__ready > i { animation-play-state: paused; }
+@keyframes desktop-caret-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .desktop-terminal__ready > i { animation: none; }
+}
 .desktop-terminal__status { flex-shrink: 0; display: flex; justify-content: space-between; padding: 5px 1.8cqw; color: var(--luzhu-fg-dim); background: var(--luzhu-bg-float); font: clamp(8px, .7cqw, 11px) ui-monospace, Menlo, monospace; }
 .desktop-terminal__status > span:last-child { opacity: 0; }
 @media (orientation: portrait) {
@@ -224,10 +231,10 @@
   .desktop-terminal { top: 39%; bottom: 180px; left: 7%; width: 86%; height: auto; }
   .desktop-terminal__bar { height: 28px; font-size: 10px; }
   .desktop-terminal__body { padding: 8px 16px; font-size: 10.5px; line-height: 1.25; }
-  .desktop-terminal__prompt, .desktop-terminal__ready { display: none; }
+  .desktop-terminal__prompt { display: none; }
   .desktop-terminal__command { margin: 0; }
-  .desktop-terminal__body p { margin: 5px 0; }
-  .desktop-terminal__packages { gap: 2px; }
+  .desktop-terminal__body p { margin: 3px 0; }
+  .desktop-terminal__packages { gap: 1px; }
   .desktop-terminal__package > small { font-size: 9px; }
   .desktop-terminal__status { display: none; }
   .desktop-dock-position { bottom: max(19%, 134px); }
@@ -244,9 +251,9 @@
   .continue-note__footer { display: none; }
   .desktop-terminal { top: 10%; height: 57%; }
   .desktop-terminal__body { padding: 6px 14px; font-size: 9px; line-height: 1.15; }
-  .desktop-terminal__body p { margin: 4px 0; }
-  .desktop-terminal__packages { gap: 1px; }
-  .desktop-terminal__prompt, .desktop-terminal__ready, .desktop-terminal__status { display: none; }
+  .desktop-terminal__body p { margin: 3px 0; }
+  .desktop-terminal__packages { gap: 0; }
+  .desktop-terminal__prompt, .desktop-terminal__status { display: none; }
 }
 @media (orientation: portrait) and (max-height: 740px) {
   .continue-note { top: 7%; }
@@ -258,7 +265,7 @@
   .desktop-terminal { top: 42%; bottom: 174px; }
   .desktop-terminal__bar { height: 25px; }
   .desktop-terminal__body { font-size: 10px; line-height: 1.15; padding: 7px 12px; }
-  .desktop-terminal__body p { margin: 5px 0; }
+  .desktop-terminal__body p { margin: 3px 0; }
   .desktop-terminal__packages { gap: 1px; }
 }
 @media (orientation: portrait) and (max-height: 650px) {
@@ -276,7 +283,7 @@
   .continue-links a { padding: 4px 0; gap: 4px; }
   .desktop-terminal { top: 39%; bottom: 171px; }
   .desktop-terminal__bar { height: 23px; font-size: 9px; }
-  .desktop-terminal__body { font-size: 9px; line-height: 1.1; padding: 6px 10px; }
+  .desktop-terminal__body { font-size: 9px; line-height: 1.1; padding: 4px 10px; }
   .desktop-terminal__packages { gap: 0; }
   .desktop-terminal__intro, .desktop-terminal__done { font-size: .8em; }
   .desktop-terminal__package > small { font-size: 8px; }

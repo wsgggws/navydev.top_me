@@ -4,7 +4,7 @@
 
 ## 修改顺序
 
-1. 阅读 `movie/movie.ts`，确认正在修改的场景与播放顺序；内容说明见 [README.md](README.md)。当前仅有 start、三幕和 continue，目录名与 `config.id` 一致。
+1. 阅读 `movie/movie.ts`，确认正在修改的场景与播放顺序；内容说明见 [README.md](README.md)。当前仅有三幕和 continue，目录名与 `config.id` 一致。
 2. 修改场景时连同 `config.ts`、`scene.md`、`index.ts`、`styles.css` 保持一致；删除场景时移除注册、实现和仅被它使用的能力。
 3. 执行 `npm run typecheck`、`npm run build`、`npm run check:performance`。浏览器检查完整播放、章节跳转、暂停 / 重播、片尾链接与横竖屏布局，确认控制台无错误。
 4. 用户要求部署时，提交并推送后等待 CI / Deploy 成功，再检查线上页面。部署范围与回退方式见 README。
@@ -27,5 +27,5 @@
 - Nvim 只有一个 Tmux pane，左右分屏在 Neovim 内部完成。`:w` 保存当前文件；测试编辑后保持双分屏，使用 `:wqa` 一次保存全部 buffer 并退出。
 - 终端是静态预设动画。文本、输出、按键按下 / 松开、窗口切换都挂到场景主时间线，确保暂停、重播和跳章不会留下额外循环。
 - 保持 2.35:1 横屏与 9:16 竖屏，内容避开底部章节和控制条；双分屏与四分屏在竖屏也保留结构，优先精简输出以确保可读。
-- 所有场景为 DOM / CSS。首轮只预热 start 与第一幕，播放中只预热下一幕；`check:performance` 检查入口大小、分包和闲置 3D 依赖。
+- 所有场景为 DOM / CSS。首轮只预热第一幕，播放中只预热下一幕；`check:performance` 检查入口大小、分包和闲置 3D 依赖。
 - 当前 reel 静音，保留这一行为。

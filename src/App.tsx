@@ -222,7 +222,7 @@ export default function App() {
   }, [armed, reelComplete]);
 
   const currentEntry = reel[currentIndex];
-  const currentActionLabel = reelLabels[currentIndex] ?? "start";
+  const currentActionLabel = reelLabels[currentIndex] ?? "1";
   const railLabel = currentEntry?.config.navLabel
     ? currentActionLabel
     : `${currentActionLabel} / ${String(numberedTotal)}`;
@@ -232,6 +232,7 @@ export default function App() {
     <main
       className="stage-host"
       data-armed={armed ? "true" : "false"}
+      data-playback-state={reelComplete ? "complete" : playing ? "playing" : "paused"}
       data-controls-visible={controlsVisible ? "true" : "false"}
       onPointerMove={revealControls}
       onPointerDown={revealControls}

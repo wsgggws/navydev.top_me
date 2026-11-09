@@ -1,7 +1,7 @@
 import type { SceneEntry } from "./types/scene";
 
 let activePrewarm: Promise<void> | null = null;
-const OPENING_SCENE_COUNT = 2;
+const OPENING_SCENE_COUNT = 1;
 
 async function preloadEntry(entry: SceneEntry): Promise<void> {
   const scene = await entry.load();
@@ -11,9 +11,7 @@ async function preloadEntry(entry: SceneEntry): Promise<void> {
 export function prewarmReel(reel: SceneEntry[]): Promise<void> {
   if (activePrewarm) return activePrewarm;
 
-  // Only put the opening and its hand-off on the critical path. The Director
-  // keeps preloading one scene ahead during playback, so downloading the full
-  // reel here only creates request and parse contention on slower devices.
+  // 首轮只预热第一幕；Director 在播放开始后预热下一幕，避免争用首屏资源。
   activePrewarm = Promise.allSettled([
     ...reel.slice(0, OPENING_SCENE_COUNT).map(preloadEntry),
   ])

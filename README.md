@@ -4,11 +4,10 @@
 
 ## 当前内容
 
-播放顺序为 **start → 1 → 2 → 3 → continue**。场景目录、配置 ID、章节轨和快捷键按顺序编号。
+播放顺序为 **1 → 2 → 3 → continue**。场景目录、配置 ID、章节轨和快捷键按顺序编号。
 
 | 标记 | 模块 | 内容 |
 | --- | --- | --- |
-| start | `movie/actions/start` | 生活似自导自演的电影；座右铭“此心光明，神采飞扬” |
 | 1 | `movie/scenes/scene-01` | 同一个 WezTerm / Tmux 工作流：zsh、Nvim、Git、运维、AI |
 | 2 | `movie/scenes/scene-02` | 屏幕之外：阅读、跑步与观察 |
 | 3 | `movie/scenes/scene-03` | 继续提问：为什么、如果与下一步 |
@@ -16,7 +15,7 @@
 
 第一幕的窗口、终端输出与时间点集中在 `movie/scenes/scene-01/workspace.ts`；Nvim 内部的启动、搜索、分屏和保存流程在同目录的 `nvim.ts` / `nvim.css` 维护。
 
-片尾先展示「未完待续」，再显出山峦壁纸、菜单栏、精选 App Dock 与加高的 WezTerm 窗口，文字和链接留在「下一幕.md」便笺中。桌面布景在 `movie/actions/continue/desktop.ts` / `styles.css` 维护，静态 App 图标放在同目录 `icons/`，仅在 continue 预热时加载，图标来源记录在 `icons/SOURCES.md`。WezTerm 中的 `brew upgrade` 逐字输入并逐行展示九个常用工具的预设升级输出；不执行系统命令。布景不读取真实系统数据，不展示通信、网络连接或账户内容；迅雷、FlClash 等工具不纳入。桌面保持无图标与文件夹，Longshot 放在 Dock；桌面元素仅为背景，只有片尾两个链接可以导航。
+片尾先展示「未完待续」，再显出山峦壁纸、菜单栏、精选 App Dock 与加高的 WezTerm 窗口，文字和链接留在「下一幕.md」便笺中。桌面布景在 `movie/actions/continue/desktop.ts` / `styles.css` 维护，静态 App 图标放在同目录 `icons/`，仅在 continue 预热时加载，图标来源记录在 `icons/SOURCES.md`。WezTerm 中的 `brew upgrade` 逐字输入并逐行展示九个常用工具的预设升级输出，完成后显示闪烁竖条光标；不执行系统命令。布景不读取真实系统数据，不展示通信、网络连接或账户内容；迅雷、FlClash 等工具不纳入。桌面保持无图标与文件夹，Longshot 放在 Dock；桌面元素仅为背景，只有片尾两个链接可以导航。
 
 | 窗口 | 布局 | 工作流 |
 | --- | --- | --- |
@@ -38,7 +37,7 @@ Git 动画沿用 shell 别名：`gst=git status --short`、`gcb=git checkout -b`
 - 每条命令均逐字输入，并显示相应输出；长输出自动滚动到最新行。所有文本、滚动、按键和窗口变化均跟随 GSAP 时间线，支持暂停、重播和跳章。
 - 终端、数据库、AI 对话和 PR 地址均为预设动画，不连接真实服务，不执行命令或创建 PR。
 - 配色集中在 `src/theme.ts`，来自 LuZhu.nvim 色板；页面、终端、语法高亮与按键效果统一使用 `--luzhu-*`。动画不展示主题名称或色板说明。
-- `movie/pacing.ts` 将 start、第 2 / 3 幕和 continue 调整为 **0.73** 倍，较之前快约 **12%**；第一幕通过配置保留 **0.65** 倍，约 **95 秒**。转场开合仍各 **600ms**。
+- `movie/pacing.ts` 中第 2 / 3 幕和 continue 保持 **0.73** 倍；第一幕通过配置使用 **0.715** 倍，比原来的 0.65 倍提速 **10%**，约 **86 秒**，命令输入与输出等待同步加快。转场开合仍各 **600ms**。
 - `1`–`3` 跳章，`Space` 暂停 / 播放，`R` 重播，`S` / `→` 跳过，`Home` 从头开始。
 - 横屏使用 2.35:1 舞台，终端宽度 84%、高度约 93%；竖屏使用 9:16，终端占满舞台宽度、高度约 90%，缩小上下留白；较矮屏幕为按键提示和控制栏保留空间。保留双分屏和四分屏结构；控制层无操作 3 秒后隐藏。系统减少动态效果设置会简化转场与输入效果。
 - 当前版本静音，已删除独立欢迎终端和合并后不再使用的场景代码。
@@ -61,13 +60,13 @@ npm run build
 npm run check:performance
 ```
 
-随后手动检查完整播放、五个章节按钮、暂停 / 重播 / 跳过、片尾两个链接，以及横竖屏布局。维护规则见 [AGENTS.md](AGENTS.md)。
+随后手动检查完整播放、四个章节按钮、暂停 / 重播 / 跳过、片尾两个链接，以及横竖屏布局。维护规则见 [AGENTS.md](AGENTS.md)。
 
 ## 架构
 
 React 负责舞台与控制层，`movie/movie.ts` 仅静态导入轻量配置，场景实现经 `load()` 按需加载。`MovieDirector` 负责播放、转场、资源销毁、错误重试与预热下一幕；剧情统一写入各场景的 GSAP timeline。
 
-所有场景使用 DOM / CSS，已删除 CRT 的 Three.js、shader、渲染质量控制和 GPU 依赖。首轮只预热 start 和第一幕，其余随播放逐幕加载。`check:performance` 限制入口为 80KB，检查 React / GSAP 分包并阻止闲置 3D chunk 回到构建。
+所有场景使用 DOM / CSS，已删除 CRT 的 Three.js、shader、渲染质量控制和 GPU 依赖。首轮只预热第一幕，其余随播放逐幕加载。`check:performance` 限制入口为 80KB，检查 React / GSAP 分包并阻止闲置 3D chunk 回到构建。
 
 匿名性能统计发送到站点的 `/__perf.gif`，仅包含 LCP、INP、长任务、FPS 等诊断指标；渲染类型标记为 `dom`。
 
